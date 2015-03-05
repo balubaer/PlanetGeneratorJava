@@ -17,6 +17,10 @@ public class PlanetTest {
 		aPlanet = new Planet();
 		aPlanet.setNumber(55);
 		assertEquals("toString ist not correct", aPlanet.toString(), "W(55)");
+		
+		aPlanet = new Planet();
+		aPlanet.setNumber(1);
+		assertEquals("toString ist not correct", aPlanet.toString(), "W(1)");
 	}
 
 }
