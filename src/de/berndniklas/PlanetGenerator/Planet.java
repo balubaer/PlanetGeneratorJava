@@ -1,9 +1,9 @@
 package de.berndniklas.PlanetGenerator;
 
-public class Planet {
+public class Planet implements Comparable<Planet> {
 	int number;
 	//String name;
-	// var port: Port?
+	Port port;
 	// var player: Player?
 	// var fleets: Array <Fleet>
 	// var fleetMovements: Array <FleetMovement> = Array()
@@ -52,6 +52,21 @@ public class Planet {
 	
 	public void setNumber(int aNumber) {
 		this.number = aNumber;
+	}
+
+	@Override
+	public int compareTo(Planet o) {
+		int result = 0;
+		if (this.number < o.number) {
+			result = -1;
+		}
+		if (this.number > o.number) {
+			result = 1;
+		}
+		if (this.number == o.number) {
+			result = 0;
+		}
+		return result;
 	}
 		
 	/*			if (port != null) {

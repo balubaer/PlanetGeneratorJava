@@ -8,5 +8,8 @@ public class PlanetGenerator {
 		 
 		 
 		 System.out.println(aPlanet);
+		 Port aPort = new Port();
+		 System.out.println(aPort);
+
 	  }
 }
