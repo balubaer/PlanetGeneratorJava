@@ -2,9 +2,8 @@ package de.berndniklas.PlanetGenerator;
 
 public class Planet implements Comparable<Planet> {
 	int number;
-	//String name;
 	Port port;
-	// var player: Player?
+	Player player;
 	// var fleets: Array <Fleet>
 	// var fleetMovements: Array <FleetMovement> = Array()
 	boolean ambushOff;
@@ -37,11 +36,9 @@ public class Planet implements Comparable<Planet> {
 	//TODO: niklas Kunstwerke ... V70:Plastik Mondstein
 	private String name() {
 		StringBuilder sb = new StringBuilder(50);
-		sb.append("W(");
+		sb.append("W");
 		sb.append(number);
-		sb.append(")");
 		return sb.toString();
-
 	}
 	
 	public String toString() {

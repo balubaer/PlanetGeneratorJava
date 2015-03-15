@@ -33,8 +33,11 @@ public class Port {
 				}
 				counter++;
 			}
-			sb.append("(");
+			sb.append(")");
 		}
 		return sb.toString();
 	}
+	   public boolean hasConnectionToPlanet(Planet aPlant){
+	        return planets.contains(aPlant);
+	    }
 }
