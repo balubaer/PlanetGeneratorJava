@@ -1,11 +1,13 @@
 package de.berndniklas.PlanetGenerator;
 
+import java.util.ArrayList;
+
 public class Planet implements Comparable<Planet> {
 	int number;
 	Port port;
 	Player player;
-	// var fleets: Array <Fleet>
-	// var fleetMovements: Array <FleetMovement> = Array()
+	public ArrayList<Fleet> fleets;
+	public ArrayList<FleetMovement> fleetMovements;
 	boolean ambushOff;
 	int industry;
 	int usedIndustry;
@@ -44,6 +46,20 @@ public class Planet implements Comparable<Planet> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(1000);
 		sb.append(this.name());
+
+		if (port != null) {
+			sb.append(port.toString());
+		}
+		if (player != null) {
+			sb.append(player.toString());
+		}
+
+		String resouceString = this.createResourceString();
+
+		if (resouceString.length() != 0) {
+			sb.append(" ");
+			sb.append(resouceString);
+		}
 		return sb.toString();
 	}
 	
@@ -51,6 +67,60 @@ public class Planet implements Comparable<Planet> {
 		this.number = aNumber;
 	}
 
+	public String createResourceString() {
+		String result = "";
+		StringBuilder sb = new StringBuilder(1000);
+		ArrayList<String> resourceArray = new ArrayList<String>();
+		if (ambushOff == true) {
+			resourceArray.add("Ambush 'Aus' für diese Runde!!!");
+		}
+		if (industry != 0) {
+			sb.append("Industrie=");
+			sb.append(industry);
+			resourceArray.add(sb.toString());
+			sb.setLength(0);
+		}
+		if (metal != 0) {
+			// resourceArray.add("Metall=\(metal)")
+		}
+		if (mines != 0) {
+			//resourceArray.append("Minen=\(mines)")
+		}
+		if (population != 0) {
+			//resourceArray.append("Bevoelkerung=\(population)")
+		}
+		if (limit != 0) {
+			//resourceArray.append("Limit=\(limit)")
+		}
+		if (round != 0) {
+			//resourceArray.append("Runden=\(round)")
+		}
+		if (iShips != 0) {
+			//resourceArray.append("I-Schiffe=\(iShips)")
+		}
+		if (pShips != 0) {
+			//resourceArray.append("P-Schiffe=\(pShips)")
+		}
+		if (dShips != 0) {
+			if (dShipsAmbush) {
+				sb.append("D-Schiffe=");
+				sb.append(dShips);
+				sb.append(" (Ambusch)");
+				resourceArray.add(sb.toString());
+				sb.setLength(0);
+			} else {
+				sb.append("D-Schiffe=");
+				sb.append(dShips);
+				resourceArray.add(sb.toString());
+				sb.setLength(0);
+			}
+		}
+		if (resourceArray.size() != 0) {
+			result = Utils.createBracketAndCommarStringWithStringArray(resourceArray);
+		}
+		return result;
+	}
+	
 	@Override
 	public int compareTo(Planet o) {
 		int result = 0;
@@ -66,12 +136,8 @@ public class Planet implements Comparable<Planet> {
 		return result;
 	}
 		
-	/*			if (port != null) {
-					//sb.append(b) = port!.description
-				}
-		if player != nil {
-			desc += " \(player!.description)"
-		}
+	/*
+		
 
 		var resouceString = createResourceString()
 
