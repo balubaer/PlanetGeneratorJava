@@ -1,6 +1,8 @@
 package de.berndniklas.PlanetGenerator;
 
-public class Player {
+import java.util.ArrayList;
+
+public class Player implements Comparable<Player>{
 	public String name;
 	
 	
@@ -13,6 +15,25 @@ public class Player {
 		sb.append("]");
 
 		return sb.toString();
+	}
+	
+	public Player() {
+		name = "NO Name";
+	}
+	
+	public final boolean isPlayerInFleetsWithPlayer(Player aPlayer, ArrayList<Fleet> aFleets) {
+		boolean result = false;
+		/*TODO:
+		   for fleet in fleets {
+            if fleet.player != nil {
+                if fleet.player! == player {
+                    result = true
+                    break
+                }
+            }
+        }
+		 */
+		return result;
 	}
 /*
  *   
@@ -28,22 +49,7 @@ public class Player {
         return desc
     }
      
-    init() {
-        name = "NO Name"
-    }
      
-    class func isPlayerInFleetsWithPlayer(player: Player, fleets: Array <Fleet>) -> Bool {
-        var result = false
-        for fleet in fleets {
-            if fleet.player != nil {
-                if fleet.player! == player {
-                    result = true
-                    break
-                }
-            }
-        }
-        return result
-    }
      
     class func isPlayerInFleetMovementWithPlayer(player: Player, fleetMovements: Array <FleetMovement>) -> Bool {
         var result = false
@@ -119,12 +125,10 @@ public class Player {
      
 }
  
-func ==(lhs: Player, rhs: Player) -> Bool {
-    var lName = lhs.name
-    var rName = rhs.name
-    var result = (lName == rName)
-     
-    return result
-}
  */
+	@Override
+	public int compareTo(Player o) {
+		int result = this.name.compareTo(o.name);
+		return result;
+	}
 }
