@@ -3,7 +3,7 @@ package de.berndniklas.PlanetGenerator;
 import java.util.ArrayList;
 
 public class Planet implements Comparable<Planet> {
-	int number;
+	public int number;
 	Port port;
 	Player player;
 	public ArrayList<Fleet> fleets;
@@ -36,7 +36,7 @@ public class Planet implements Comparable<Planet> {
 	int hitedShotsDShips;
 
 	//TODO: niklas Kunstwerke ... V70:Plastik Mondstein
-	private String name() {
+	public String name() {
 		StringBuilder sb = new StringBuilder(50);
 		sb.append("W");
 		sb.append(number);
@@ -72,7 +72,7 @@ public class Planet implements Comparable<Planet> {
 		StringBuilder sb = new StringBuilder(1000);
 		ArrayList<String> resourceArray = new ArrayList<String>();
 		if (ambushOff == true) {
-			resourceArray.add("Ambush 'Aus' fŸr diese Runde!!!");
+			resourceArray.add("Ambush 'Aus' fï¿½r diese Runde!!!");
 		}
 		if (industry != 0) {
 			sb.append("Industrie=");
