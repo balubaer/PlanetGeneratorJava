@@ -34,4 +34,19 @@ public class PlanetTest {
 		assertEquals("compareTo is not correct", aPlanet100.compareTo(aPlanet55), 1);
 		assertEquals("compareTo is not correct", aPlanet55.compareTo(aPlanet100), -1);
 	}
+	
+	@Test
+	public void testEquals() {
+		Planet aPlanet100 = new Planet();
+		aPlanet100.setNumber(100);
+		
+		Planet aPlanet100_1 = new Planet();
+		aPlanet100_1.setNumber(100);
+
+		assertTrue("equals is not correct", aPlanet100.equals(aPlanet100_1));
+
+		Planet aPlanet55 = new Planet();
+		aPlanet55.setNumber(55);
+		assertFalse("equals is not correct", aPlanet100.equals(aPlanet55));
+	}
 }

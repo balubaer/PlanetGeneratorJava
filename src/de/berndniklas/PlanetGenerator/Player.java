@@ -1,6 +1,7 @@
 package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Player implements Comparable<Player>{
 	public String name;
@@ -21,20 +22,39 @@ public class Player implements Comparable<Player>{
 		name = "NO Name";
 	}
 	
-	public final boolean isPlayerInFleetsWithPlayer(Player aPlayer, ArrayList<Fleet> aFleets) {
+	public final static boolean isPlayerInFleetsWithPlayer(Player aPlayer, ArrayList<Fleet> aFleets) {
 		boolean result = false;
-		/*TODO:
-		   for fleet in fleets {
-            if fleet.player != nil {
-                if fleet.player! == player {
-                    result = true
-                    break
-                }
-            }
-        }
-		 */
+		Iterator<Fleet> it = aFleets.iterator();
+		while (it.hasNext()) {
+			Fleet aFleet = it.next();
+			if (aFleet.player != null) {
+				if (aFleet.player.compareTo(aPlayer) == 0) {
+					result = true;
+					break;
+				}
+			}
+		}
+		
 		return result;
 	}
+	
+	public final static boolean isPlayerInFleetMovementWithPlayer(Player aPlayer, ArrayList<FleetMovement> fleetMovements) {
+		boolean result = false;
+		Iterator<FleetMovement> it = fleetMovements.iterator();
+		while (it.hasNext()) {
+			FleetMovement aFleetMovement = it.next();
+			if (aFleetMovement.fleet != null) {
+				if (aFleetMovement.fleet.player != null) {
+					if (aFleetMovement.fleet.player.compareTo(aPlayer) == 0) {
+						result = true;
+						break;
+					}
+				}
+			}
+		}
+		return result;
+	}	
+	     
 /*
  *   
     var points: Int = 0

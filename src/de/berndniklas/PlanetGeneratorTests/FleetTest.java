@@ -23,9 +23,10 @@ public class FleetTest {
 		assertEquals("Fleet.name is not correct", fleet.name(), "F25[ZAPHOD]");
 	}
 
+	@Test
 	public void testToString() {
         Fleet fleet = new Fleet();
-		assertEquals("Fleet.name is not correct", fleet.name(), "F0[---] = 0");
+		assertEquals("Fleet.name is not correct", fleet.toString(), "F0[---] = 0");
 
 		Player player = new Player();
         player.name = "ZAPHOD";

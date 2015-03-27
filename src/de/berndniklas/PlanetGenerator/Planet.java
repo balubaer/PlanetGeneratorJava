@@ -136,6 +136,11 @@ public class Planet implements Comparable<Planet> {
 		return result;
 	}
 		
+	public boolean equals(Planet o) {
+		boolean result = this.number == o.number;
+
+		return result;
+	}
 	/*
 		
 

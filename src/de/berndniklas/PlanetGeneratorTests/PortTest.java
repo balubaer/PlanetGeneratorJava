@@ -29,6 +29,7 @@ public class PortTest {
 		
 	}
 	
+	@Test
 	public void testHasConnectionToPlanet() {
 		Planet aPlanet100 = new Planet();
 		aPlanet100.setNumber(100);
