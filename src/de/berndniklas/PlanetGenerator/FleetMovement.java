@@ -4,7 +4,7 @@ public class FleetMovement {
 	public Fleet fleet;
 	public Planet toPlanet;
 	Planet fromPlanet;
-	Boolean isMovementDone;
+	boolean isMovementDone;
 
 
 	public FleetMovement() {
