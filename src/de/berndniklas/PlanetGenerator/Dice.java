@@ -1,6 +1,5 @@
 package de.berndniklas.PlanetGenerator;
 
-import java.util.BitSet;
 import java.util.Random;
 
 public class Dice {
@@ -19,7 +18,11 @@ public class Dice {
 	    }
 	    
 	    public int roll() {
-	    	 BitSet b = new BitSet();
+    	    Random r = new Random();
+
+	    	int num = 1 + Math.abs(r.nextInt()) % this.sides;
+	    	return num;
+	    /*	 BitSet b = new BitSet();
 	    	    Random r = new Random();
 
 	    	    System.out.print("Mein Lottotip: ");
@@ -36,7 +39,7 @@ public class Dice {
 	    	        System.out.print(i + " ");
 	    	      }
 	    	    }
-	    	    System.out.println("");
+	    	    System.out.println("");*/
 	    	
 	    	/*
 	        int resultRandom = Int(arc4random_uniform(UInt32(sides)))

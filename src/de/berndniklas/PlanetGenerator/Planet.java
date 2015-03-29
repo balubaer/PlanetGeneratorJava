@@ -177,6 +177,14 @@ public class Planet implements Comparable<Planet> {
 				return desc
 */
 
+	public boolean hasConnectionToPlanet(Planet aPlant) {
+		boolean result = false;
+		if (port != null) {
+			result = port.hasConnectionToPlanet(aPlant);
+		}
+		return result;
+	}
+
 	//}
 }
 
