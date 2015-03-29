@@ -10,7 +10,7 @@ import de.berndniklas.PlanetGenerator.Port;
 public class PortTest {
 
 	@Test
-	public void test() {
+	public void testToString() {
 		Planet aPlanet100 = new Planet();
 		aPlanet100.setNumber(100);
 
