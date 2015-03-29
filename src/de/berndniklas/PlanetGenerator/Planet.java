@@ -185,7 +185,18 @@ public class Planet implements Comparable<Planet> {
 		return result;
 	}
 
+	
 	//}
-}
 
-//}
+
+	public static Planet planetWithNumber(ArrayList<Planet> planetArray, int number) {
+		Planet result = null;
+		for (Planet planet : planetArray) {
+			if (planet.number == number) {
+				result = planet;
+				break;
+			}
+		}
+		return result;
+	}
+}

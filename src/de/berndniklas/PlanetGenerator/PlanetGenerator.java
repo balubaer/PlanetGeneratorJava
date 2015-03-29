@@ -122,6 +122,10 @@ public class PlanetGenerator {
 
 			portFactory.createWithPlanetArray(planets);
 
+			FleetFactory fleetFactory = new FleetFactory(fleetCount);
+
+			fleetFactory.createWithPlanetArray(planets);
+
 			/*  NSObject[] parameters = ((NSArray)rootDict.objectForKey("Parameters")).getArray();
 			  for(NSObject param:parameters) {
 			    if(param.getClass().equals(NSNumber.class)) {
