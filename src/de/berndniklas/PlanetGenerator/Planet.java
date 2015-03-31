@@ -1,6 +1,7 @@
 package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Planet implements Comparable<Planet> {
 	public int number;
@@ -194,6 +195,19 @@ public class Planet implements Comparable<Planet> {
 		for (Planet planet : planetArray) {
 			if (planet.number == number) {
 				result = planet;
+				break;
+			}
+		}
+		return result;
+	}
+	
+	public static boolean containsPlanet(ArrayList<Planet> planets, Planet aPlanet) {
+		boolean result = false;
+		Iterator<Planet> it = planets.iterator();
+		while (it.hasNext()) {
+			Planet aPlanetFromArrayList = it.next();
+			if (aPlanetFromArrayList.equals(aPlanet)) {
+				result = true;
 				break;
 			}
 		}

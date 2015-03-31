@@ -126,6 +126,10 @@ public class PlanetGenerator {
 
 			fleetFactory.createWithPlanetArray(planets);
 
+			PlayerFactory playerFactory = new PlayerFactory(playerNames);
+
+			playerFactory.createWithPlanetArray(planets, fleetCount, fleetsOnHomePlanet, startShipsCount, distanceLevelHomes);
+
 			/*  NSObject[] parameters = ((NSArray)rootDict.objectForKey("Parameters")).getArray();
 			  for(NSObject param:parameters) {
 			    if(param.getClass().equals(NSNumber.class)) {

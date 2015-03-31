@@ -37,16 +37,8 @@ public class Port {
 		}
 		return sb.toString();
 	}
-	public boolean hasConnectionToPlanet(Planet aPlant){
-		boolean result = false;
-		Iterator<Planet> it = planets.iterator();
-		while (it.hasNext()) {
-			Planet aPlanetFromArrayList = it.next();
-			if (aPlanetFromArrayList.equals(aPlant)) {
-				result = true;
-				break;
-			}
-		}
-		return result;
+	
+	public boolean hasConnectionToPlanet(Planet aPlanet){
+		return Planet.containsPlanet(planets, aPlanet);
 	}
 }
