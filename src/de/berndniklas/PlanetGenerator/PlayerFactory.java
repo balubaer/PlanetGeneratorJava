@@ -2,6 +2,7 @@ package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
 
+
 public class PlayerFactory {
 
 	Dice planetDice;
@@ -93,6 +94,7 @@ public class PlayerFactory {
 		}
 	}
 }		
+
 
 /*	    
 	    func findFleetAndPlanetWithDice(dice:Dice, planetArray:Array <Planet>) -> (fleet:Fleet, planet:Planet) {
