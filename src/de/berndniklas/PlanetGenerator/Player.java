@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 public class Player implements Comparable<Player>{
 	public String name;
+	public int points;
 	
 	
 	public String toString() {

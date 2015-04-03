@@ -5,12 +5,12 @@ import java.util.Iterator;
 
 public class Planet implements Comparable<Planet> {
 	public int number;
-	Port port;
-	Player player;
+	public Port port;
+	public Player player;
 	public ArrayList<Fleet> fleets;
 	public ArrayList<FleetMovement> fleetMovements;
 	boolean ambushOff;
-	int industry;
+	public int industry;
 	int usedIndustry;
 	/*		    var effectiveIndustry: Int {
 			        var result: Int = 0
@@ -23,8 +23,8 @@ public class Planet implements Comparable<Planet> {
 			    }*/
 	int metal;
 	int mines;
-	int population;
-	int limit;
+	public int population;
+	public int limit;
 	int round;
 	int iShips;
 	int pShips;

@@ -75,44 +75,43 @@ public class PlayerFactory {
 					}
 				}
 			}
-			 planet.player = player;
+			planet.player = player;
 
-			 fleetsOnHomePlanet -= planet.fleets.size();
-			 for (Fleet fleet : planet.fleets) {
-				 fleet.player = player;
-				 fleet.ships = startShipsCount;
-			 }
-			 
-			 for (int index = 1; index <= fleetsOnHomePlanet; index++) {
-				/* var fleetAndPlanet = findFleetAndPlanetWithDice(fleetDice, planetArray: planetArray)
-			                fleetAndPlanet.fleet.player = player
-			                fleetAndPlanet.fleet.ships = startShipsCount
-			                fleetAndPlanet.planet.fleets.removeObject(fleetAndPlanet.fleet)
-			                planet.fleets.append(fleetAndPlanet.fleet)*/
+			fleetsOnHomePlanet -= planet.fleets.size();
+			for (Fleet fleet : planet.fleets) {
+				fleet.player = player;
+				fleet.ships = startShipsCount;
 			}
-	            counter++;
+
+			for (int index = 1; index <= fleetsOnHomePlanet; index++) {
+				FleetAndPlanetDTO fleetAndPlanet = findFleetAndPlanetWithDice(fleetDice,  planetArray);
+				Fleet fleet = fleetAndPlanet.fleet;
+				fleet.player = player;
+				fleet.ships = startShipsCount;
+
+				Planet aPlanet = fleetAndPlanet.planet;
+				aPlanet.fleets.remove(fleet);
+				planet.fleets.add(fleet);
+			}
+			counter++;
 		}
 	}
+
+	private FleetAndPlanetDTO findFleetAndPlanetWithDice(Dice dice,
+			ArrayList<Planet> planetArray) {
+		FleetAndPlanetDTO result = new  FleetAndPlanetDTO();
+		boolean found = false;
+		while (!found) {
+			FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planetArray, dice.roll());
+			if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+				if (aFleetAndHomePlanet.fleet.player == null) {
+					found = true;
+					result.fleet = aFleetAndHomePlanet.fleet;
+					result.planet = aFleetAndHomePlanet.planet;
+				}
+			}
+		}
+		return result;
+	}
 }		
-
-
-/*	    
-	    func findFleetAndPlanetWithDice(dice:Dice, planetArray:Array <Planet>) -> (fleet:Fleet, planet:Planet) {
-	        var fleet:Fleet? = nil
-	        var planet:Planet? = nil
-	        var found = false
-
-	        while (!found) {
-	        var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planetArray, dice.roll())
-	            if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
-	                if aFleetAndHomePlanet.fleet!.player == nil {
-	                    found = true
-	                    fleet = aFleetAndHomePlanet.fleet!
-	                    planet = aFleetAndHomePlanet.homePlanet
-	                }
-	            }
-	        }
-	        return (fleet!, planet!)
-	    }
-	    */
 
