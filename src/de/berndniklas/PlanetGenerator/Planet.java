@@ -7,8 +7,8 @@ public class Planet implements Comparable<Planet> {
 	public int number;
 	public Port port;
 	public Player player;
-	public ArrayList<Fleet> fleets;
-	public ArrayList<FleetMovement> fleetMovements;
+	public ArrayList<Fleet> fleets = new ArrayList<Fleet>();
+	public ArrayList<FleetMovement> fleetMovements = new ArrayList<FleetMovement>();
 	boolean ambushOff;
 	public int industry;
 	int usedIndustry;

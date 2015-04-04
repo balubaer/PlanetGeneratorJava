@@ -21,7 +21,7 @@ public class PersistenceManager {
 
 	public void writePlanetPListWithPlanetArray(String aPath) {
 		NSDictionary dictForPList = new NSDictionary();
-		NSArray planetArrayForPList = new NSArray();
+		ArrayList<NSDictionary> planetArrayForPList = new ArrayList<NSDictionary>();
 		NSDictionary portDictForPList = new NSDictionary();
 		NSDictionary fleetDictForPList = new NSDictionary();
 		NSDictionary playerDictForPList = new NSDictionary();
@@ -44,12 +44,12 @@ public class PersistenceManager {
 
 					playerDictForPList.put(planet.player.name, playerDict);
 				}
-				NSArray fleetArray = new NSArray();
+				ArrayList<NSNumber> fleetArray = new ArrayList<NSNumber>();
 				ArrayList<Fleet> fleets = planet.fleets;
 				for (Fleet fleet : fleets) {
 					NSDictionary fleetDict = new NSDictionary();
 					NSNumber number = new NSNumber(fleet.number);
-					fleetArray.setValue(0, number);
+					fleetArray.add(number);
 					fleetDict.put("number", fleet.number);
 					fleetDict.put("ships", fleet.ships);
 					if (fleet.player != null) {
@@ -65,7 +65,7 @@ public class PersistenceManager {
 					ArrayList<Planet> planets = planet.port.planets;
 
 					for (Planet planetFromPort : planets) {
-						NSNumber planetNumber = new NSNumber(planet.number);
+						NSNumber planetNumber = new NSNumber(planetFromPort.number);
 						aPlanetsArray.add(planetNumber);
 
 					}
@@ -90,7 +90,7 @@ public class PersistenceManager {
 				planetDict.put("pShips", pShips);
 				NSNumber dShips = new NSNumber(planet.dShips);
 				planetDict.put("dShips", dShips);
-				// planetArrayForPList.append(planetDict)
+				planetArrayForPList.add(planetDict);
 
 			}
 		}
