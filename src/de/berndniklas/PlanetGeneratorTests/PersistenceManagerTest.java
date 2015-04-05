@@ -105,8 +105,12 @@ public class PersistenceManagerTest {
 		PersistenceManager persManager = new PersistenceManager(planetArray);
 		persManager.writePlanetPListWithPlanetArray("/tmp/planets.plist");
 
-		// var newPlanetArray = persManager.readPlanetPListWithPath("/tmp/planets.plist")
-		assertTrue("PersistenceManager is not correct", true);
+		ArrayList <Planet> newPlanetArray = persManager.readPlanetPListWithPath("/tmp/planets.plist");
+		
+		for (Planet planet : newPlanetArray) {
+			Planet oldPlanet = Planet.planetWithNumber(planetArray, planet.number);
+			assertTrue("PersistenceManager is not correct", planet.deepEquals(oldPlanet));
+		}
 	}
 
 }

@@ -13,7 +13,7 @@ import com.dd.plist.PropertyListParser;
 
 public class PersistenceManager {
 	ArrayList<Planet> planetArray;
-	HashMap<Object, Object> allPlayerDict = new HashMap<Object, Object>();
+	HashMap<String, Player> allPlayerDict = new HashMap<String, Player>();
 
 	public PersistenceManager(ArrayList<Planet> aPlanetArray) {
 		planetArray = aPlanetArray;
@@ -35,12 +35,12 @@ public class PersistenceManager {
 				planetDict.put("name", planet.name());
 				if (planet.player != null) {
 					planetDict.put("player", planet.player.name);
-					/* if (planet.player.role == null) {
-			                        planet.player.role = new Role();
-			                    }*/
+					if (planet.player.role == null) {
+						planet.player.role = new Role();
+					}	
 					NSDictionary playerDict = new NSDictionary();
 					playerDict.put("points", planet.player.points);
-					playerDict.put("role", planet.player.points);
+					playerDict.put("role", planet.player.role.name);
 
 					playerDictForPList.put(planet.player.name, playerDict);
 				}
@@ -105,134 +105,139 @@ public class PersistenceManager {
 			e.printStackTrace();
 		}
 	}
-	/*
-			    func readPlanetPListWithPath(aPath: String) -> Array <Planet> {
-			        // if let dict = NSDictionary(contentsOfFile: path) as? Dictionary<String, AnyObject>
-			        var dictFormPList = NSDictionary(contentsOfFile: aPath) as? Dictionary<String, AnyObject>
-			        var planetArrayFormPList:Array? = (dictFormPList!["planets"] as NSArray)
-			        var portDictFormPList = (dictFormPList!["ports"] as? Dictionary<String, AnyObject>)
-			        var fleetDictFormPList = dictFormPList?["fleets"] as? Dictionary<String, AnyObject>
-			       // var playerDictFormPList:AnyObject? = dictFormPList?.objectForKey("player")
-			        var playerDictFormPList = dictFormPList?["player"] as? Dictionary<String, AnyObject>
 
-			        var planetArray: Array <Planet> = Array()
-			        var portConnections: [Int: Array<Int>] = Dictionary()
+	public ArrayList<Planet> readPlanetPListWithPath(String aPath) {
+		File file = new File(aPath);
+		NSDictionary dictFormPList;
+		try {
+			dictFormPList = (NSDictionary)PropertyListParser.parse(file);
+			NSArray planetArrayFormPList = (NSArray) dictFormPList.objectForKey("planets");
+			NSDictionary portDictFormPList = (NSDictionary) dictFormPList.objectForKey("ports");
+			NSDictionary fleetDictFormPList = (NSDictionary) dictFormPList.objectForKey("fleets");
+			NSDictionary playerDictFormPList = (NSDictionary) dictFormPList.objectForKey("player");
+			ArrayList<Planet> planetArray = new ArrayList<Planet>();
 
-			        if planetArrayFormPList != nil {
-			            for planetDict in planetArrayFormPList! {
-			                var planet = Planet()
+			if (planetArrayFormPList != null) {
+				int count = planetArrayFormPList.count();
+				for (int i = 0; i < count; i++) {
+					NSDictionary planetDict = (NSDictionary) planetArrayFormPList.objectAtIndex(i);
+					Planet planet = new Planet();
 
-			                var intValue = planetDict["number"]
+					NSNumber intValue = (NSNumber) planetDict.get("number");
 
-			                planet.number = Int((intValue as NSNumber))
+					planet.number = intValue.intValue();
 
-			                var playerName:String? = planetDict["player"] as String?
+					String playerName = ((NSString) planetDict.get("player")).toString();
 
-			                if playerName != nil {
-			                    var player: Player? = allPlayerDict[playerName!]
+					if (playerName != null) {
+						Player player = allPlayerDict.get(playerName);
 
-			                    if player == nil {
-			                        var playerDict = playerDictFormPList![playerName!] as? Dictionary<String, AnyObject>
-			                        player = Player()
-			                        player!.name = playerName!
-			                        if playerDict != nil {
-			                            intValue = playerDict!["points"]
-			                            player!.points = Int((intValue as NSNumber))
-			                            var role = Role()
-			                            var roleName = (playerDict!["role"] as? String)
-			                            if roleName != nil {
-			                                role.name = roleName!
-			                            }
-			                            player!.role = role
-			                        }
-			                        allPlayerDict[playerName!] = player!
-			                    }
-			                    planet.player = player!
-			                }
+						if (player == null) {
+							NSDictionary playerDict = (NSDictionary) playerDictFormPList.get(playerName);
+							Player newPlayer = new Player();
+							newPlayer.name = playerName;
+							if (playerDict != null) {
+								intValue = (NSNumber) playerDict.get("points");
+								newPlayer.points = intValue.intValue();
+								Role role = new Role();
+								NSString roleName = (NSString) playerDict.get("role");
+								if (roleName != null) {
+									role.name = roleName.toString();
+								}
+								newPlayer.role = role;
+							}
+							allPlayerDict.put(playerName, newPlayer);
+							player = newPlayer;
+						}
+						planet.player = player;
+					}
 
-			                var fleetArray: Array<Int>? = planetDict["fleets"] as? Array<Int>
+					NSArray fleetArray = (NSArray) planetDict.get("fleets");
 
-			                if fleetArray != nil {
-			                    for aFleetNumber in fleetArray! {
-			                        //Create a Fleet
-			                        var fleet = Fleet()
-			                        fleet.number = aFleetNumber
-			                        planet.fleets.append(fleet)
-			                    }
-			                }
+					if (fleetArray != null) {
+						int countFleetArray = fleetArray.count();
+						for (int j = 0; j < countFleetArray; j++) {
+							NSNumber aFleetNumber = (NSNumber) fleetArray.objectAtIndex(j);
+							//Create a Fleet
+							Fleet fleet = new Fleet();
+							fleet.number = aFleetNumber.intValue();
+							planet.fleets.add(fleet);
+						}
+					}
 
-			                intValue = planetDict["industry"]
-			                planet.industry = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("industry");
+					planet.industry = intValue.intValue();
 
-			                intValue = planetDict["metal"]
-			                planet.metal = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("metal");
+					planet.metal = intValue.intValue();
 
-			                intValue = planetDict["mines"]
-			                planet.mines = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("mines");
+					planet.mines = intValue.intValue();
 
-			                intValue = planetDict["population"]
-			                planet.population = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("population");
+					planet.population = intValue.intValue();
 
-			                intValue = planetDict["limit"]
-			                planet.limit = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("limit");
+					planet.limit = intValue.intValue();
 
-			                intValue = planetDict["round"]
-			                planet.round = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("round");
+					planet.round = intValue.intValue();
 
-			                intValue = planetDict["iShips"]
-			                planet.iShips = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("iShips");
+					planet.iShips = intValue.intValue();
 
-			                intValue = planetDict["pShips"]
-			                planet.pShips = Int((intValue as NSNumber))
+					intValue = (NSNumber) planetDict.get("pShips");
+					planet.pShips = intValue.intValue();
 
-			                intValue = planetDict["dShips"]
+					intValue = (NSNumber) planetDict.get("dShips");
+					planet.dShips = intValue.intValue();
+					planetArray.add(planet);
+				}
+				//Set Ports to Planet and complete the Fleets
+				for (Planet planet : planetArray) {
+					//Create a Port
+					Port port = new Port();
+					port.planet = planet;
+					planet.port = port;
 
-			                var aNumber = intValue as? NSNumber
-			                if aNumber != nil {
-			                    planet.dShips = Int(aNumber!)
-			                }
+					//Get Planets Array from Plist-PortArray
+					NSArray intArrayWithPlanetNumbers = (NSArray) portDictFormPList.get(String.valueOf(planet.number));
 
+					int countIntArrayWithPlanetNumbers = intArrayWithPlanetNumbers.count();
+					for (int j = 0; j < countIntArrayWithPlanetNumbers; j++) {
+						NSNumber planetNumber = (NSNumber) intArrayWithPlanetNumbers.objectAtIndex(j);
+						Planet aPlanet = Planet.planetWithNumber(planetArray, planetNumber.intValue());
+						if (aPlanet != null) {
+							port.planets.add(aPlanet);
+						}
+					}
 
-			                planetArray.append(planet)
-			            }
-			            //Set Ports to Planet and complete the Fleets
-			            for planet in planetArray {
-			                //Create a Port
-			                var port = Port()
-			                port.planet = planet
-			                planet.port = port
+					//Complete the Fleets
+					for (Fleet fleet : planet.fleets) {
+						NSDictionary fleetFromPlist = (NSDictionary) fleetDictFormPList.get(String.valueOf(fleet.number));
+						if (fleetFromPlist != null) {
+							NSNumber shipNumber = (NSNumber) fleetFromPlist.get("ships");
+							fleet.ships = shipNumber.intValue();
 
-			                //Get Planets Array from Plist-PortArray
-			                var intArrayWithPlanetNumbers = portDictFormPList![String(planet.number)] as Array <NSNumber>
+							String playerName = ((NSString) fleetFromPlist.get("player")).toString();
 
-			                for planetNumber in intArrayWithPlanetNumbers {
-			                    var aPlanet: Planet? = planetWithNumber(planetArray, Int(planetNumber))
-
-			                    if aPlanet != nil {
-			                        port.planets.append(aPlanet!)
-			                    }
-			                }
-
-			                //Complete the Fleets
-			                for fleet in planet.fleets {
-			                    var fleetFromPlist = fleetDictFormPList![String(fleet.number)] as? Dictionary <String, AnyObject>
-			                    if fleetFromPlist != nil {
-			                        fleet.ships = Int(fleetFromPlist!["ships"] as NSNumber)
-
-			                        var playerName:String? = fleetFromPlist!["player"] as String?
-
-			                        if playerName != nil {
-			                            var player = allPlayerDict[playerName!]
-			                            if player != nil {
-			                                fleet.player = player
-			                            }
-			                        }
-			                        fleet.cargo = Int(fleetFromPlist!["cargo"] as NSNumber)
-			                    }
-			                }
-			            }
-			        }
-			        return planetArray
-			    }
-	 */
+							if (playerName != null) {
+								Player player = allPlayerDict.get(playerName);
+								if (player != null) {
+									fleet.player = player;
+								}
+							}
+							NSNumber cargoNumber = (NSNumber) fleetFromPlist.get("cargo");
+							fleet.cargo = cargoNumber.intValue();
+						}
+					}
+				} 
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return planetArray;
+	}
 }
+

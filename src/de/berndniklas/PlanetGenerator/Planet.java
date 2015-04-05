@@ -142,6 +142,23 @@ public class Planet implements Comparable<Planet> {
 
 		return result;
 	}
+	
+	public boolean deepEquals(Planet o) {
+		boolean result = this.number == o.number;
+		if (result) {
+			result = this.port.equals(o.port);
+		}
+		
+		if (result) {
+			result = this.port.equals(o.port);
+		}
+		
+		if (result) {
+			result = this.player.equals(o.player);
+		}
+		
+		return result;
+	}
 	/*
 		
 
