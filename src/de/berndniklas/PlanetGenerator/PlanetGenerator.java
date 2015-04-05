@@ -130,30 +130,31 @@ public class PlanetGenerator {
 
 			playerFactory.createWithPlanetArray(planets, fleetCount, fleetsOnHomePlanet, startShipsCount, distanceLevelHomes);
 
-			/*  NSObject[] parameters = ((NSArray)rootDict.objectForKey("Parameters")).getArray();
-			  for(NSObject param:parameters) {
-			    if(param.getClass().equals(NSNumber.class)) {
-			      NSNumber num = (NSNumber)param;
-			      switch(num.type()) {
-			        case NSNumber.BOOLEAN : {
-			          boolean bool = num.boolValue();
-			          //...
-			          break;
-			        }
-			        case NSNumber.INTEGER : {
-			          long l = num.longValue();
-			          //or int i = num.intValue();
-			          //...
-			          break;
-			        }
-			        case NSNumber.REAL : {
-			          double d = num.doubleValue();
-			          //...
-			          break;
-			        }
-			    }
-			    // else...
-			  }*/
+			//String planetPlistFilePath = playPath + "/" + playName;
+
+			File playPathFile = new File(playPath, playName);
+
+			if (playPathFile.exists() == false) {
+				playPathFile.mkdirs();
+				//createDirectoryAtPath(planetPlistFilePath, withIntermediateDirectories: true, attributes: nil, error: nil)
+			}
+
+			playPathFile = new File(playPathFile.getAbsolutePath(), "Turn0");
+
+			if (playPathFile.exists() == false) {
+				playPathFile.mkdirs();
+
+				//  fileManager.createDirectoryAtPath(planetPlistFilePath, withIntermediateDirectories: true, attributes: nil, error: nil)
+			}
+
+			playPathFile = new File(playPathFile.getAbsolutePath(), "Turn0.plist");
+
+			//planetPlistFilePath = planetPlistFilePath.stringByAppendingPathComponent("Turn0.plist")
+
+			PersistenceManager persManager = new PersistenceManager(planets);
+			persManager.writePlanetPListWithPlanetArray(playPathFile.getPath());
+
+
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}

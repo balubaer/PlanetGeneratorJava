@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class FleetFactory {
 
-	private Dice dice;
+	private Dice dice = new Dice();
 	int fleetCount;
 
 	public FleetFactory(int aFleetCount) {
