@@ -118,7 +118,7 @@ public class PersistenceManager {
 			NSDictionary portDictFormPList = (NSDictionary) dictFormPList.objectForKey("ports");
 			NSDictionary fleetDictFormPList = (NSDictionary) dictFormPList.objectForKey("fleets");
 			NSDictionary playerDictFormPList = (NSDictionary) dictFormPList.objectForKey("player");
-			ArrayList<Planet> planetArray = new ArrayList<Planet>();
+			planetArray = new ArrayList<Planet>();
 
 			if (planetArrayFormPList != null) {
 				int count = planetArrayFormPList.count();

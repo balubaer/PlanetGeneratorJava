@@ -38,7 +38,7 @@ public class DistanceLevel {
 	}
 
 	private void createNewNextLevelPlanets() {
-		ArrayList<Planet> oldNextLevelPlanets = nextLevelPlanets;
+		ArrayList<Planet> oldNextLevelPlanets = new ArrayList<Planet>(nextLevelPlanets);
 		ArrayList<Planet> newPassedPlanets = passedPlanets;
 
 		for (Planet planet : nextLevelPlanets) {

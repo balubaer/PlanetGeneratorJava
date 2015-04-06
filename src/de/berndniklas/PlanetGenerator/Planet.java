@@ -150,10 +150,6 @@ public class Planet implements Comparable<Planet> {
 		}
 		
 		if (result) {
-			result = this.port.equals(o.port);
-		}
-		
-		if (result) {
 			result = this.player.equals(o.player);
 		}
 		

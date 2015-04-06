@@ -41,4 +41,25 @@ public class Port {
 	public boolean hasConnectionToPlanet(Planet aPlanet){
 		return Planet.containsPlanet(planets, aPlanet);
 	}
+	
+	public boolean equals(Port o) {
+		boolean result = this.planets.size() == o.planets.size();
+		
+		if (result) {
+			ArrayList<Planet> otherPlanets = o.planets;
+			ArrayList<Planet> thisPlanets = this.planets;
+			for (Planet planet : thisPlanets) {
+				if (Planet.containsPlanet(otherPlanets, planet) == false) {
+					result = false;
+					break;
+				}
+			}
+		}
+		
+		if (result) {
+			result = this.planet.equals(o.planet);
+		}
+
+		return result;
+	}
 }

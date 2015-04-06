@@ -1,19 +1,26 @@
 package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 
 
 public class PlayerFactory {
 
 	Dice planetDice;
 	Dice fleetDice;
+	Dice playerDice;
+	int distanceLevelHomes;
 	ArrayList<String> playerNameArray;
-	ArrayList<Planet> passedPlanets;
-	ArrayList<Planet> nextLevelPlanets = new ArrayList<Planet>();
+	ArrayList<Planet> nextLevelPlanets;
+	//Planet lastPlayerPlanet = null;
+	public HashMap<String, Planet> homePlanetsMap = new HashMap<String, Planet>();
 
 	public PlayerFactory(ArrayList<String> aPlayerNameArray) {
 		planetDice = new Dice();
 		fleetDice = new Dice();
+		playerDice = new Dice();
 		playerNameArray = aPlayerNameArray;
 	}
 
@@ -31,51 +38,36 @@ public class PlayerFactory {
 		}
 		return result;
 	}
+	
+	private Player findePlayerWithDice() {
+		Player result = new Player();
+		playerDice.setSites(playerNameArray.size());
+		int index = playerDice.roll() - 1;
+		String playerName = playerNameArray.remove(index);
+		result.name = playerName;
+		return result;
+	}
 
 	public void createWithPlanetArray(ArrayList<Planet> planetArray,
 			int fleetCount, int aFleetsOnHomePlanet, int startShipsCount,
-			int distanceLevelHomes) {
+			int aDistanceLevelHomes) {
 		int counter = 1;
 		planetDice.setSites(planetArray.size());
 		fleetDice.setSites(fleetCount);
-		for (String name : playerNameArray) {
+		int playerNameCount = playerNameArray.size();
+		distanceLevelHomes = aDistanceLevelHomes;
+		for (int i = 0; i < playerNameCount; i++) {
 			int fleetsOnHomePlanet = aFleetsOnHomePlanet;
-			Player player = new Player();
+			Player player = findePlayerWithDice();
 			Planet planet;
-			player.name = name;
 			if (counter == 1) {
 				planet = findPlanetWithDice(planetDice, planetArray);
-				DistanceLevel distLevel = new DistanceLevel(planet, distanceLevelHomes);
-				this.passedPlanets = distLevel.passedPlanets;
-				this.nextLevelPlanets = distLevel.nextLevelPlanets;
 			} else {
+				this.nextLevelPlanets = makeNextLevelPlanets();
 				planet = findPlanetWithDice(planetDice, this.nextLevelPlanets);
-				DistanceLevel distLevel = new DistanceLevel(planet, distanceLevelHomes);
-				for (Planet planetFromPassedPlanets : distLevel.passedPlanets) {
-					if (Planet.containsPlanet(this.passedPlanets, planetFromPassedPlanets) == false) {
-						this.passedPlanets.add(planetFromPassedPlanets);
-					}
-				}
-				ArrayList<Planet> removePlanets = new ArrayList<Planet>();
-				for (Planet planetFromNextLevel : this.nextLevelPlanets) {
-					if (Planet.containsPlanet(this.passedPlanets, planetFromNextLevel)){
-						removePlanets.add(planetFromNextLevel);
-
-					}
-				}
-
-				for (Planet removePlanet : removePlanets) {
-					this.nextLevelPlanets.remove(removePlanet);
-				}
-				for (Planet planetFromNextLevel : distLevel.nextLevelPlanets) {
-					if (Planet.containsPlanet(this.passedPlanets, planetFromNextLevel) == false) {
-						if (Planet.containsPlanet(this.nextLevelPlanets, planetFromNextLevel) == false) {
-							this.nextLevelPlanets.add(planetFromNextLevel);
-						}
-					}
-				}
 			}
 			planet.player = player;
+			homePlanetsMap.put(player.name, planet);
 
 			fleetsOnHomePlanet -= planet.fleets.size();
 			for (Fleet fleet : planet.fleets) {
@@ -95,6 +87,49 @@ public class PlayerFactory {
 			}
 			counter++;
 		}
+	}
+
+	private ArrayList<Planet> makeNextLevelPlanets() {
+		Collection<Planet> values = homePlanetsMap.values();
+		ArrayList<Planet> result = new ArrayList<Planet>();
+		ArrayList<Planet> allPassedPlanets = new ArrayList<Planet>();
+		ArrayList<Planet> allNextLevelPlanets = new ArrayList<Planet>();
+		boolean finishCreate = false;
+		int startDistanceLevelHomes = distanceLevelHomes;
+
+		while (finishCreate == false) {
+			for (Iterator<Planet> iterator = values.iterator(); iterator
+					.hasNext();) {
+				Planet planet = iterator.next();
+				DistanceLevel distLevel = new DistanceLevel(planet, startDistanceLevelHomes);
+				for (Planet planetFromPassedPlanets : distLevel.passedPlanets) {
+					if (Planet.containsPlanet(allPassedPlanets, planetFromPassedPlanets) == false) {
+						allPassedPlanets.add(planetFromPassedPlanets);
+					}
+				}
+
+				for (Planet planetFromNextLevel : distLevel.nextLevelPlanets) {
+					if (Planet.containsPlanet(allNextLevelPlanets, planetFromNextLevel) == false){
+						allNextLevelPlanets.add(planetFromNextLevel);
+					}
+				}
+				for (Planet planetFromNextLevel : allNextLevelPlanets) {
+
+					if (Planet.containsPlanet(allPassedPlanets, planetFromNextLevel) == false){
+						result.add(planetFromNextLevel);
+					}
+				}
+			}
+			if (result.size() > 0) {
+				finishCreate = true;
+			} else {
+				startDistanceLevelHomes--;
+				allPassedPlanets.clear();
+				allNextLevelPlanets.clear();
+			}
+		}
+		distanceLevelHomes = startDistanceLevelHomes;
+		return result;
 	}
 
 	private FleetAndPlanetDTO findFleetAndPlanetWithDice(Dice dice,

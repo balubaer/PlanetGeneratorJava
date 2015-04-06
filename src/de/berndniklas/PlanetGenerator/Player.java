@@ -153,4 +153,9 @@ public class Player implements Comparable<Player>{
 		int result = this.name.compareTo(o.name);
 		return result;
 	}
+	
+	public boolean equals(Player o) {
+		boolean result = this.name.equals(o.name);
+		return result;
+	}
 }
