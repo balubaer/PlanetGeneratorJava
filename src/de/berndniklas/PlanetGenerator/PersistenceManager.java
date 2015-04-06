@@ -13,12 +13,15 @@ import com.dd.plist.PropertyListParser;
 
 public class PersistenceManager {
 	ArrayList<Planet> planetArray;
-	HashMap<String, Player> allPlayerDict = new HashMap<String, Player>();
+	public HashMap<String, Player> allPlayerDict = new HashMap<String, Player>();
 
+	public PersistenceManager() {
+	}
+	
 	public PersistenceManager(ArrayList<Planet> aPlanetArray) {
 		planetArray = aPlanetArray;
 	}
-
+	
 	public void writePlanetPListWithPlanetArray(String aPath) {
 		NSDictionary dictForPList = new NSDictionary();
 		ArrayList<NSDictionary> planetArrayForPList = new ArrayList<NSDictionary>();
