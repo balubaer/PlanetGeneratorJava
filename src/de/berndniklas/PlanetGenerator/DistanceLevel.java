@@ -74,7 +74,7 @@ public class DistanceLevel {
 
 	}
 
-	private void goNextLevel() {
+	public void goNextLevel() {
 		distanceLevel++;
 		createNewNextLevelPlanets();
 	}

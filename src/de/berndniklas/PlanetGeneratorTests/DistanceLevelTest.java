@@ -21,8 +21,6 @@ public class DistanceLevelTest {
 	ArrayList<Planet> planetArray;
 	HashMap<String, Player> allPlayerDict;
 
-//    var allPlayerDict: [String: Player]?
-
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 	}
@@ -46,31 +44,30 @@ public class DistanceLevelTest {
 
 	@Test
 	public void test() {
-if (planetArray != null && allPlayerDict != null) {
-            
-            Planet planet1 = Planet.planetWithNumber(planetArray, 1);
-            
-            if (planet1 != null) {
-            	DistanceLevel disLevel = new DistanceLevel(planet1, 1);
-                
-            	assertTrue("### nextLevelPlanets Anzahl falsch ###",disLevel.nextLevelPlanets.size() == 1, );
-                if (disLevel.nextLevelPlanets.count == 1) {
-                    XCTAssertTrue(disLevel.nextLevelPlanets[0].number == 2, "### Es ist nicht Planet 2 ###")
-                }
-                disLevel.goNextLevel()
-                XCTAssertTrue(disLevel.nextLevelPlanets.count == 1, "### nextLevelPlanets Anzahl falsch ###")
-                if (disLevel.nextLevelPlanets.count == 1) {
-                    XCTAssertTrue(disLevel.nextLevelPlanets[0].number == 3, "### Es ist nicht Planet 3 ###")
-                }
-            } else {
-                XCTFail("### TestDistanceLevel.testDistanceLevel Planet 1 nicht vorhanden ###")
-            }
-            
-        } else {
-            XCTFail("### TestDistanceLevel.testDistanceLevel planetArray and allPlayerDict are nil ###")
-        }
+		if (planetArray != null && allPlayerDict != null) {
 
-		fail("Not yet implemented");
+			Planet planet1 = Planet.planetWithNumber(planetArray, 1);
+
+			if (planet1 != null) {
+				DistanceLevel disLevel = new DistanceLevel(planet1, 1);
+
+				assertTrue("### nextLevelPlanets Anzahl falsch ###", disLevel.nextLevelPlanets.size() == 1);
+				if (disLevel.nextLevelPlanets.size() == 1) {
+					assertTrue("### Es ist nicht Planet 2 ###", disLevel.nextLevelPlanets.get(0).number == 2);
+				}
+				disLevel.goNextLevel();
+				assertTrue("### nextLevelPlanets Anzahl falsch ###", disLevel.nextLevelPlanets.size() == 1);
+				if (disLevel.nextLevelPlanets.size() == 1) {
+					assertTrue("### Es ist nicht Planet 3 ###", disLevel.nextLevelPlanets.get(0).number == 3);
+				}
+			} else {
+				fail("### TestDistanceLevel.testDistanceLevel Planet 1 nicht vorhanden ###");
+			}
+
+		} else {
+			fail("### TestDistanceLevel.testDistanceLevel planetArray and allPlayerDict are nil ###");
+
+		}
 	}
 
 }
