@@ -8,14 +8,12 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Properties;
 
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.NSNumber;
 import com.dd.plist.NSObject;
-import com.dd.plist.NSString;
 import com.dd.plist.PropertyListParser;
 
 public class PlanetGenerator {
@@ -48,10 +46,6 @@ public class PlanetGenerator {
 	}
 	
 	private static InputStream getResourceStream(String pkgname, String fname) {
-		/*String resname = "/" + pkgname.replace('.', '/') + "/" + fname;
-		Class clazz = getClass();
-		InputStream is = clazz.getResourceAsStream(resname);
-		*/
 		 Properties systemProperties = System.getProperties();
 		 String path = systemProperties.getProperty("user.dir");
 		 path = path + "/resources/" + fname;
@@ -68,17 +62,6 @@ public class PlanetGenerator {
 	
 	public static void main(String[] args)
 	{
-		/*		 
-		 try {
-			String ausDatei = PlanetGenerator.loadTextResource(null, "hello.txt");
-			 System.out.println(ausDatei);
-
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 */
-
 		try {
 			String plistPath = PlanetGenerator.getResourcePathForFile("PlanetGenerator.plist");
 			File file = new File(plistPath);
@@ -130,26 +113,20 @@ public class PlanetGenerator {
 
 			playerFactory.createWithPlanetArray(planets, fleetCount, fleetsOnHomePlanet, startShipsCount, distanceLevelHomes);
 
-			//String planetPlistFilePath = playPath + "/" + playName;
-
 			File playPathFile = new File(playPath, playName);
 
 			if (playPathFile.exists() == false) {
 				playPathFile.mkdirs();
-				//createDirectoryAtPath(planetPlistFilePath, withIntermediateDirectories: true, attributes: nil, error: nil)
 			}
 
 			playPathFile = new File(playPathFile.getAbsolutePath(), "Turn0");
 
 			if (playPathFile.exists() == false) {
 				playPathFile.mkdirs();
-
-				//  fileManager.createDirectoryAtPath(planetPlistFilePath, withIntermediateDirectories: true, attributes: nil, error: nil)
 			}
 
 			playPathFile = new File(playPathFile.getAbsolutePath(), "Turn0.plist");
 
-			//planetPlistFilePath = planetPlistFilePath.stringByAppendingPathComponent("Turn0.plist")
 
 			PersistenceManager persManager = new PersistenceManager(planets);
 			persManager.writePlanetPListWithPlanetArray(playPathFile.getPath());
