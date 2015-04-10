@@ -59,8 +59,6 @@ public class Player implements Comparable<Player>{
 	     
 /*
  *   
-    var points: Int = 0
-    var role: Role?
     var ambushOff: Bool = false
      
     var description: String {
@@ -89,16 +87,6 @@ public class Player implements Comparable<Player>{
         return result
     }
      
-    class func isPlanetOwnedByPlayer(player: Player, planet: Planet) -> Bool {
-        var result = false
- 
-        if planet.player != nil {
-            if planet.player! == player {
-                result = true
-            }
-        }
-        return result
-    }
      
     class func isPlayOnPlanetWithPlayer(player: Player, planet: Planet) -> Bool {
         //Test Planet
@@ -112,38 +100,7 @@ public class Player implements Comparable<Player>{
         return result
     }
      
-    class func isPlayerInPlanetHitAmbuschPlayersWithPlayer(aPlayer: Player, hitAmbuschPlayers: Array <Player>) -> Bool {
-        var result = false
-         
-        for player in hitAmbuschPlayers {
-            if player == aPlayer {
-                result = true
-                break
-            }
-        }
-        return result;
-    }
      
-    class func isPlanetOutPutForPlayer(player: Player, planet: Planet) -> Bool {
-        //Test Planet
-        var result = self.isPlanetOwnedByPlayer(player, planet: planet)
-         
-        //Test Fleets
-        if result == false {
-            result = self.isPlayerInFleetsWithPlayer(player, fleets: planet.fleets)
-        }
-         
-        //Test FleetMovement
-        if result == false {
-            result = self.isPlayerInFleetMovementWithPlayer(player, fleetMovements: planet.fleetMovements)
-        }
-         
-        //Test planet.hitAmbuschPlayers
-        if result == false {
-            result = self.isPlayerInPlanetHitAmbuschPlayersWithPlayer(player, hitAmbuschPlayers: planet.hitAmbuschPlayers)
-        }
-        return result
-    }
      
 }
  
@@ -158,4 +115,50 @@ public class Player implements Comparable<Player>{
 		boolean result = this.name.equals(o.name);
 		return result;
 	}
+
+	public static boolean isPlanetOutPutForPlayer(Player player, Planet planet) {
+		   //Test Planet
+        boolean result = isPlanetOwnedByPlayer(player, planet);
+        
+        //Test Fleets
+        if (result == false) {
+            result = isPlayerInFleetsWithPlayer(player, planet.fleets);
+        }
+        
+        //Test FleetMovement
+        if (result == false) {
+            result = isPlayerInFleetMovementWithPlayer(player, planet.fleetMovements);
+        }
+        
+        //Test planet.hitAmbuschPlayers
+        if (result == false) {
+            result = isPlayerInPlanetHitAmbuschPlayersWithPlayer(player, planet.hitAmbuschPlayers);
+        }
+        return result;
+	}
+
+	private static boolean isPlayerInPlanetHitAmbuschPlayersWithPlayer(
+			Player aPlayer, ArrayList<Player> hitAmbuschPlayers) {
+		boolean result = false;
+
+		for (Player player : hitAmbuschPlayers) {
+			if (player.equals(aPlayer)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+
+	private static boolean isPlanetOwnedByPlayer(Player player, Planet planet) {
+		boolean result = false;
+
+		if (planet.player != null) {
+			if (planet.player == player) {
+				result = true;
+			}
+		}
+		return result;
+	}
+	
 }

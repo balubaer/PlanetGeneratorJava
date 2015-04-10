@@ -32,7 +32,7 @@ public class Planet implements Comparable<Planet> {
 	boolean dShipsFired;
 	boolean dShipsAmbush;
 
-	// var hitAmbuschPlayers: Array <Player> = Array()
+	ArrayList<Player> hitAmbuschPlayers = new ArrayList<Player>();
 
 	int hitedShotsDShips;
 
@@ -46,10 +46,11 @@ public class Planet implements Comparable<Planet> {
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder(1000);
-		sb.append(this.name());
 
 		if (port != null) {
 			sb.append(port.toString());
+		} else {
+			sb.append(this.name());
 		}
 		if (player != null) {
 			sb.append(player.toString());
@@ -61,6 +62,29 @@ public class Planet implements Comparable<Planet> {
 			sb.append(" ");
 			sb.append(resouceString);
 		}
+
+		if (fleets.size() > 0) {
+			for (Fleet fleet : fleets) {
+				sb.append("\n   ");
+				sb.append(fleet.toString());
+			} 
+		}
+
+		int fleetMovementsCount = fleetMovements.size();
+
+		if (fleetMovementsCount > 0) {
+			int counter = 0;
+			sb.append("\n   (");
+			for (FleetMovement fleetMovement : fleetMovements) {
+				sb.append(fleetMovement.toString());
+				counter++;
+				if (counter < fleetMovementsCount) {
+					sb.append(" ");
+				}
+			} 
+			sb.append(")");
+		}
+
 		return sb.toString();
 	}
 	

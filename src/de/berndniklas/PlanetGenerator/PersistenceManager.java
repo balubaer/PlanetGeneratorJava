@@ -130,29 +130,33 @@ public class PersistenceManager {
 
 					planet.number = intValue.intValue();
 
-					String playerName = ((NSString) planetDict.get("player")).toString();
+					NSString playerNameString = (NSString) planetDict.get("player");
+					
+					if (playerNameString != null) {
+						String playerName = playerNameString.toString();
 
-					if (playerName != null) {
-						Player player = allPlayerDict.get(playerName);
+						if (playerName != null) {
+							Player player = allPlayerDict.get(playerName);
 
-						if (player == null) {
-							NSDictionary playerDict = (NSDictionary) playerDictFormPList.get(playerName);
-							Player newPlayer = new Player();
-							newPlayer.name = playerName;
-							if (playerDict != null) {
-								intValue = (NSNumber) playerDict.get("points");
-								newPlayer.points = intValue.intValue();
-								Role role = new Role();
-								NSString roleName = (NSString) playerDict.get("role");
-								if (roleName != null) {
-									role.name = roleName.toString();
+							if (player == null) {
+								NSDictionary playerDict = (NSDictionary) playerDictFormPList.get(playerName);
+								Player newPlayer = new Player();
+								newPlayer.name = playerName;
+								if (playerDict != null) {
+									intValue = (NSNumber) playerDict.get("points");
+									newPlayer.points = intValue.intValue();
+									Role role = new Role();
+									NSString roleName = (NSString) playerDict.get("role");
+									if (roleName != null) {
+										role.name = roleName.toString();
+									}
+									newPlayer.role = role;
 								}
-								newPlayer.role = role;
+								allPlayerDict.put(playerName, newPlayer);
+								player = newPlayer;
 							}
-							allPlayerDict.put(playerName, newPlayer);
-							player = newPlayer;
+							planet.player = player;
 						}
-						planet.player = player;
 					}
 
 					NSArray fleetArray = (NSArray) planetDict.get("fleets");
@@ -222,12 +226,15 @@ public class PersistenceManager {
 							NSNumber shipNumber = (NSNumber) fleetFromPlist.get("ships");
 							fleet.ships = shipNumber.intValue();
 
-							String playerName = ((NSString) fleetFromPlist.get("player")).toString();
+							NSString playerNameString = (NSString) fleetFromPlist.get("player");
+							if (playerNameString != null) {
+								String playerName = playerNameString.toString();
 
-							if (playerName != null) {
-								Player player = allPlayerDict.get(playerName);
-								if (player != null) {
-									fleet.player = player;
+								if (playerName != null) {
+									Player player = allPlayerDict.get(playerName);
+									if (player != null) {
+										fleet.player = player;
+									}
 								}
 							}
 							NSNumber cargoNumber = (NSNumber) fleetFromPlist.get("cargo");

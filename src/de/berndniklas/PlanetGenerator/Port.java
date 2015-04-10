@@ -13,7 +13,7 @@ public class Port {
 	public String toString() {
 		StringBuilder sb = new StringBuilder(1000);
 		if (planet != null) {
-			sb.append(this.planet.toString());
+			sb.append(this.planet.name());
 		} else {
 			sb.append("W?");
 		}
