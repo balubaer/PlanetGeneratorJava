@@ -21,7 +21,7 @@ public class Planet implements Comparable<Planet> {
 			        }
 			        return result
 			    }*/
-	int metal;
+	public int metal;
 	int mines;
 	public int population;
 	public int limit;
