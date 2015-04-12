@@ -16,7 +16,6 @@ public class CommandFactory {
 	HashMap<String, Player> allPlayerDict;
 
 	public boolean coreGame;
-    //var commandStringsDict: Dictionary <String, Array <String>>
 
 	public CommandFactory(ArrayList<Planet> aPlanets,
 			HashMap<String, Player> aAllPlayerDict) {
@@ -34,6 +33,45 @@ public class CommandFactory {
 		}
 
 	}
+
+	 // FnnnWmmm FnnnWmmmWooo FnnnWmmmWoooWrrr
+    private FleetHomplanetPlanetArrayDTO findFleetAndPlanets() {
+    	//-> (fleet: Fleet, homePlanet:Planet, planetArray: Array <Planet>)
+    	Fleet fleet = new Fleet();
+    	Planet homePlanet = new Planet();
+    	ArrayList <Planet> planetArray = new ArrayList <Planet>();
+        int counter = 0;
+        /*
+        for commantElement in commandElements {
+            if counter == 0 {
+                var fleetNumber: Int? = extractNumberString(commantElement).toInt()
+                if fleetNumber != nil {
+                    var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planets, fleetNumber!)
+                    if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
+                        fleet = aFleetAndHomePlanet.fleet!
+                        homePlanet = aFleetAndHomePlanet.homePlanet!
+                    }
+                }
+            } else {
+                var planetNumber: Int? = extractNumberString(commantElement).toInt()
+                if planetNumber != nil {
+                    var planet = planetWithNumber(planets, planetNumber!)
+                    
+                    if planet != nil {
+                        planetArray.append(planet!)
+                    }
+                }
+            }
+            counter++
+        }*/
+        return new FleetHomplanetPlanetArrayDTO	(fleet, homePlanet, planetArray);
+    }
+    /*
+    func createMoveCommand() -> MoveCommand {
+        var fleetAndPlanets = findFleetAndPlanets()
+        return MoveCommand(aFleet: fleetAndPlanets.fleet, aHomePlanet:fleetAndPlanets.homePlanet, aPlanetArray: fleetAndPlanets.planetArray, aString: processCommand!, aPlayer: commandPlayer!)
+    }*/
+
 
 	public void executeCommands() {
 		Collection<String> keys = commandStringsDict.keySet();
