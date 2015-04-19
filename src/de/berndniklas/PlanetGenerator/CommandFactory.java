@@ -41,36 +41,35 @@ public class CommandFactory {
     	Planet homePlanet = new Planet();
     	ArrayList <Planet> planetArray = new ArrayList <Planet>();
         int counter = 0;
-        /*
-        for commantElement in commandElements {
-            if counter == 0 {
-                var fleetNumber: Int? = extractNumberString(commantElement).toInt()
-                if fleetNumber != nil {
-                    var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planets, fleetNumber!)
-                    if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
-                        fleet = aFleetAndHomePlanet.fleet!
-                        homePlanet = aFleetAndHomePlanet.homePlanet!
-                    }
-                }
-            } else {
-                var planetNumber: Int? = extractNumberString(commantElement).toInt()
-                if planetNumber != nil {
-                    var planet = planetWithNumber(planets, planetNumber!)
-                    
-                    if planet != nil {
-                        planetArray.append(planet!)
-                    }
-                }
+        
+        for (String commantElement : commandElements) {
+            if (counter == 0) {
+            	int fleetNumber = Integer.parseInt(Utils.extractNumberString(commantElement));
+            	if (fleetNumber != 0) {
+            		FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+            		if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+                        fleet = aFleetAndHomePlanet.fleet;
+                        homePlanet = aFleetAndHomePlanet.planet;
+            		}
+            	} else {
+                	int planetNumber = Integer.parseInt(Utils.extractNumberString(commantElement));
+                	if (planetNumber != 0) {
+                        Planet planet = Planet.planetWithNumber(planets, planetNumber);
+                        if (planet != null) {
+                            planetArray.add(planet);
+                        }
+                	}
+            	}
+            	counter++;
             }
-            counter++
-        }*/
+		} 
         return new FleetHomplanetPlanetArrayDTO	(fleet, homePlanet, planetArray);
     }
-    /*
-    func createMoveCommand() -> MoveCommand {
-        var fleetAndPlanets = findFleetAndPlanets()
-        return MoveCommand(aFleet: fleetAndPlanets.fleet, aHomePlanet:fleetAndPlanets.homePlanet, aPlanetArray: fleetAndPlanets.planetArray, aString: processCommand!, aPlayer: commandPlayer!)
-    }*/
+
+    public MoveCommand createMoveCommand() {
+    	FleetHomplanetPlanetArrayDTO fleetAndPlanets = findFleetAndPlanets();
+        return new MoveCommand(fleetAndPlanets.fleet, fleetAndPlanets.homePlanet, fleetAndPlanets.planetArray, processCommand, commandPlayer);
+    }
 
 
 	public void executeCommands() {

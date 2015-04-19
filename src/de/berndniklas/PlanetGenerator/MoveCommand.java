@@ -1,9 +1,19 @@
 package de.berndniklas.PlanetGenerator;
 
+import java.util.ArrayList;
+
 public class MoveCommand extends Command implements ExecuteCommand {
 
 	public MoveCommand(String aString, Player aPlayer, TurnPhase aTurnPhase) {
 		super(aString, aPlayer, aTurnPhase);
+		// TODO Auto-generated constructor stub
+	}
+
+	public MoveCommand(Fleet fleet, Planet homePlanet,
+			ArrayList<Planet> planetArray, String processCommand,
+			Player commandPlayer) {
+		super(processCommand, commandPlayer, TurnPhase.Movement);
+
 		// TODO Auto-generated constructor stub
 	}
 
