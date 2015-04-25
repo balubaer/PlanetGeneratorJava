@@ -4,90 +4,75 @@ import java.util.ArrayList;
 
 public class MoveCommand extends Command implements ExecuteCommand {
 
+	Fleet fleet;
+	ArrayList<Planet> planets;
+	Planet homePlanet;
+	int count = 0;
+
 	public MoveCommand(String aString, Player aPlayer, TurnPhase aTurnPhase) {
 		super(aString, aPlayer, aTurnPhase);
 		// TODO Auto-generated constructor stub
 	}
 
-	public MoveCommand(Fleet fleet, Planet homePlanet,
-			ArrayList<Planet> planetArray, String processCommand,
+	public MoveCommand(Fleet aFleet, Planet aHomePlanet,
+			ArrayList<Planet> aPlanetArray, String processCommand,
 			Player commandPlayer) {
 		super(processCommand, commandPlayer, TurnPhase.Movement);
+		fleet = aFleet;
+		homePlanet = aHomePlanet;
+		planets = aPlanetArray;
+
 
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
+	//FnnnWmmm FnnnWmmmWooo FnnnWmmmWoooWrrr
 	public void executeCommand() {
-		// TODO Auto-generated method stub
-		
+		if (player.name == fleet.player.name) {
+			Planet fromPlanet = homePlanet;
+			Planet toPlanet;
+			boolean isError = false;
+			for (Planet planet : planets) {
+				toPlanet = planet;
+				if (fromPlanet.hasConnectionToPlanet(toPlanet)) {
+					fromPlanet = planet;
+				} else {
+					//TODO: Fehler
+					isError = true;
+				break;
+				}
+			} 
+
+			if (fleet.ships == 0) {
+				isError = true;
+			}
+
+			if (isError == false) {
+				if (fleet.fired) {
+					isError = true;
+				}
+			}
+
+			if (isError == false) {
+				fromPlanet = homePlanet;
+
+				for (Planet planet : planets) {
+					toPlanet = planet;
+					FleetMovement fleetMovement = new FleetMovement();
+					Fleet fleetCopy = new Fleet();
+					fleetCopy.player = fleet.player;
+					fleetCopy.number = fleet.number;
+					fleetMovement.fleet = fleetCopy;
+					fleetMovement.toPlanet = toPlanet;
+					fleetMovement.fromPlanet = fromPlanet;
+					fleet.fleetMovements.add(fleetMovement);
+
+					fromPlanet = toPlanet;
+				} 
+			}
+		} else {
+			//TODO: Fehler Flotte ist nicht vom Spieler
+		}
 	}
-
-	/*
-	 * //FnnnWmmm FnnnWmmmWooo FnnnWmmmWoooWrrr
-class MoveCommand: Command, ExecuteCommand{
-    var fleet: Fleet
-    var planets: Array <Planet>
-    var homePlanet: Planet
-    var count = 0
-    
-    init(aFleet: Fleet, aHomePlanet: Planet, aPlanetArray: Array <Planet>, aString: String, aPlayer: Player) {
-        fleet = aFleet
-        homePlanet = aHomePlanet
-        planets = aPlanetArray
-
-        super.init(aString: aString, aPlayer: aPlayer, aTurnPhase: TurnPhase.Movement)
-    }
-    
-    func executeCommand() {
-        if player.name == fleet.player?.name {
-            var fromPlanet: Planet = homePlanet
-            var toPlanet: Planet
-            var isError = false
-            for planet in planets {
-                toPlanet = planet
-                if fromPlanet.hasConnectionToPlanet(toPlanet) {
-                    fromPlanet = planet
-                } else {
-                    //TODO: Fehler
-                    isError = true
-                    break
-                }
-                
-                if fleet.ships == 0 {
-                    isError = true
-                }
-                
-                if isError == false {
-                    if fleet.fired {
-                        isError = true
-                    }
-                }
-            }
-            
-            if isError == false {
-                fromPlanet = homePlanet
-                
-                for planet in planets {
-                    toPlanet = planet
-                    var fleetMovement = FleetMovement()
-                    var fleetCopy = Fleet()
-                    fleetCopy.player = fleet.player
-                    fleetCopy.number = fleet.number
-                    fleetMovement.fleet = fleetCopy
-                    fleetMovement.toPlanet = toPlanet
-                    fleetMovement.fromPlanet = fromPlanet
-                    
-                    fleet.fleetMovements.append(fleetMovement)
-                    
-                    fromPlanet = toPlanet
-                }
-            }
-        } else {
-            //TODO: Fehler Flotte ist nicht vom Spieler
-        }
-    }
-}
-
-	 */
 }
