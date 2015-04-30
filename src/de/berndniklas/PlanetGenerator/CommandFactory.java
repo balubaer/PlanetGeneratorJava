@@ -76,10 +76,64 @@ public class CommandFactory {
 		Collection<String> keys = commandStringsDict.keySet();
 		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
 			String player = iterator.next();
-			String[] strings = commandStringsDict.get(player);
+			String[] commands = commandStringsDict.get(player);
 			
-			for (String string : strings) {
-				System.out.println("Command: " + string);
+			for (String command : commands) {
+				System.out.println("Command: " + command);
+				 commandChars = "";
+			                processCommand = command;
+			                commandElements = new ArrayList<String>();
+			                int counter = 0	;
+			                int charCount = command.length();
+			                boolean foundCommandElementEnd = false;
+			                StringBuilder commandElement = new StringBuilder();
+			                
+			                for (int i = 0; i < charCount; i++) {
+			                	if (Character.isDigit(command.charAt(i)) == false) {
+			                		commandChars = Character.toString(command.charAt(i));
+			                		
+			                		//TODO Hier geht es Weiter
+			                	}
+			                	//Character.isLetter(command.charAt(i));
+								
+							}
+
+			                
+			                /*
+			                var counter = 0
+			                var charCount = countElements(command)
+			                var foundCommandElementEnd = false
+			                var commandElement = String()
+			                
+			                for character in command as String {
+			                    
+			                    if isCharacterANumber(character) == false {
+			                        commandChars?.append(character)
+			                        if counter != 0 {
+			                            foundCommandElementEnd = true
+			                        }
+			                        if foundCommandElementEnd {
+			                            commandElements.append(commandElement)
+			                            commandElement = String()
+			                            foundCommandElementEnd = false
+			                        }
+			                        commandElement.append(character)
+			                    } else {
+			                        commandElement.append(character)
+			                    }
+			                    counter++
+			                    if counter == charCount {
+			                        commandElements.append(commandElement)
+			                    }
+			                }
+			                commandPlayer = allPlayerDict[playerName]
+			                var commandInstance:AnyObject? = self.getCommandInstance()
+			                if commandInstance != nil {
+			                    if commandInstance is Command {
+			                        commandArray.append(commandInstance as Command)
+			                    }
+			                }*/
+
 			}
 		}
 		
