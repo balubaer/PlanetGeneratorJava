@@ -11,7 +11,6 @@ public class MoveCommand extends Command implements ExecuteCommand {
 
 	public MoveCommand(String aString, Player aPlayer, TurnPhase aTurnPhase) {
 		super(aString, aPlayer, aTurnPhase);
-		// TODO Auto-generated constructor stub
 	}
 
 	public MoveCommand(Fleet aFleet, Planet aHomePlanet,

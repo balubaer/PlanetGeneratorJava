@@ -125,17 +125,11 @@ public class CommandFactory {
 				}
 			}
 		}
-
-		//myString.split("\\s+");
-		// TODO Auto-generated method stub
-
 	}
 
 	private Object getCommandInstance() {
 		Object result = null;
 		if (commandChars != null) {
-			// var characterArray: Array <Character> = Array(commandChars!)
-
 			if (commandChars.length() >= 2) {
 				switch (commandChars.charAt(0)) {
 				case 'F':
@@ -143,94 +137,171 @@ public class CommandFactory {
 					case 'W':
 						result = createMoveCommand();
 						break;
-
-					default:
-						break;
-					}
-					break;
-
+					case 'T':
+                        if (commandChars.length() == 3) {
+                            switch (commandChars.charAt(2)) {
+                            case 'F':
+                                result = createTransferShipsFleetToFleetCommand();
+                                break;
+                            case 'D':
+                                result = createTransferShipsFleetToDShipsCommand();
+                                break;
+                            default:
+                                result = null;
+                                break;
+                            }
+                        }
+                        break;
+                    case 'A':
+                        if (commandChars.length() == 3) {
+                            switch (commandChars.charAt(2)) {
+                            case 'F':
+                                result = createFireFleetToFleetCommand();
+                                break;
+                            case 'D':
+                                result = createFireFleetToDShipsCommand();
+                                break;
+                            default:
+                                result = null;
+                                break;
+                            }
+                        }
+                        break;
+                    case 'D':
+	                    switch (commandChars.charAt(1)) {
+	                    case 'A':
+	                        if (commandChars.length() == 3) {
+	                            if (commandChars.charAt(2) == 'F') {
+	                                result = createFireDShipsToFleetCommand();
+	                            }
+	                        }
+	                        break;
+	                    case 'T':
+	                        if (commandChars.length() == 3) {
+	                            if (commandChars.charAt(2) == 'F') {
+	                                result = createTransferDShipsToFleetCommand();
+	                            }
+	                        }
+	                        break;
+	                    default:
+	                        result = null;
+	                        break;
+	                    }
+	                case 'Z':
+	                    result = createAmbushOffForPlanet();
+	                    break;
+	                default:
+	                    result = null;
+	                    break;
+	                }
 				default:
 					break;
 				}
 			}
 		}
-		/*
-			                switch characterArray[0] {
-			                case "F":
-			                    switch characterArray[1] {
-			                    case "W":
-			                        result = createMoveCommand()
-			                    case "U":
-			                        result = createUnloadingMetalCommand()
-			                    case "T":
-			                        if characterArray.count == 3 {
-			                            switch characterArray[2] {
-			                            case "F":
-			                                result = createTransferShipsFleetToFleetCommand()
-			                            case "D":
-			                                result = createTransferShipsFleetToDShipsCommand()
-			                            default:
-			                                result = nil
-			                            }
-			                        }
-			                    case "A":
-			                        if characterArray.count == 3 {
-			                            switch characterArray[2] {
-			                            case "F":
-			                                result = createFireFleetToFleetCommand()
-			                            case "D":
-			                                result = createFireFleetToDShipsCommand()
-			                            default:
-			                                result = nil
-
-			                            }
-			                        }
-			                    default:
-			                        result = nil
-			                    }
-			                case "W":
-			                    switch characterArray[1] {
-			                    case "B":
-			                        if characterArray.count == 3 {
-			                            if characterArray[2] == "F" {
-			                                result = createBuildFleetShipCommand()
-			                            }
-			                        }
-			                    default:
-			                        result = nil
-			                    }
-			                case "D":
-			                    switch characterArray[1] {
-			                    case "A":
-			                        if characterArray.count == 3 {
-			                            if characterArray[2] == "F" {
-			                                result = createFireDShipsToFleetCommand()
-			                            }
-			                        }
-			                    case "T":
-			                        if characterArray.count == 3 {
-			                            if characterArray[2] == "F" {
-			                                result = createTransferDShipsToFleetCommand()
-			                            }
-			                        }
-			                    default:
-			                        result = nil
-			                    }
-			                case "Z":
-			                    result = createAmbushOffForPlanet()
-			                default:
-			                    result = nil
-			                }
-			            } else if characterArray.count == 1 {
-			                switch characterArray[0] {
-			                    case "Z":
-			                    result = createAmbushOffForPlayer()
-			                default:
-			                    result = nil
-			                }
-			            }
-			        }
-			        return result*/
 		return result;
+	}
+
+	// Znn
+	private Planet findPlanet() {
+		Planet planet = new Planet();
+		int counter = 0;
+
+		for (String commantElement : commandElements) {
+			if (counter == 0) {
+				// int planetNumber = IntegerextractNumberString(commantElement);
+				Integer planetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
+				int planetNumber = planetNumberIntger.intValue();
+				if (planetNumber != 0) {
+					Planet planetFromNumber = Planet.planetWithNumber(planets, planetNumber);
+					if (planetFromNumber != null) {
+						planet = planetFromNumber;
+					}
+				}
+			}
+			counter++;
+		}
+		return planet;
+	}
+	
+	private Object createAmbushOffForPlanet() {
+		 Planet planet = findPlanet();
+		 return new AmbushOffForPlanet(planet, processCommand, commandPlayer);
+	}
+
+	private FleetTwoPlanetsAndShipsDTO findTransferDShipsToFleetAndPlanets() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object createTransferDShipsToFleetCommand() {
+		// TODO Auto-generated method stub
+		/*
+		 *  func findTransferDShipsToFleetAndPlanets() -> (toFleet: Fleet, fromHomePlanet:Planet, toHomePlanet:Planet, shipsToTransfer: Int) {
+        var counter = 0
+        var shipsToTransfer = 0
+        var toFleet: Fleet = Fleet()
+        var fromHomePlanet: Planet = Planet()
+        var toHomePlanet: Planet = Planet()
+        
+        for commantElement in commandElements {
+            if counter == 0 {
+                var planetNumber = extractNumberString(commantElement).toInt()
+                if planetNumber != nil {
+                    fromHomePlanet = planetWithNumber(planets, planetNumber!) as Planet!
+                }
+            } else if counter == 1 {
+                var aShipsToTransfer = extractNumberString(commantElement).toInt()
+                if aShipsToTransfer != nil {
+                    shipsToTransfer = aShipsToTransfer!
+                }
+            } else {
+                var fleetNumber: Int? = extractNumberString(commantElement).toInt()
+                if fleetNumber != nil {
+                    var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planets, fleetNumber!)
+                    if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
+                        toFleet = aFleetAndHomePlanet.fleet!
+                        toHomePlanet = aFleetAndHomePlanet.homePlanet!
+                    }
+                }
+            }
+            counter++
+        }
+        return (toFleet, fromHomePlanet, toHomePlanet, shipsToTransfer)
+    }
+
+    func createTransferDShipsToFleetCommand() -> TransferDShipsToFleet {
+        var transferDShipsToFleetAndPlanets = findTransferDShipsToFleetAndPlanets()
+        return TransferDShipsToFleet(aToFleet: transferDShipsToFleetAndPlanets.toFleet, aFromHomePlanet: transferDShipsToFleetAndPlanets.fromHomePlanet, aToHomePlanet: transferDShipsToFleetAndPlanets.toHomePlanet, aShipsToTransfer: transferDShipsToFleetAndPlanets.shipsToTransfer, aString: processCommand!, aPlayer: commandPlayer!)
+    }
+   
+		 */
+		FleetTwoPlanetsAndShipsDTO transferDShipsToFleetAndPlanets = findTransferDShipsToFleetAndPlanets();
+		return new TransferDShipsToFleet(transferDShipsToFleetAndPlanets.toFleet, transferDShipsToFleetAndPlanets.fromHomePlanet, transferDShipsToFleetAndPlanets.toHomePlanet, transferDShipsToFleetAndPlanets.shipsToTransfer, processCommand, commandPlayer);
+	}
+
+	private Object createFireDShipsToFleetCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object createFireFleetToDShipsCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object createFireFleetToFleetCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object createTransferShipsFleetToDShipsCommand() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Object createTransferShipsFleetToFleetCommand() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
