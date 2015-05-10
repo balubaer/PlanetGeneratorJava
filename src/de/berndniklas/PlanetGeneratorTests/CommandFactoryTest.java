@@ -76,6 +76,15 @@ public class CommandFactoryTest {
                 commandFactory.coreGame = true;
 
                 commandFactory.executeCommands();
+                
+                //Test Flotte 1
+    			aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planetArray, 1);
+    			if ((aFleetAndHomePlanet.planet != null) && (aFleetAndHomePlanet.fleet != null)) {
+    				assertTrue("### Flotte 1 Anzahl Schiffe falsch ###", aFleetAndHomePlanet.fleet.ships == 1);
+    				assertTrue("### Es ist nicht Planet 2 ###", aFleetAndHomePlanet.planet.number == 2);
+                } else {
+            		fail("### Flotte 1 nicht gefunden  ###");
+                }
             }
 		}
 	}

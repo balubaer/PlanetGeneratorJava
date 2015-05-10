@@ -115,7 +115,7 @@
 		</dict>
 		<dict>
 			<key>dShips</key>
-			<integer>0</integer>
+			<integer>1</integer>
 			<key>player</key>
 			<string>ZAPHOD</string>
 			<key>fleets</key>

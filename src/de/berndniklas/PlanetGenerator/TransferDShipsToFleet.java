@@ -21,19 +21,18 @@ public class TransferDShipsToFleet extends Command implements ExecuteCommand {
 
 	@Override
 	public void executeCommand() {
-		/*
-		 *  if fromHomePlanet.player?.name == player.name {
-            var isError = false
+		if (fromHomePlanet.player.name == player.name) {
+            boolean isError = false;
             
-            if isError == false {
-                if fromHomePlanet != toHomePlanet  {
-                    //TODO: Fehler art zuf√ºgen
-                    isError = true
+            if (isError == false) {
+                if (fromHomePlanet != toHomePlanet)  {
+                    //TODO: Fehler art zufügen
+                    isError = true;
                 }
-                if isError == false {
-                    if fromHomePlanet.dShips < shipsToTransfer {
-                        //TODO: Fehler art zuf√ºgen
-                        isError = true
+                if (isError == false) {
+                    if (fromHomePlanet.dShips < shipsToTransfer) {
+                        //TODO: Fehler art zufügen
+                        isError = true;
                     }
                 }
                 //TODO: Check Owner Man kann einer Neutralen Flotte keine Schiffe Transverieren
@@ -42,16 +41,12 @@ public class TransferDShipsToFleet extends Command implements ExecuteCommand {
             //TODO: Weiter Tests implementieren
             
             if (isError == false) {
-                fromHomePlanet.dShips -= shipsToTransfer
-                toFleet.ships += shipsToTransfer
+                fromHomePlanet.dShips -= shipsToTransfer;
+                toFleet.ships += shipsToTransfer;
             }
         } else {
             //TODO: Fehler Welt ist nicht vom Spieler
         }
-
-		 */
-		// TODO Auto-generated method stub
-		
 	}
 
 }

@@ -2,6 +2,7 @@ package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 
@@ -93,6 +94,8 @@ public class CommandFactory {
 				for (counter = 0; counter < charCount; counter++) {
 					char commandChar = command.charAt(counter);
 					if (Character.isDigit(commandChar) == false) {
+						//Character.isLetter(command.charAt(i));
+
 						commandCharsBuilder.append(commandChar);
 
 						if (counter != 0) {
@@ -107,21 +110,32 @@ public class CommandFactory {
 					} else {
 						commandElement.append(commandChar);
 					}
-					if (counter == charCount) {
-						commandElements.add(commandElement.toString());
-					}
-					//Character.isLetter(command.charAt(i));
 
 				}
-				
+				commandElements.add(commandElement.toString());
+
 				commandChars = commandCharsBuilder.toString();
-				
+
 				commandPlayer = allPlayerDict.get(playerName);
 				Object commandInstance = this.getCommandInstance();
 				if (commandInstance != null) {
 					if (commandInstance instanceof Command) {
 						commandArray.add((Command)commandInstance);
 					}
+				}
+				if (coreGame == true) {
+					//TODO Build D-Ships
+					/*  for (playerName, player) in allPlayerDict {
+		                var buildDShips = BuildDShips(aPlanetArray: planets, aPlayer: player)
+		                commandArray.append(buildDShips as Command)
+		            }*/
+				}
+
+				Collections.sort(commandArray);
+
+				for (Command aCommand : commandArray) {
+					ExecuteCommand executeCommand = (ExecuteCommand)aCommand;
+					executeCommand.executeCommand();
 				}
 			}
 		}
@@ -138,65 +152,66 @@ public class CommandFactory {
 						result = createMoveCommand();
 						break;
 					case 'T':
-                        if (commandChars.length() == 3) {
-                            switch (commandChars.charAt(2)) {
-                            case 'F':
-                                result = createTransferShipsFleetToFleetCommand();
-                                break;
-                            case 'D':
-                                result = createTransferShipsFleetToDShipsCommand();
-                                break;
-                            default:
-                                result = null;
-                                break;
-                            }
-                        }
-                        break;
-                    case 'A':
-                        if (commandChars.length() == 3) {
-                            switch (commandChars.charAt(2)) {
-                            case 'F':
-                                result = createFireFleetToFleetCommand();
-                                break;
-                            case 'D':
-                                result = createFireFleetToDShipsCommand();
-                                break;
-                            default:
-                                result = null;
-                                break;
-                            }
-                        }
-                        break;
-                    case 'D':
-	                    switch (commandChars.charAt(1)) {
-	                    case 'A':
-	                        if (commandChars.length() == 3) {
-	                            if (commandChars.charAt(2) == 'F') {
-	                                result = createFireDShipsToFleetCommand();
-	                            }
-	                        }
-	                        break;
-	                    case 'T':
-	                        if (commandChars.length() == 3) {
-	                            if (commandChars.charAt(2) == 'F') {
-	                                result = createTransferDShipsToFleetCommand();
-	                            }
-	                        }
-	                        break;
-	                    default:
-	                        result = null;
-	                        break;
-	                    }
-	                case 'Z':
-	                    result = createAmbushOffForPlanet();
-	                    break;
-	                default:
-	                    result = null;
-	                    break;
-	                }
+						if (commandChars.length() == 3) {
+							switch (commandChars.charAt(2)) {
+							case 'F':
+								result = createTransferShipsFleetToFleetCommand();
+								break;
+							case 'D':
+								result = createTransferShipsFleetToDShipsCommand();
+								break;
+							default:
+								result = null;
+								break;
+							}
+						}
+						break;
+					}
+					break;
+				case 'A':
+					if (commandChars.length() == 3) {
+						switch (commandChars.charAt(2)) {
+						case 'F':
+							result = createFireFleetToFleetCommand();
+							break;
+						case 'D':
+							result = createFireFleetToDShipsCommand();
+							break;
+						default:
+							result = null;
+							break;
+						}
+					}
+					break;
+				case 'D':
+					switch (commandChars.charAt(1)) {
+					case 'A':
+						if (commandChars.length() == 3) {
+							if (commandChars.charAt(2) == 'F') {
+								result = createFireDShipsToFleetCommand();
+							}
+						}
+						break;
+					case 'T':
+						if (commandChars.length() == 3) {
+							if (commandChars.charAt(2) == 'F') {
+								result = createTransferDShipsToFleetCommand();
+							}
+						}
+						break;
+					default:
+						result = null;
+						break;
+					}
+					break;
+				case 'Z':
+					result = createAmbushOffForPlanet();
+					break;
 				default:
+					result = null;
 					break;
 				}
+
 			}
 		}
 		return result;
@@ -230,52 +245,43 @@ public class CommandFactory {
 	}
 
 	private FleetTwoPlanetsAndShipsDTO findTransferDShipsToFleetAndPlanets() {
-		// TODO Auto-generated method stub
-		return null;
+		 int counter = 0;
+		 int shipsToTransfer = 0;
+		 Fleet toFleet = new Fleet();
+		 Planet fromHomePlanet = new Planet();
+		 Planet toHomePlanet= new Planet();
+		 for (String commantElement : commandElements) {
+			 if (counter == 0) {
+				 Integer planetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
+				 int planetNumber = planetNumberIntger.intValue();
+				 if (planetNumber != 0) {
+	                    fromHomePlanet = Planet.planetWithNumber(planets, planetNumber);
+				 }
+				 
+			 } else if (counter == 1) {
+				 Integer shipsToTransferIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
+				 int aShipsToTransfer = shipsToTransferIntger.intValue();
+				 if (aShipsToTransfer != 0) {
+	                    shipsToTransfer = aShipsToTransfer;
+				 }
+
+			 } else {
+				 Integer fleetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
+				 int fleetNumber = fleetNumberIntger.intValue();
+				 if (fleetNumber != 0) {
+					 FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+					 if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+	                        toFleet = aFleetAndHomePlanet.fleet;
+	                        toHomePlanet = aFleetAndHomePlanet.planet;
+	                    }
+				 }
+			 }
+	            counter++;
+		} 
+		 return new FleetTwoPlanetsAndShipsDTO(toFleet, fromHomePlanet, toHomePlanet, shipsToTransfer);
 	}
 
 	private Object createTransferDShipsToFleetCommand() {
-		// TODO Auto-generated method stub
-		/*
-		 *  func findTransferDShipsToFleetAndPlanets() -> (toFleet: Fleet, fromHomePlanet:Planet, toHomePlanet:Planet, shipsToTransfer: Int) {
-        var counter = 0
-        var shipsToTransfer = 0
-        var toFleet: Fleet = Fleet()
-        var fromHomePlanet: Planet = Planet()
-        var toHomePlanet: Planet = Planet()
-        
-        for commantElement in commandElements {
-            if counter == 0 {
-                var planetNumber = extractNumberString(commantElement).toInt()
-                if planetNumber != nil {
-                    fromHomePlanet = planetWithNumber(planets, planetNumber!) as Planet!
-                }
-            } else if counter == 1 {
-                var aShipsToTransfer = extractNumberString(commantElement).toInt()
-                if aShipsToTransfer != nil {
-                    shipsToTransfer = aShipsToTransfer!
-                }
-            } else {
-                var fleetNumber: Int? = extractNumberString(commantElement).toInt()
-                if fleetNumber != nil {
-                    var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planets, fleetNumber!)
-                    if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
-                        toFleet = aFleetAndHomePlanet.fleet!
-                        toHomePlanet = aFleetAndHomePlanet.homePlanet!
-                    }
-                }
-            }
-            counter++
-        }
-        return (toFleet, fromHomePlanet, toHomePlanet, shipsToTransfer)
-    }
-
-    func createTransferDShipsToFleetCommand() -> TransferDShipsToFleet {
-        var transferDShipsToFleetAndPlanets = findTransferDShipsToFleetAndPlanets()
-        return TransferDShipsToFleet(aToFleet: transferDShipsToFleetAndPlanets.toFleet, aFromHomePlanet: transferDShipsToFleetAndPlanets.fromHomePlanet, aToHomePlanet: transferDShipsToFleetAndPlanets.toHomePlanet, aShipsToTransfer: transferDShipsToFleetAndPlanets.shipsToTransfer, aString: processCommand!, aPlayer: commandPlayer!)
-    }
-   
-		 */
 		FleetTwoPlanetsAndShipsDTO transferDShipsToFleetAndPlanets = findTransferDShipsToFleetAndPlanets();
 		return new TransferDShipsToFleet(transferDShipsToFleetAndPlanets.toFleet, transferDShipsToFleetAndPlanets.fromHomePlanet, transferDShipsToFleetAndPlanets.toHomePlanet, transferDShipsToFleetAndPlanets.shipsToTransfer, processCommand, commandPlayer);
 	}
