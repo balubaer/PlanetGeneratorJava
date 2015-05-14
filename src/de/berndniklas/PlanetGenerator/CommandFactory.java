@@ -45,7 +45,7 @@ public class CommandFactory {
 
 		for (String commantElement : commandElements) {
 			if (counter == 0) {
-				int fleetNumber = Integer.parseInt(Utils.extractNumberString(commantElement));
+				int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
 				if (fleetNumber != 0) {
 					FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
 					if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
@@ -54,7 +54,7 @@ public class CommandFactory {
 					}
 				}
 			}else {
-				int planetNumber = Integer.parseInt(Utils.extractNumberString(commantElement));
+				int planetNumber = Utils.extractIntFromcommantElementString(commantElement);
 				if (planetNumber != 0) {
 					Planet planet = Planet.planetWithNumber(planets, planetNumber);
 					if (planet != null) {
@@ -224,9 +224,7 @@ public class CommandFactory {
 
 		for (String commantElement : commandElements) {
 			if (counter == 0) {
-				// int planetNumber = IntegerextractNumberString(commantElement);
-				Integer planetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
-				int planetNumber = planetNumberIntger.intValue();
+				int planetNumber = Utils.extractIntFromcommantElementString(commantElement);
 				if (planetNumber != 0) {
 					Planet planetFromNumber = Planet.planetWithNumber(planets, planetNumber);
 					if (planetFromNumber != null) {
@@ -252,22 +250,19 @@ public class CommandFactory {
 		 Planet toHomePlanet= new Planet();
 		 for (String commantElement : commandElements) {
 			 if (counter == 0) {
-				 Integer planetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
-				 int planetNumber = planetNumberIntger.intValue();
+				 int planetNumber = Utils.extractIntFromcommantElementString(commantElement);
 				 if (planetNumber != 0) {
 	                    fromHomePlanet = Planet.planetWithNumber(planets, planetNumber);
 				 }
 				 
 			 } else if (counter == 1) {
-				 Integer shipsToTransferIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
-				 int aShipsToTransfer = shipsToTransferIntger.intValue();
+				 int aShipsToTransfer = Utils.extractIntFromcommantElementString(commantElement);
 				 if (aShipsToTransfer != 0) {
 	                    shipsToTransfer = aShipsToTransfer;
 				 }
 
 			 } else {
-				 Integer fleetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
-				 int fleetNumber = fleetNumberIntger.intValue();
+				 int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
 				 if (fleetNumber != 0) {
 					 FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
 					 if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
@@ -286,9 +281,38 @@ public class CommandFactory {
 		return new TransferDShipsToFleet(transferDShipsToFleetAndPlanets.toFleet, transferDShipsToFleetAndPlanets.fromHomePlanet, transferDShipsToFleetAndPlanets.toHomePlanet, transferDShipsToFleetAndPlanets.shipsToTransfer, processCommand, commandPlayer);
 	}
 
+	FleetTwoPlanetsDTO findFromDShipsFireToFleetAndPlanets() {
+        int counter = 0;
+        Fleet toFleet = new Fleet();
+        Planet fromHomePlanet = new Planet();
+        Planet toHomePlanet = new Planet();
+        
+        for (String commantElement : commandElements) {
+            if (counter == 0) {
+                int planetNumber = Utils.extractIntFromcommantElementString(commantElement);
+                if (planetNumber != 0) {
+                    fromHomePlanet = Planet.planetWithNumber(planets, planetNumber); 
+                }
+            } else if (counter == 1) {
+                //Nichts zu tun
+            } else {
+                int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
+                if (fleetNumber != 0) {
+                    FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+                    if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+                        toFleet = aFleetAndHomePlanet.fleet;
+                        toHomePlanet = aFleetAndHomePlanet.planet;
+                    }
+                }
+            }
+            counter++;
+		} 
+        return new FleetTwoPlanetsDTO(toFleet, fromHomePlanet, toHomePlanet);
+    }
+
 	private Object createFireDShipsToFleetCommand() {
-		// TODO Auto-generated method stub
-		return null;
+		FleetTwoPlanetsDTO fromDShipsFireToFleetAndPlanets = findFromDShipsFireToFleetAndPlanets();
+		return new FireDShipsToFleet(fromDShipsFireToFleetAndPlanets.toFleet, fromDShipsFireToFleetAndPlanets.fromHomePlanet, fromDShipsFireToFleetAndPlanets.toHomePlanet, processCommand, commandPlayer);
 	}
 
 	private Object createFireFleetToDShipsCommand() {

@@ -57,5 +57,12 @@ public class Utils {
 		Integer integer =  str2Int(aString);
 	    return integer.toString();
 	}
+	
+	public static int extractIntFromcommantElementString(String commantElement) {
+		int result = 0;
+		Integer planetNumberIntger = Integer.parseInt(Utils.extractNumberString(commantElement));
+		result = planetNumberIntger.intValue();
+		return result;
+	}
 
 }

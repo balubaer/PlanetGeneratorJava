@@ -48,4 +48,12 @@ public class UtilsTest {
 	        }
 	    }
 	}
+	@Test
+	public void testExtractIntFromcommantElementString() {
+		assertEquals("extractIntFromcommantElementString Fail", 10, Utils.extractIntFromcommantElementString("F10"));
+		assertEquals("extractIntFromcommantElementString Fail", 5, Utils.extractIntFromcommantElementString("U5"));
+		assertEquals("extractIntFromcommantElementString Fail", 2, Utils.extractIntFromcommantElementString("W2"));
+		assertEquals("extractIntFromcommantElementString Fail", 3, Utils.extractIntFromcommantElementString("T3"));
+		assertEquals("extractIntFromcommantElementString Fail", 853, Utils.extractIntFromcommantElementString("D853"));
+	}
 }
