@@ -111,6 +111,13 @@ public class CommandFactoryTest {
                 } else {
             		fail("### Flotte 3 nicht gefunden  ###");
                 }
+    			//Test Flotte 6
+    			aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planetArray, 6);
+    			if ((aFleetAndHomePlanet.planet != null) && (aFleetAndHomePlanet.fleet != null)) {
+    				assertTrue("### Flotte die Anzahl FleetMovements falsch ###", aFleetAndHomePlanet.fleet.hitedShots == 2);
+                } else {
+            		fail("### Flotte 3 nicht gefunden  ###");
+                }
             }
 		}
 	}

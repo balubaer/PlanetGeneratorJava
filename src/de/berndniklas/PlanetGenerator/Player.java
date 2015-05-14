@@ -71,21 +71,7 @@ public class Player implements Comparable<Player>{
      
      
      
-    class func isPlayerInFleetMovementWithPlayer(player: Player, fleetMovements: Array <FleetMovement>) -> Bool {
-        var result = false
-        for fleetMovement in fleetMovements {
-            if fleetMovement.fleet != nil {
-                if fleetMovement.fleet!.player != nil {
-                    var movementPlayer = fleetMovement.fleet!.player!
-                    if movementPlayer == player {
-                        result = true
-                        break
-                    }
-                }
-            }
-        }
-        return result
-    }
+    
      
      
     class func isPlayOnPlanetWithPlayer(player: Player, planet: Planet) -> Bool {

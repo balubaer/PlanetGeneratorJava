@@ -12,10 +12,10 @@ public class AmbushOffForPlanet extends Command implements ExecuteCommand {
 	
 	@Override
 	public void executeCommand() {
-		if (planet.player.name == player.name) {
+		if (planet.player.name.equals(player.name)) {
 			Player planetPlayer = planet.player;
 					if (planetPlayer != null) {
-						if (planetPlayer == player) {
+						if (planetPlayer.equals(player)) {
 							planet.ambushOff = true;
 						} else {
 							//TODO: Fehler

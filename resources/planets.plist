@@ -4,6 +4,21 @@
 <dict>
 	<key>fleets</key>
 	<dict>
+		<key>6</key>
+		<dict>
+			<key>ambush</key>
+			<false/>
+			<key>cargo</key>
+			<integer>0</integer>
+			<key>moved</key>
+			<false/>
+			<key>number</key>
+			<integer>6</integer>
+			<key>player</key>
+			<string>ZAPHOD</string>
+			<key>ships</key>
+			<integer>1</integer>
+		</dict>
 		<key>5</key>
 		<dict>
 			<key>ambush</key>
@@ -17,7 +32,7 @@
 			<key>player</key>
 			<string>ZAPHOD</string>
 			<key>ships</key>
-			<integer>0</integer>
+			<integer>1</integer>
 		</dict>
 		<key>4</key>
 		<dict>
@@ -84,11 +99,12 @@
 	<array>
 		<dict>
 			<key>dShips</key>
-			<integer>0</integer>
+			<integer>2</integer>
 			<key>player</key>
 			<string>ZAPHOD</string>
 			<key>fleets</key>
 			<array>
+				<integer>6</integer>
 				<integer>5</integer>
 				<integer>4</integer>
 			</array>

@@ -28,7 +28,7 @@ public class MoveCommand extends Command implements ExecuteCommand {
 	@Override
 	//FnnnWmmm FnnnWmmmWooo FnnnWmmmWoooWrrr
 	public void executeCommand() {
-		if (player.name == fleet.player.name) {
+		if (player.name.equals(fleet.player.name)) {
 			Planet fromPlanet = homePlanet;
 			Planet toPlanet;
 			boolean isError = false;

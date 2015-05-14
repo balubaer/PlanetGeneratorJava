@@ -21,11 +21,11 @@ public class TransferDShipsToFleet extends Command implements ExecuteCommand {
 
 	@Override
 	public void executeCommand() {
-		if (fromHomePlanet.player.name == player.name) {
+		if (fromHomePlanet.player.name.equals(player.name)) {
             boolean isError = false;
             
             if (isError == false) {
-                if (fromHomePlanet != toHomePlanet)  {
+                if (!fromHomePlanet.equals(toHomePlanet))  {
                     //TODO: Fehler art zufügen
                     isError = true;
                 }

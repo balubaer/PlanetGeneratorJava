@@ -7,7 +7,7 @@ public class Fleet {
 	public int ships;
 	public int cargo;
 	public boolean ambush;
-	int hitedShots;
+	public int hitedShots;
 	public ArrayList<FleetMovement> fleetMovements;
 	boolean fired;
 	String firesTo;
