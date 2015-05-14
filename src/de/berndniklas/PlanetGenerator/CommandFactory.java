@@ -52,17 +52,17 @@ public class CommandFactory {
 						fleet = aFleetAndHomePlanet.fleet;
 						homePlanet = aFleetAndHomePlanet.planet;
 					}
-				} else {
-					int planetNumber = Integer.parseInt(Utils.extractNumberString(commantElement));
-					if (planetNumber != 0) {
-						Planet planet = Planet.planetWithNumber(planets, planetNumber);
-						if (planet != null) {
-							planetArray.add(planet);
-						}
+				}
+			}else {
+				int planetNumber = Integer.parseInt(Utils.extractNumberString(commantElement));
+				if (planetNumber != 0) {
+					Planet planet = Planet.planetWithNumber(planets, planetNumber);
+					if (planet != null) {
+						planetArray.add(planet);
 					}
 				}
-				counter++;
 			}
+			counter++;
 		} 
 		return new FleetHomplanetPlanetArrayDTO	(fleet, homePlanet, planetArray);
 	}
@@ -123,21 +123,21 @@ public class CommandFactory {
 						commandArray.add((Command)commandInstance);
 					}
 				}
-				if (coreGame == true) {
-					//TODO Build D-Ships
-					/*  for (playerName, player) in allPlayerDict {
-		                var buildDShips = BuildDShips(aPlanetArray: planets, aPlayer: player)
-		                commandArray.append(buildDShips as Command)
-		            }*/
-				}
-
-				Collections.sort(commandArray);
-
-				for (Command aCommand : commandArray) {
-					ExecuteCommand executeCommand = (ExecuteCommand)aCommand;
-					executeCommand.executeCommand();
-				}
 			}
+		}
+		if (coreGame == true) {
+			//TODO Build D-Ships
+			/*  for (playerName, player) in allPlayerDict {
+                var buildDShips = BuildDShips(aPlanetArray: planets, aPlayer: player)
+                commandArray.append(buildDShips as Command)
+            }*/
+		}
+
+		Collections.sort(commandArray);
+
+		for (Command aCommand : commandArray) {
+			ExecuteCommand executeCommand = (ExecuteCommand)aCommand;
+			executeCommand.executeCommand();
 		}
 	}
 

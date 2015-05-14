@@ -77,7 +77,7 @@
 			<key>player</key>
 			<string>ZAPHOD</string>
 			<key>ships</key>
-			<integer>1</integer>
+			<integer>5</integer>
 		</dict>
 	</dict>
 	<key>planets</key>
