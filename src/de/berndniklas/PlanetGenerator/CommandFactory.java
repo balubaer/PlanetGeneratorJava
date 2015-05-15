@@ -315,11 +315,56 @@ public class CommandFactory {
 		return new FireDShipsToFleet(fromDShipsFireToFleetAndPlanets.toFleet, fromDShipsFireToFleetAndPlanets.fromHomePlanet, fromDShipsFireToFleetAndPlanets.toHomePlanet, processCommand, commandPlayer);
 	}
 
-	private Object createFireFleetToDShipsCommand() {
-		// TODO Auto-generated method stub
-		return null;
+	/*func findFromFleetFireToDShipsAndPlanets() -> (fromFleet: Fleet, fromHomePlanet:Planet) {
+        var counter = 0
+        var fromFleet: Fleet = Fleet()
+        var fromHomePlanet: Planet = Planet()
+        
+        for commantElement in commandElements {
+            if counter == 0 {
+                var fleetNumber = extractNumberString(commantElement).toInt()
+                if fleetNumber != nil {
+                    var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planets, fleetNumber!)
+                    if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
+                        fromFleet = aFleetAndHomePlanet.fleet!
+                        fromHomePlanet = aFleetAndHomePlanet.homePlanet!
+                    }
+                }
+            }
+            counter++
+        }
+        return (fromFleet, fromHomePlanet)
+    }
+
+  */
+
+	private FleetAndPlanetDTO findFromFleetFireToDShipsAndPlanets() {
+		int counter = 0;
+		Fleet fromFleet = new Fleet();
+		Planet fromHomePlanet = new Planet();
+
+		for (String commantElement : commandElements) {
+			if (counter == 0) {
+				int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
+				if (fleetNumber != 0) {
+					FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+					if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+						fromFleet = aFleetAndHomePlanet.fleet;
+						fromHomePlanet = aFleetAndHomePlanet.planet;
+					}
+				}
+			}
+			counter++;
+		} 
+
+		return new FleetAndPlanetDTO(fromFleet, fromHomePlanet);
 	}
 	
+	private Object createFireFleetToDShipsCommand() {
+		FleetAndPlanetDTO fromFleetFireToDShipsAndPlanets = findFromFleetFireToDShipsAndPlanets();
+		return new FireFleetToDShips(fromFleetFireToDShipsAndPlanets.fleet, fromFleetFireToDShipsAndPlanets.planet, processCommand, commandPlayer);
+	}
+
 	private TwoFleetTwoPlanetsDTO findFromFleetFireToFleetAndPlanets() {
 		int counter = 0;
 		Fleet fromFleet = new Fleet();

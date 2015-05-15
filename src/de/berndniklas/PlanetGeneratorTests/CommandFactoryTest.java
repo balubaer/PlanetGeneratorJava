@@ -114,7 +114,9 @@ public class CommandFactoryTest {
     			//Test Flotte 6
     			aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planetArray, 6);
     			if ((aFleetAndHomePlanet.planet != null) && (aFleetAndHomePlanet.fleet != null)) {
-    				assertTrue("### Flotte die Anzahl HitedShots falsch ###", aFleetAndHomePlanet.fleet.hitedShots == 2);
+    				assertTrue("### Flotte 6 die Anzahl HitedShots falsch ###", aFleetAndHomePlanet.fleet.hitedShots == 2);
+    				assertTrue("### Flotte 6hat nicht gefeuert das ist falsch ###", aFleetAndHomePlanet.fleet.fired);
+    				assertTrue("### Flotte 6hat nicht gefeuert das ist falsch ###", aFleetAndHomePlanet.fleet.firesTo.equals("D-Schiffe"));
                 } else {
             		fail("### Flotte 6 nicht gefunden  ###");
                 }
