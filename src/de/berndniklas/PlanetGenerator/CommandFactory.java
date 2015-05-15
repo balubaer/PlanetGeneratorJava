@@ -166,21 +166,21 @@ public class CommandFactory {
 							}
 						}
 						break;
-					}
-					break;
-				case 'A':
-					if (commandChars.length() == 3) {
-						switch (commandChars.charAt(2)) {
-						case 'F':
-							result = createFireFleetToFleetCommand();
-							break;
-						case 'D':
-							result = createFireFleetToDShipsCommand();
-							break;
-						default:
-							result = null;
-							break;
+					case 'A':
+						if (commandChars.length() == 3) {
+							switch (commandChars.charAt(2)) {
+							case 'F':
+								result = createFireFleetToFleetCommand();
+								break;
+							case 'D':
+								result = createFireFleetToDShipsCommand();
+								break;
+							default:
+								result = null;
+								break;
+							}
 						}
+						break;
 					}
 					break;
 				case 'D':
@@ -319,11 +319,47 @@ public class CommandFactory {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private TwoFleetTwoPlanetsDTO findFromFleetFireToFleetAndPlanets() {
+		int counter = 0;
+		Fleet fromFleet = new Fleet();
+		Fleet toFleet = new Fleet();
+		Planet fromHomePlanet = new Planet();
+		Planet toHomePlanet = new Planet();
+
+		for (String commantElement : commandElements) {
+			if (counter == 0) {
+				int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
+				if (fleetNumber != 0) {
+					FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+					if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+						fromFleet = aFleetAndHomePlanet.fleet;
+						fromHomePlanet = aFleetAndHomePlanet.planet;
+					}
+				}
+			} else if (counter == 1) {
+				//Nichts zu tun
+			} else {
+				int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
+				if (fleetNumber != 0) {
+					FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+					if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+						toFleet = aFleetAndHomePlanet.fleet;
+						toHomePlanet = aFleetAndHomePlanet.planet;
+					}
+				}
+			}
+			counter++;
+		} 
+
+		return new TwoFleetTwoPlanetsDTO(fromFleet, toFleet, fromHomePlanet, toHomePlanet);
+	}
 
 	private Object createFireFleetToFleetCommand() {
-		// TODO Auto-generated method stub
-		return null;
+		TwoFleetTwoPlanetsDTO fromFleetFireToFleetAndPlanets = findFromFleetFireToFleetAndPlanets();
+        return new FireFleetToFleet(fromFleetFireToFleetAndPlanets.fromFleet, fromFleetFireToFleetAndPlanets.toFleet, fromFleetFireToFleetAndPlanets.fromHomePlanet, fromFleetFireToFleetAndPlanets.toHomePlanet, processCommand, commandPlayer);
 	}
+
 
 	private Object createTransferShipsFleetToDShipsCommand() {
 		// TODO Auto-generated method stub

@@ -9,7 +9,7 @@ public class Fleet {
 	public boolean ambush;
 	public int hitedShots;
 	public ArrayList<FleetMovement> fleetMovements;
-	boolean fired;
+	public boolean fired;
 	String firesTo;
 
 	//TODO: niklas Kunstwerke ... V70:Plastik Mondstein
