@@ -23,7 +23,7 @@ public class FireFleetToFleet extends Command implements ExecuteCommand{
 
 			if (isError == false) {
 				if (!fromHomePlanet.equals(toHomePlanet))  {
-					//TODO: Fehler art zuf√ºgen
+					//TODO: Fehler art zufügen
 					isError = true;
 				}
 			}
