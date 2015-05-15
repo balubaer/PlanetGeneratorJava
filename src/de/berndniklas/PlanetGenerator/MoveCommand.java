@@ -20,9 +20,6 @@ public class MoveCommand extends Command implements ExecuteCommand {
 		fleet = aFleet;
 		homePlanet = aHomePlanet;
 		planets = aPlanetArray;
-
-
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

@@ -404,11 +404,70 @@ public class CommandFactory {
 		TwoFleetTwoPlanetsDTO fromFleetFireToFleetAndPlanets = findFromFleetFireToFleetAndPlanets();
         return new FireFleetToFleet(fromFleetFireToFleetAndPlanets.fromFleet, fromFleetFireToFleetAndPlanets.toFleet, fromFleetFireToFleetAndPlanets.fromHomePlanet, fromFleetFireToFleetAndPlanets.toHomePlanet, processCommand, commandPlayer);
 	}
+/*
+ *  func findFromFleetToDShipsAndPlanet() -> (fromFleet: Fleet, fromHomePlanet:Planet, shipsToTransfer: Int) {
+        var counter = 0
+        var fromFleet: Fleet = Fleet()
+        var fromHomePlanet: Planet = Planet()
+        var shipsToTransfer = 0
 
+        for commantElement in commandElements {
+            if counter == 0 {
+                var fleetNumber = extractNumberString(commantElement).toInt()
+                if fleetNumber != nil {
+                    var aFleetAndHomePlanet = fleetAndHomePlanetWithNumber(planets, fleetNumber!)
+                    if aFleetAndHomePlanet.fleet != nil && aFleetAndHomePlanet.homePlanet != nil {
+                        fromFleet = aFleetAndHomePlanet.fleet!
+                        fromHomePlanet = aFleetAndHomePlanet.homePlanet!
+                    }
+                }
+            } else if counter == 1 {
+                var aShipsToTransfer = extractNumberString(commantElement).toInt()
+                if aShipsToTransfer != nil {
+                    shipsToTransfer = aShipsToTransfer!
+                }
+            }
+            
+            counter++
+        }
+        return (fromFleet, fromHomePlanet, shipsToTransfer)
+    }
 
+  
+
+ */
+
+	private FleetPlanetAndShipsDTO findFromFleetToDShipsAndPlanet() {
+		int counter = 0;
+		Fleet fromFleet = new Fleet();
+		Planet fromHomePlanet = new Planet();
+		int shipsToTransfer = 0;
+
+		for (String commantElement : commandElements) {
+			if (counter == 0) {
+				int fleetNumber = Utils.extractIntFromcommantElementString(commantElement);
+				if (fleetNumber != 0) {
+					FleetAndPlanetDTO aFleetAndHomePlanet = Fleet.fleetAndHomePlanetWithNumber(planets, fleetNumber);
+					if (aFleetAndHomePlanet.fleet != null && aFleetAndHomePlanet.planet != null) {
+						fromFleet = aFleetAndHomePlanet.fleet;
+						fromHomePlanet = aFleetAndHomePlanet.planet;
+					}
+				}
+			} else if (counter == 1) {
+				int aShipsToTransfer = Utils.extractIntFromcommantElementString(commantElement);
+				if (aShipsToTransfer != 0) {
+					shipsToTransfer = aShipsToTransfer;
+				}
+			}
+
+			counter++;
+		} 
+		return new FleetPlanetAndShipsDTO(fromFleet, fromHomePlanet, shipsToTransfer);
+	}
+	
 	private Object createTransferShipsFleetToDShipsCommand() {
-		// TODO Auto-generated method stub
-		return null;
+		FleetPlanetAndShipsDTO fromFleetToDShipsAndPlanet = findFromFleetToDShipsAndPlanet();
+		return new TransferShipsFleetToDShips(fromFleetToDShipsAndPlanet.fleet, fromFleetToDShipsAndPlanet.planet, fromFleetToDShipsAndPlanet.shipsToTransfer, processCommand, commandPlayer);
 	}
 
 	private Object createTransferShipsFleetToFleetCommand() {

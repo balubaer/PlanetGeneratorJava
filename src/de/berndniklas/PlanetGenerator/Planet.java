@@ -28,7 +28,7 @@ public class Planet implements Comparable<Planet> {
 	int round;
 	int iShips;
 	int pShips;
-	int dShips;
+	public int dShips;
 	boolean dShipsFired;
 	boolean dShipsAmbush;
 
