@@ -7,13 +7,13 @@ public class TwoFleetTwoPlanetsAndShipsDTO extends TwoFleetTwoPlanetsDTO {
 	public TwoFleetTwoPlanetsAndShipsDTO(Fleet aToFleet,
 			Planet aFromHomePlanet, Planet aToHomePlanet) {
 		super(aToFleet, aFromHomePlanet, aToHomePlanet);
-		// TODO Auto-generated constructor stub
+		shipsToTransfer = 0;
 	}
 
 	public TwoFleetTwoPlanetsAndShipsDTO(Fleet aFromFleet, Fleet aToFleet,
 			Planet aFromHomePlanet, Planet aToHomePlanet) {
 		super(aFromFleet, aToFleet, aFromHomePlanet, aToHomePlanet);
-		// TODO Auto-generated constructor stub
+		shipsToTransfer = 0;
 	}
 
 	public TwoFleetTwoPlanetsAndShipsDTO(Fleet aFromFleet, Fleet aToFleet,
