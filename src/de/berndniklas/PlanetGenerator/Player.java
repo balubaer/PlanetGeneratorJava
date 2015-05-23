@@ -67,27 +67,7 @@ public class Player implements Comparable<Player>{
             desc += "(Ambush aus)"
         }
         return desc
-    }
-     
-     
-     
-    
-     
-     
-    class func isPlayOnPlanetWithPlayer(player: Player, planet: Planet) -> Bool {
-        //Test Planet
-        var result = self.isPlanetOwnedByPlayer(player, planet: planet)
-         
-        //Test Fleets
-        if result == false {
-            result = self.isPlayerInFleetsWithPlayer(player, fleets: planet.fleets)
-        }
- 
-        return result
-    }
-     
-     
-     
+    }  
 }
  
  */
@@ -145,6 +125,22 @@ public class Player implements Comparable<Player>{
 			}
 		}
 		return result;
+	}
+
+	public static boolean isPlayOnPlanetWithPlayer(Player player, Planet planet) {
+		/*
+		 * //Test Planet
+		 * var result = self.isPlanetOwnedByPlayer(player, planet: planet)
+
+        //Test Fleets
+        if result == false {
+            result = self.isPlayerInFleetsWithPlayer(player, fleets: planet.fleets)
+        }
+
+        return result
+
+		 */
+		return false;
 	}
 	
 }

@@ -11,6 +11,8 @@ public class Fleet {
 	public ArrayList<FleetMovement> fleetMovements;
 	public boolean fired;
 	public String firesTo;
+	public boolean moved;
+		
 
 	//TODO: niklas Kunstwerke ... V70:Plastik Mondstein
 	//TODO: niklas schenken
@@ -19,6 +21,8 @@ public class Fleet {
 
 	public Fleet() {
 		fleetMovements = new ArrayList<FleetMovement>();
+		moved = false;
+		fired = false;
 	}
 
 	public String name() {
