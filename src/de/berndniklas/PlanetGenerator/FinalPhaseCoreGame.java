@@ -179,10 +179,11 @@ public class FinalPhaseCoreGame {
                 Player player = planet.player;
                 
                 if (players.size() == 1) {
-                    
-                    if (!player.equals(players.get(0))) {
-                        planet.player = players.get(0);
-                    }
+                	if (planet != null) {
+                		if (!player.equals(players.get(0))) {
+                			planet.player = players.get(0);
+                		}
+                	}
                 }
             }
         }

@@ -17,25 +17,26 @@ public class FireDShipsToFleet extends Command implements ExecuteCommand {
 
 	@Override
 	public void executeCommand() {
-		if (fromHomePlanet.player.name.equals(player.name)) {
-			boolean isError = false;
+		if (fromHomePlanet.player != null && player != null) {
+			if (fromHomePlanet.player.name.equals(player.name)) {
+				boolean isError = false;
 
-			if (isError == false) {
-				if (!fromHomePlanet.equals(toHomePlanet))  {
-					//TODO: Fehler art zufügen
-					isError = true;
+				if (isError == false) {
+					if (!fromHomePlanet.equals(toHomePlanet))  {
+						//TODO: Fehler art zufügen
+						isError = true;
+					}
 				}
-			}
 
-			//TODO: Weiter Tests implementieren
+				//TODO: Weiter Tests implementieren
 
-			if (isError == false) {
-				toFleet.hitedShots += fromHomePlanet.dShips;
-				fromHomePlanet.dShipsFired = true;
+				if (isError == false) {
+					toFleet.hitedShots += fromHomePlanet.dShips;
+					fromHomePlanet.dShipsFired = true;
+				}
+			} else {
+				//TODO: Fehler Welt ist nicht vom Spieler
 			}
-		} else {
-			//TODO: Fehler Welt ist nicht vom Spieler
 		}
 	}
-
 }

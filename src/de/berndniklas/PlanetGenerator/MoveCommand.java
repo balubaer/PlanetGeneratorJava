@@ -25,50 +25,52 @@ public class MoveCommand extends Command implements ExecuteCommand {
 	@Override
 	//FnnnWmmm FnnnWmmmWooo FnnnWmmmWoooWrrr
 	public void executeCommand() {
-		if (player.name.equals(fleet.player.name)) {
-			Planet fromPlanet = homePlanet;
-			Planet toPlanet;
-			boolean isError = false;
-			for (Planet planet : planets) {
-				toPlanet = planet;
-				if (fromPlanet.hasConnectionToPlanet(toPlanet)) {
-					fromPlanet = planet;
-				} else {
-					//TODO: Fehler
-					isError = true;
-				break;
-				}
-			} 
-
-			if (fleet.ships == 0) {
-				isError = true;
-			}
-
-			if (isError == false) {
-				if (fleet.fired) {
-					isError = true;
-				}
-			}
-
-			if (isError == false) {
-				fromPlanet = homePlanet;
-
+		if ((player != null) && (fleet.player != null)) {
+			if (player.name.equals(fleet.player.name)) {
+				Planet fromPlanet = homePlanet;
+				Planet toPlanet;
+				boolean isError = false;
 				for (Planet planet : planets) {
 					toPlanet = planet;
-					FleetMovement fleetMovement = new FleetMovement();
-					Fleet fleetCopy = new Fleet();
-					fleetCopy.player = fleet.player;
-					fleetCopy.number = fleet.number;
-					fleetMovement.fleet = fleetCopy;
-					fleetMovement.toPlanet = toPlanet;
-					fleetMovement.fromPlanet = fromPlanet;
-					fleet.fleetMovements.add(fleetMovement);
-
-					fromPlanet = toPlanet;
+					if (fromPlanet.hasConnectionToPlanet(toPlanet)) {
+						fromPlanet = planet;
+					} else {
+						//TODO: Fehler
+						isError = true;
+						break;
+					}
 				} 
+
+				if (fleet.ships == 0) {
+					isError = true;
+				}
+
+				if (isError == false) {
+					if (fleet.fired) {
+						isError = true;
+					}
+				}
+
+				if (isError == false) {
+					fromPlanet = homePlanet;
+
+					for (Planet planet : planets) {
+						toPlanet = planet;
+						FleetMovement fleetMovement = new FleetMovement();
+						Fleet fleetCopy = new Fleet();
+						fleetCopy.player = fleet.player;
+						fleetCopy.number = fleet.number;
+						fleetMovement.fleet = fleetCopy;
+						fleetMovement.toPlanet = toPlanet;
+						fleetMovement.fromPlanet = fromPlanet;
+						fleet.fleetMovements.add(fleetMovement);
+
+						fromPlanet = toPlanet;
+					} 
+				}
+			} else {
+				//TODO: Fehler Flotte ist nicht vom Spieler
 			}
-		} else {
-			//TODO: Fehler Flotte ist nicht vom Spieler
 		}
 	}
 }

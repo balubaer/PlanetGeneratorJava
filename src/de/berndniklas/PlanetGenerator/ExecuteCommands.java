@@ -62,13 +62,15 @@ public class ExecuteCommands {
 			for (Iterator<Player> iterator = values.iterator(); iterator.hasNext();) {
 				Player player = iterator.next();
 				File commandFilePath = new File(turnPath, player.name + ".txt");
+				
+				if (commandFilePath.canRead()) {
+					String commandsString = Files.toString(commandFilePath, Charsets.UTF_8);
 
-				String commandsString = Files.toString(commandFilePath, Charsets.UTF_8);
-
-				if (commandsString != null) {
-					commandFactory.setCommandStringsWithLongString(player.name, commandsString);
-				} else {
-					System.out.println("Fehler: CommandsString konnte nicht erzeugt werden fŸr Spieler " + player.name+ "!!!");
+					if (commandsString != null) {
+						commandFactory.setCommandStringsWithLongString(player.name, commandsString);
+					} else {
+						System.out.println("Fehler: CommandsString konnte nicht erzeugt werden fï¿½r Spieler " + player.name+ "!!!");
+					}
 				}
 
 			}
