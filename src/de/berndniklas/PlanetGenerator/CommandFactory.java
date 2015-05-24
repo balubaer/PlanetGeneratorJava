@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 
 public class CommandFactory {
 
 	ArrayList<Planet> planets;
-	HashMap<String, String[]> commandStringsDict;
+	HashMap<String, HashSet<String>> commandStringsDict;
 	String processCommand;
 	String commandChars;
 	Player commandPlayer;
@@ -22,15 +23,20 @@ public class CommandFactory {
 			HashMap<String, Player> aAllPlayerDict) {
 		planets = aPlanets;
 		allPlayerDict = aAllPlayerDict;
-		commandStringsDict = new HashMap<String, String[]>();
+		commandStringsDict = new HashMap<String, HashSet<String>>();
 		commandElements = new ArrayList <String>();
 	}
 
 	public void setCommandStringsWithLongString(String playerName,
 			String commandsString) {
 		String[] array = commandsString.split("\\s+");
+		HashSet<String> commansSet = new HashSet<String>();
+		
+		for (String command : array) {
+			commansSet.add(command);
+		}
 		if (array != null) {
-			commandStringsDict.put(playerName, array);
+			commandStringsDict.put(playerName, commansSet);
 		}
 
 	}
@@ -78,7 +84,7 @@ public class CommandFactory {
 		Collection<String> keys = commandStringsDict.keySet();
 		for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
 			String playerName = iterator.next();
-			String[] commands = commandStringsDict.get(playerName);
+			HashSet<String> commands = commandStringsDict.get(playerName);
 
 			for (String command : commands) {
 				System.out.println("Command: " + command);

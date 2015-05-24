@@ -68,7 +68,7 @@ public class ExecuteCommands {
 				if (commandsString != null) {
 					commandFactory.setCommandStringsWithLongString(player.name, commandsString);
 				} else {
-					System.out.println("Fehler: CommandsString konnte nicht erzeugt werden f√ºr Spieler " + player.name+ "!!!");
+					System.out.println("Fehler: CommandsString konnte nicht erzeugt werden für Spieler " + player.name+ "!!!");
 				}
 
 			}
