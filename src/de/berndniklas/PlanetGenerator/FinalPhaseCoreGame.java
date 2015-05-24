@@ -17,16 +17,16 @@ public class FinalPhaseCoreGame {
 
 	private boolean isSomeBodyOnPlanet(Planet planet) {
 		boolean result = false;
-				Collection<String> playerKeys = allPlayerDict.keySet();
+		Collection<String> playerKeys = allPlayerDict.keySet();
 
 		for (Iterator<String> iterator = playerKeys.iterator(); iterator.hasNext();) {
 			String playerName = iterator.next();
 			Player player = allPlayerDict.get(playerName);
 			if (Player.isPlayOnPlanetWithPlayer(player, planet)) {
-                result = true;
+				result = true;
 			}
 		}
-        return result;
+		return result;
 	}
 
 	private void checkFireResults(Planet planet) {
@@ -126,7 +126,12 @@ public class FinalPhaseCoreGame {
 	}
 	
 	private void checkFleetMovement(Planet planet) {
+		ArrayList<Fleet> fleets = new ArrayList<Fleet>();
 		for (Fleet fleet : planet.fleets) {
+			fleets.add(fleet);
+		}
+		
+		for (Fleet fleet : fleets) {
 			int fleetMovementCount = fleet.fleetMovements.size();
 
 			if (fleetMovementCount > 0) {

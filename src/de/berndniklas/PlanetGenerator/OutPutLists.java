@@ -49,7 +49,7 @@ public class OutPutLists {
 				outPutString.append(player.name);
 				outPutString.append(" Runde: ");
 				outPutString.append(turnNumber.intValue());
-				outPutString.append("\n\n");
+				outPutString.append(" \n\n");
 
 				for (Planet planet : planets) {
 					if (Player.isPlanetOutPutForPlayer(player, planet)) {

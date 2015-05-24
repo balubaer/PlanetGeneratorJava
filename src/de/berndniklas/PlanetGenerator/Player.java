@@ -141,19 +141,15 @@ public class Player implements Comparable<Player>{
 	}
 
 	public static boolean isPlayOnPlanetWithPlayer(Player player, Planet planet) {
-		/*
-		 * //Test Planet
-		 * var result = self.isPlanetOwnedByPlayer(player, planet: planet)
+		//Test Planet
+		 boolean result = isPlanetOwnedByPlayer(player, planet);
 
         //Test Fleets
-        if result == false {
-            result = self.isPlayerInFleetsWithPlayer(player, fleets: planet.fleets)
+        if (result == false) {
+            result = isPlayerInFleetsWithPlayer(player, planet.fleets);
         }
 
-        return result
-
-		 */
-		return false;
+        return result;
 	}
 	
 }

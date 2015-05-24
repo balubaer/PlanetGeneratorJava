@@ -53,6 +53,7 @@ public class Planet implements Comparable<Planet> {
 			sb.append(this.name());
 		}
 		if (player != null) {
+			sb.append(" ");
 			sb.append(player.toString());
 		}
 
