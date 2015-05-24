@@ -56,7 +56,20 @@ public class Player implements Comparable<Player>{
 		}
 		return result;
 	}	
-	     
+	 
+	public static boolean containsPlayer(ArrayList<Player> players, Player aPlayer) {
+		boolean result = false;
+		Iterator<Player> it = players.iterator();
+		while (it.hasNext()) {
+			Player aPlanetFromArrayList = it.next();
+			if (aPlanetFromArrayList.equals(aPlayer)) {
+				result = true;
+				break;
+			}
+		}
+		return result;
+	}
+	
 /*
  *   
     var ambushOff: Bool = false

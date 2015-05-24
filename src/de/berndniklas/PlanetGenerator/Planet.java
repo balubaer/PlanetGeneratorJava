@@ -251,9 +251,10 @@ public class Planet implements Comparable<Planet> {
 		return result;
 	}
 
-	public void addHitAmbushPlayer(Player player2) {
-		// TODO Auto-generated method stub
-		
+	public void addHitAmbushPlayer(Player aPlayer) {
+	    if (Player.containsPlayer(hitAmbuschPlayers, aPlayer) != true) {
+            hitAmbuschPlayers.add(aPlayer);
+        }
 	}
 
 

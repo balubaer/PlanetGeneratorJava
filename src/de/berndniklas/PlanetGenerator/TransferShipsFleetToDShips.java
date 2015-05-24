@@ -28,7 +28,7 @@ ExecuteCommand {
 
 			if (isError == false) {
 				if (fromFleet.ships < shipsToTransfer) {
-					//TODO: Fehler art zufŸgen
+					//TODO: Fehler art zufÃ¼gen
 					isError = true;
 				}
 			}

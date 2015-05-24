@@ -160,10 +160,6 @@ public class FinalPhaseCoreGame {
 			}
 		}
 	}
-	
-	
-
-	
 
 	private void checkOwnership(Planet planet) {
 		ArrayList <Player> players = this.getPlayersFromFleets(planet.fleets);
@@ -201,8 +197,21 @@ public class FinalPhaseCoreGame {
 	}
 	
 	private ArrayList<Player> getPlayersFromFleets(ArrayList<Fleet> fleets) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Player> players = new ArrayList<Player>();
+
+		for (Fleet fleet : fleets) {
+			if (fleet.ships > 0) {
+				Player player = fleet.player;
+
+				if (player != null) {
+					if (Player.containsPlayer(players, player) == false) {
+						players.add(player);
+					}
+				}
+			}
+		} 
+
+		return players;
 	}
 
 	public void doFinal() {

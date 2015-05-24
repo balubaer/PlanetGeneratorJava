@@ -37,7 +37,6 @@ public class CommandFactory {
 
 	// FnnnWmmm FnnnWmmmWooo FnnnWmmmWoooWrrr
 	private FleetHomplanetPlanetArrayDTO findFleetAndPlanets() {
-		//-> (fleet: Fleet, homePlanet:Planet, planetArray: Array <Planet>)
 		Fleet fleet = new Fleet();
 		Planet homePlanet = new Planet();
 		ArrayList <Planet> planetArray = new ArrayList <Planet>();

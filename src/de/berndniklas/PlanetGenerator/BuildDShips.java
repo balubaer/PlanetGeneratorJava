@@ -63,13 +63,14 @@ public class BuildDShips extends Command implements ExecuteCommand {
 	@Override
 	public void executeCommand() {
 		for (Planet planet : planets) {
-            if (planet.player.equals(this.player)) {
-                int shipsToBuild = calculateNumberOfShipsToBuild(planet);
-                        
-                planet.dShips += shipsToBuild;
-            }
+			if (planet.player != null) {
+				if (planet.player.equals(this.player)) {
+					int shipsToBuild = calculateNumberOfShipsToBuild(planet);
+
+					planet.dShips += shipsToBuild;
+				}
+			}
 		}
 	}
-
 	
 }
