@@ -90,6 +90,7 @@ public class ExecuteCommands {
 				outPutString.append(" Runde: ");
 				outPutString.append(turnNumber.intValue());
 				outPutString.append(" \n\n");
+			    //TODO: OutputPlyerStatistic (Punkte Anzahl Planeten Flotten Schiffe D-Schiffe
 
 				for (Planet planet : planets) {
 					if (Player.isPlanetOutPutForPlayer(player, planet)) {

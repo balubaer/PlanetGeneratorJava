@@ -230,6 +230,7 @@ public class FinalPhaseCoreGame {
 	    for (Planet planet : planets) {
 	    	 if (this.isSomeBodyOnPlanet(planet)){
 	    		 this.checkOwnership(planet);
+	    		 //                self.calculatePoints(planet)
             }
         }
 	}
