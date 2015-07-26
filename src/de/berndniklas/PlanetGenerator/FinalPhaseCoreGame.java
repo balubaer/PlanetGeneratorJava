@@ -220,6 +220,12 @@ public class FinalPhaseCoreGame {
 		return players;
 	}
 
+	private void calculatePoints(Planet planet) {
+		if (planet.player != null) {
+			planet.player.points += 20;
+		}		
+	}
+	
 	public void doFinal() {
 	    for (Planet planet : planets) {
 	    	 if (this.isSomeBodyOnPlanet(planet)){
@@ -230,9 +236,10 @@ public class FinalPhaseCoreGame {
 	    for (Planet planet : planets) {
 	    	 if (this.isSomeBodyOnPlanet(planet)){
 	    		 this.checkOwnership(planet);
-	    		 //                self.calculatePoints(planet)
+	    		 this.calculatePoints(planet);
             }
         }
 	}
+
 	
 }
