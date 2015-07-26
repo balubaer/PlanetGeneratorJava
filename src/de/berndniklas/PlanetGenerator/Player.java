@@ -134,7 +134,7 @@ public class Player implements Comparable<Player>{
 		return result;
 	}
 
-	private static boolean isPlanetOwnedByPlayer(Player player, Planet planet) {
+	public static boolean isPlanetOwnedByPlayer(Player player, Planet planet) {
 		boolean result = false;
 
 		if (planet.player != null) {
@@ -186,5 +186,23 @@ public class Player implements Comparable<Player>{
 
 		return player;
 	}
-	
+
+	/*class func isPlayerInFleetsWithPlayer(player: Player, fleets: Array <Fleet>) -> Bool {
+        var result = false
+        for fleet in fleets {
+            result = self.isFleetOwnedByPlayer(player, fleet: fleet)
+        }
+        return result
+    }
+    
+   */
+	public static boolean isFleetOwnedByPlayer(Player player, Fleet fleet) {
+		boolean result = false;
+		if (fleet.player != null) {
+			if (fleet.player.equals(player)) {
+				result = true;
+			}
+		}
+		return result;
+	}
 }

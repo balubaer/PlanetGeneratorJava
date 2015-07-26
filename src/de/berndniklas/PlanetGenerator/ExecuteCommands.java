@@ -73,7 +73,7 @@ public class ExecuteCommands {
 			for (Iterator<Player> iterator = values.iterator(); iterator.hasNext();) {
 				Player player = iterator.next();
 				File commandFilePath = new File(turnPath, player.name + ".txt");
-				
+
 				if (commandFilePath.canRead()) {
 					String commandsString = Files.toString(commandFilePath, Charsets.UTF_8);
 
@@ -163,8 +163,12 @@ public class ExecuteCommands {
 					outPutString.append(player.name);
 					outPutString.append(" Runde: ");
 					outPutString.append(turn);
-					outPutString.append(" \n\n");
-					//TODO: OutputPlyerStatistic (Punkte Anzahl Planeten Flotten Schiffe D-Schiffe
+					outPutString.append(" \n");
+
+					OutputPlyerStatisticCoreGame outPutStatistic = new OutputPlyerStatisticCoreGame(planets, player);
+					outPutStatistic.calculateStatistic();
+					outPutString.append(outPutStatistic.toString());
+					outPutString.append("\n\n");
 
 					for (Planet planet : planets) {
 						if (Player.isPlanetOutPutForPlayer(player, planet)) {
