@@ -3,6 +3,10 @@ package de.berndniklas.PlanetGenerator;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 public class Planet implements Comparable<Planet> {
 	public int number;
 	public Port port;
@@ -43,7 +47,7 @@ public class Planet implements Comparable<Planet> {
 		sb.append(number);
 		return sb.toString();
 	}
-	
+
 	public String toString() {
 		StringBuilder sb = new StringBuilder(1000);
 
@@ -88,7 +92,7 @@ public class Planet implements Comparable<Planet> {
 
 		return sb.toString();
 	}
-	
+
 	public void setNumber(int aNumber) {
 		this.number = aNumber;
 	}
@@ -146,7 +150,7 @@ public class Planet implements Comparable<Planet> {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public int compareTo(Planet o) {
 		int result = 0;
@@ -161,27 +165,27 @@ public class Planet implements Comparable<Planet> {
 		}
 		return result;
 	}
-		
+
 	public boolean equals(Planet o) {
 		boolean result = this.number == o.number;
 
 		return result;
 	}
-	
+
 	public boolean deepEquals(Planet o) {
 		boolean result = this.number == o.number;
 		if (result) {
 			result = this.port.equals(o.port);
 		}
-		
+
 		if (result) {
 			result = this.player.equals(o.player);
 		}
-		
+
 		return result;
 	}
 	/*
-		
+
 
 		var resouceString = createResourceString()
 
@@ -214,7 +218,7 @@ public class Planet implements Comparable<Planet> {
 				}
 
 				return desc
-*/
+	 */
 
 	public boolean hasConnectionToPlanet(Planet aPlant) {
 		boolean result = false;
@@ -224,7 +228,7 @@ public class Planet implements Comparable<Planet> {
 		return result;
 	}
 
-	
+
 	//}
 
 
@@ -238,7 +242,7 @@ public class Planet implements Comparable<Planet> {
 		}
 		return result;
 	}
-	
+
 	public static boolean containsPlanet(ArrayList<Planet> planets, Planet aPlanet) {
 		boolean result = false;
 		Iterator<Planet> it = planets.iterator();
@@ -253,10 +257,63 @@ public class Planet implements Comparable<Planet> {
 	}
 
 	public void addHitAmbushPlayer(Player aPlayer) {
-	    if (Player.containsPlayer(hitAmbuschPlayers, aPlayer) != true) {
-            hitAmbuschPlayers.add(aPlayer);
-        }
+		if (Player.containsPlayer(hitAmbuschPlayers, aPlayer) != true) {
+			hitAmbuschPlayers.add(aPlayer);
+		}
 	}
 
+	public Element getXMLElementForPlayer(Document doc, Player aPlayer) {
+		Element childElementPlanet = doc.createElement("world");
 
+		Attr attr = doc.createAttribute("completeInfo");
+		attr.setValue("True");
+		childElementPlanet.setAttributeNode(attr);
+
+		attr = doc.createAttribute("hasSeen");
+		attr.setValue(aPlayer.name + ":0");
+		childElementPlanet.setAttributeNode(attr);
+
+		if (player != null) {
+			attr = doc.createAttribute("owner");
+			attr.setValue(player.name);
+			childElementPlanet.setAttributeNode(attr);
+		}
+
+		attr = doc.createAttribute("index");
+		attr.setValue(Integer.toString(number));
+		childElementPlanet.setAttributeNode(attr);
+
+		attr = doc.createAttribute("unloadCounter");
+		attr.setValue("");
+		childElementPlanet.setAttributeNode(attr);
+
+		this.addXMLConnectOnParent(doc, childElementPlanet);
+		this.addXMLFleetOnParent(doc, childElementPlanet);
+
+		Element childElementHomeFleet = doc.createElement("homeFleet");
+
+		attr = doc.createAttribute("key");
+		attr.setValue("D");
+		childElementHomeFleet.setAttributeNode(attr);
+
+		attr = doc.createAttribute("ships");
+		attr.setValue(Integer.toString(dShips));
+		childElementHomeFleet.setAttributeNode(attr);
+
+		childElementPlanet.appendChild(childElementHomeFleet);
+		return childElementPlanet;
+	}
+
+	private void addXMLFleetOnParent(Document doc, Element parent) {
+		for (Fleet fleet : fleets) {
+			fleet.addXMLFleetOnParent(doc, parent);
+		}
+	}
+
+	private void addXMLConnectOnParent(Document doc, Element parent) {
+		if (port != null) {
+			port.addXMLConnectOnParent(doc, parent);
+
+		}
+	}
 }

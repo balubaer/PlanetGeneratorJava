@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 public class Port {
 	public ArrayList<Planet> planets;
 	public Planet planet;
@@ -61,5 +65,16 @@ public class Port {
 		}
 
 		return result;
+	}
+	
+	public void addXMLConnectOnParent(Document doc, Element parent) {
+		for (Planet planet : planets) {
+			 Element childElementConnect = doc.createElement("connect");
+			 Attr attr = doc.createAttribute("index");
+	         attr.setValue(Integer.toString(planet.number));
+	         childElementConnect.setAttributeNode(attr);
+	         parent.appendChild(childElementConnect);
+
+		}
 	}
 }

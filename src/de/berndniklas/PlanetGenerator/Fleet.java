@@ -2,6 +2,10 @@ package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
 
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 public class Fleet {
 	public int number;
 	public int ships;
@@ -109,4 +113,40 @@ public class Fleet {
 		return result;
 	}
 
+	public void addXMLFleetOnParent(Document doc, Element parent) {
+		 Element childElementFleet = doc.createElement("fleet");
+
+		 Attr attr = doc.createAttribute("completeInfo");
+         attr.setValue("True");
+         childElementFleet.setAttributeNode(attr);
+         
+		 attr = doc.createAttribute("index");
+         attr.setValue(Integer.toString(number));
+         childElementFleet.setAttributeNode(attr);
+         
+         String movedString = "False";
+         if (moved) {
+        	 movedString = "True";
+         }
+
+		 attr = doc.createAttribute("moved");
+         attr.setValue(movedString);
+         childElementFleet.setAttributeNode(attr);
+         
+         if (player != null) {
+        	 attr = doc.createAttribute("owner");
+             attr.setValue(player.name);
+             childElementFleet.setAttributeNode(attr);
+             
+             attr = doc.createAttribute("prevOwner");
+             attr.setValue(player.name);
+             childElementFleet.setAttributeNode(attr);
+         }
+         
+         attr = doc.createAttribute("ships");
+         attr.setValue(Integer.toString(ships));
+         childElementFleet.setAttributeNode(attr);
+         
+         parent.appendChild(childElementFleet);
+	}
 }

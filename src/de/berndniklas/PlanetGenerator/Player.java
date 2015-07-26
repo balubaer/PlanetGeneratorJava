@@ -3,6 +3,11 @@ package de.berndniklas.PlanetGenerator;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Attr;
+
+
 public class Player implements Comparable<Player>{
 	public String name;
 	public int points;
@@ -150,6 +155,36 @@ public class Player implements Comparable<Player>{
         }
 
         return result;
+	}
+
+	public Element getXMLElement(Document doc) {
+		 Element player = doc.createElement("player");
+       
+		 Attr attr = doc.createAttribute("accountId");
+         attr.setValue("01601386");
+         player.setAttributeNode(attr);
+         
+		 attr = doc.createAttribute("handle");
+         attr.setValue(name);
+         player.setAttributeNode(attr);
+         
+		 attr = doc.createAttribute("fullName");
+         attr.setValue(name);
+         player.setAttributeNode(attr);
+
+         attr = doc.createAttribute("stillInGame");
+         attr.setValue("True");
+         player.setAttributeNode(attr);
+
+         attr = doc.createAttribute("prevScore");
+         attr.setValue(Integer.toString(points));
+         player.setAttributeNode(attr);
+
+         attr = doc.createAttribute("score");
+         attr.setValue(Integer.toString(points));
+         player.setAttributeNode(attr);
+
+		return player;
 	}
 	
 }
