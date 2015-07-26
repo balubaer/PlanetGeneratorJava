@@ -100,7 +100,6 @@ public class OutPutLists {
 
 					//  Player element
 					Element childElementPlayer = player.getXMLElement(doc);
-					// childElementPlayer.appendChild(childElementPlayer);
 
 					attr = doc.createAttribute("lastInvolvedTurn");
 					attr.setValue("1");
@@ -131,10 +130,8 @@ public class OutPutLists {
 							
 							Element childElementPlanet = planet.getXMLElementForPlayer(doc, player);
 							rootElement.appendChild(childElementPlanet);
-						             outPutString.append(planet.toString());
+							outPutString.append(planet.toString());
 							outPutString.append("\n\n");
-
-
 						}
 					}
 					File playerFile = new File(turnPath, player.name + ".out");
@@ -152,8 +149,8 @@ public class OutPutLists {
 							new StreamResult(System.out);
 					transformer.transform(source, consoleResult);
 				} catch (Exception e) {
-			         e.printStackTrace();
-			      }
+					e.printStackTrace();
+				}
 
 			}
 

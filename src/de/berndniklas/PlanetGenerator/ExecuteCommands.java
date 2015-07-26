@@ -6,6 +6,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+import org.w3c.dom.Attr;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import com.dd.plist.NSDictionary;
 import com.dd.plist.NSNumber;
 import com.dd.plist.PropertyListParser;
@@ -85,21 +96,101 @@ public class ExecuteCommands {
 			for (Iterator<Player> iterator = values.iterator(); iterator.hasNext();) {
 				Player player = iterator.next();
 				StringBuilder outPutString = new StringBuilder(10000);
-				outPutString.append("Infos zu Spieler: ");
-				outPutString.append(player.name);
-				outPutString.append(" Runde: ");
-				outPutString.append(turnNumber.intValue());
-				outPutString.append(" \n\n");
-			    //TODO: OutputPlyerStatistic (Punkte Anzahl Planeten Flotten Schiffe D-Schiffe
+				try {
+					File playerXmlFile = new File(turnPath, player.name + ".xml");
 
-				for (Planet planet : planets) {
-					if (Player.isPlanetOutPutForPlayer(player, planet)) {
-						outPutString.append(planet.toString());
-						outPutString.append("\n\n");
+					DocumentBuilderFactory dbFactory =
+							DocumentBuilderFactory.newInstance();
+					DocumentBuilder dBuilder = 
+							dbFactory.newDocumentBuilder();
+					Document doc = dBuilder.newDocument();
+					// root element
+					Element rootElement = doc.createElement("report");
+					doc.appendChild(rootElement);
+					Attr attr = doc.createAttribute("changeSeq");
+					attr.setValue("1");
+					rootElement.setAttributeNode(attr);
+
+					attr = doc.createAttribute("endCondition");
+					attr.setValue("score:None");
+					rootElement.setAttributeNode(attr);
+
+					attr = doc.createAttribute("gameId");
+					attr.setValue(playName);
+					rootElement.setAttributeNode(attr);
+
+					attr = doc.createAttribute("parametersName");
+					attr.setValue("Core");
+					rootElement.setAttributeNode(attr);
+
+					attr = doc.createAttribute("parametersToken");
+					attr.setValue("core");
+					rootElement.setAttributeNode(attr);
+
+					attr = doc.createAttribute("rsw");
+					attr.setValue("False");
+					rootElement.setAttributeNode(attr);
+
+					attr = doc.createAttribute("turnNumber");
+					attr.setValue(Integer.toString(turn +1));
+					rootElement.setAttributeNode(attr);
+					//  Player element
+					Element childElementPlayer = player.getXMLElement(doc);
+
+					attr = doc.createAttribute("lastInvolvedTurn");
+					attr.setValue(Integer.toString(turn + 1));
+					childElementPlayer.setAttributeNode(attr);
+
+					attr = doc.createAttribute("lastPlayedTurn");
+					attr.setValue(Integer.toString(turn));
+					childElementPlayer.setAttributeNode(attr);
+
+					attr = doc.createAttribute("type");
+					attr.setValue("Core");
+					childElementPlayer.setAttributeNode(attr);
+
+					attr = doc.createAttribute("typeKey");
+					attr.setValue("core");
+					childElementPlayer.setAttributeNode(attr);
+
+					attr = doc.createAttribute("score");
+					attr.setValue(Integer.toString(player.points));
+					childElementPlayer.setAttributeNode(attr);
+
+					rootElement.appendChild(childElementPlayer);
+
+					outPutString.append("Infos zu Spieler: ");
+					outPutString.append(player.name);
+					outPutString.append(" Runde: ");
+					outPutString.append(turn);
+					outPutString.append(" \n\n");
+					//TODO: OutputPlyerStatistic (Punkte Anzahl Planeten Flotten Schiffe D-Schiffe
+
+					for (Planet planet : planets) {
+						if (Player.isPlanetOutPutForPlayer(player, planet)) {
+							Element childElementPlanet = planet.getXMLElementForPlayer(doc, player);
+							rootElement.appendChild(childElementPlanet);
+							outPutString.append(planet.toString());
+							outPutString.append("\n\n");
+						}
 					}
+					File playerFile = new File(turnPath, player.name + ".out");
+					Files.write(outPutString, playerFile, Charsets.UTF_8);
+					TransformerFactory transformerFactory =
+							TransformerFactory.newInstance();
+					Transformer transformer =
+							transformerFactory.newTransformer();
+					DOMSource source = new DOMSource(doc);
+					StreamResult result =
+							new StreamResult(playerXmlFile);
+					transformer.transform(source, result);
+					// Output to console for testing
+					StreamResult consoleResult =
+							new StreamResult(System.out);
+					transformer.transform(source, consoleResult);
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				File playerFile = new File(turnPath, player.name + ".out");
-				Files.write(outPutString, playerFile, Charsets.UTF_8);
 			}
 
 			persManager.planetArray = planets;
