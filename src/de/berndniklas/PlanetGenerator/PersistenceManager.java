@@ -4,18 +4,22 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import com.dd.plist.NSArray;
 import com.dd.plist.NSDictionary;
 import com.dd.plist.NSNumber;
 import com.dd.plist.NSString;
 import com.dd.plist.PropertyListParser;
+import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
 
 public class PersistenceManager {
 	ArrayList<Planet> planetArray;
 	public HashMap<String, Player> allPlayerDict = new HashMap<String, Player>();
 
 	public PersistenceManager() {
+		planetArray = new ArrayList<Planet>();
 	}
 	
 	public PersistenceManager(ArrayList<Planet> aPlanetArray) {
@@ -44,6 +48,7 @@ public class PersistenceManager {
 					NSDictionary playerDict = new NSDictionary();
 					playerDict.put("points", planet.player.points);
 					playerDict.put("role", planet.player.role.name);
+					playerDict.put("teammates", planet.player.teanmatesNames());
 
 					playerDictForPList.put(planet.player.name, playerDict);
 				}
@@ -118,7 +123,43 @@ public class PersistenceManager {
 			NSDictionary portDictFormPList = (NSDictionary) dictFormPList.objectForKey("ports");
 			NSDictionary fleetDictFormPList = (NSDictionary) dictFormPList.objectForKey("fleets");
 			NSDictionary playerDictFormPList = (NSDictionary) dictFormPList.objectForKey("player");
-			planetArray = new ArrayList<Planet>();
+			
+			String[] keys = playerDictFormPList.allKeys();
+			
+			for (int i = 0; i < keys.length; i++) {
+				String playerName = keys[i];
+				NSDictionary playerDict = (NSDictionary) playerDictFormPList.get(playerName);
+				Player newPlayer = new Player();
+				newPlayer.name = playerName;
+				if (playerDict != null) {
+					NSNumber intValue = (NSNumber) playerDict.get("points");
+					newPlayer.points = intValue.intValue();
+					Role role = new Role();
+					NSString roleName = (NSString) playerDict.get("role");
+					if (roleName != null) {
+						role.name = roleName.toString();
+					}
+					newPlayer.role = role;
+				}
+				allPlayerDict.put(playerName, newPlayer);
+			}
+			
+			Set<String> keysFromAllPlayerDict = allPlayerDict.keySet();
+			Iterator<String> it = keysFromAllPlayerDict.iterator();
+			while (it.hasNext()) {
+				String key = (String) it.next();
+				Player player = allPlayerDict.get(key);
+				NSDictionary playerDict = (NSDictionary) playerDictFormPList.get(key);
+				NSArray teammatesNames = (NSArray) playerDict.get("teammates");
+				if (teammatesNames != null) {
+					int teammatesNamesCount = teammatesNames.count();
+					for (int i = 0; i < teammatesNamesCount; i++) {
+						NSString teammatesName = (NSString) teammatesNames.objectAtIndex(i);
+						Player player2 = allPlayerDict.get(teammatesName.toString());
+						player.teammates.add(player2);
+					}
+				}
+			}
 
 			if (planetArrayFormPList != null) {
 				int count = planetArrayFormPList.count();
@@ -136,26 +177,7 @@ public class PersistenceManager {
 						String playerName = playerNameString.toString();
 
 						if (playerName != null) {
-							Player player = allPlayerDict.get(playerName);
-
-							if (player == null) {
-								NSDictionary playerDict = (NSDictionary) playerDictFormPList.get(playerName);
-								Player newPlayer = new Player();
-								newPlayer.name = playerName;
-								if (playerDict != null) {
-									intValue = (NSNumber) playerDict.get("points");
-									newPlayer.points = intValue.intValue();
-									Role role = new Role();
-									NSString roleName = (NSString) playerDict.get("role");
-									if (roleName != null) {
-										role.name = roleName.toString();
-									}
-									newPlayer.role = role;
-								}
-								allPlayerDict.put(playerName, newPlayer);
-								player = newPlayer;
-							}
-							planet.player = player;
+							planet.player = allPlayerDict.get(playerName);
 						}
 					}
 

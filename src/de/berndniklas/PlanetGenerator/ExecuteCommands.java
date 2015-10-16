@@ -162,7 +162,7 @@ public class ExecuteCommands {
 					outPutString.append("Infos zu Spieler: ");
 					outPutString.append(player.name);
 					outPutString.append(" Runde: ");
-					outPutString.append(turn);
+					outPutString.append(turn + 1);
 					outPutString.append(" \n");
 
 					OutputPlyerStatisticCoreGame outPutStatistic = new OutputPlyerStatisticCoreGame(planets, player);
