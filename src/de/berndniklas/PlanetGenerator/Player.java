@@ -1,6 +1,7 @@
 package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 
 import org.w3c.dom.Document;
@@ -12,7 +13,7 @@ public class Player implements Comparable<Player>{
 	public String name;
 	public int points;
 	public Role role;
-	
+	public HashSet<Player> teammates;
 	
 	public String toString() {
 		StringBuilder sb = new StringBuilder(1000);
@@ -27,8 +28,17 @@ public class Player implements Comparable<Player>{
 	
 	public Player() {
 		name = "NO Name";
+		teammates = new HashSet<Player>();
 	}
 	
+	public ArrayList<String> teanmatesNames() {
+		ArrayList<String> result = new ArrayList<String>();
+		for (Player aPlayer : teammates) {
+			result.add(aPlayer.name);
+		}
+        return result;
+    }
+
 	public final static boolean isPlayerInFleetsWithPlayer(Player aPlayer, ArrayList<Fleet> aFleets) {
 		boolean result = false;
 		Iterator<Fleet> it = aFleets.iterator();

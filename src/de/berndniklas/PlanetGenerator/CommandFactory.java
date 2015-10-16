@@ -215,6 +215,16 @@ public class CommandFactory {
 				case 'Z':
 					result = createAmbushOffForPlanet();
 					break;
+				case 'A':
+					if (commandChars.charAt(1) == '=') {
+						result = createTeammateForPlayer();
+					}
+					break;
+				case 'N':
+					if (commandChars.charAt(1) == '=') {
+						result = createRemoveTeammateForPlayer();
+					}
+					break;
 				default:
 					result = null;
 					break;
@@ -248,6 +258,15 @@ public class CommandFactory {
 	private Object createAmbushOffForPlanet() {
 		Planet planet = findPlanet();
 		return new AmbushOffForPlanet(planet, processCommand, commandPlayer);
+	}
+	
+	private Object createTeammateForPlayer() {
+		return new AddTeammate(allPlayerDict, processCommand, commandPlayer); 
+	}
+	
+	private Object createRemoveTeammateForPlayer() {
+		return new RemoveTeammate(allPlayerDict, processCommand, commandPlayer);
+		
 	}
 
 	private FleetTwoPlanetsAndShipsDTO findTransferDShipsToFleetAndPlanets() {

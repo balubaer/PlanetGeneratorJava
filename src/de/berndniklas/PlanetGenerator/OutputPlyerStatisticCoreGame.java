@@ -1,6 +1,7 @@
 package de.berndniklas.PlanetGenerator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class OutputPlyerStatisticCoreGame {
 	Player player;
@@ -31,6 +32,32 @@ public class OutputPlyerStatisticCoreGame {
 
 		sb.append("D-Schiffe: ");
 		sb.append(dShipCount);
+		sb.append('\n');
+		sb.append(this.teammatesDescription());
+		return sb.toString();
+	}
+
+	private String teammatesDescription() {
+		int counter = 0;
+		ArrayList<String> teanmatesNames = player.teanmatesNames();
+        int namesCount = teanmatesNames.size();
+
+		StringBuilder sb = new StringBuilder(1000);
+		
+		Collections.sort(teanmatesNames);
+
+		sb.append("Verbündete: ");
+		sb.append('(');
+		
+		for (String name : teanmatesNames) {
+			sb.append(name);
+			 if (counter < (namesCount - 1)) {
+	                sb.append(',');
+	            }
+	            counter++;
+		}
+		sb.append('\n');
+
 		return sb.toString();
 	}
 
