@@ -12,7 +12,6 @@ import com.dd.plist.NSDictionary;
 import com.dd.plist.NSNumber;
 import com.dd.plist.NSString;
 import com.dd.plist.PropertyListParser;
-import com.sun.org.apache.bcel.internal.generic.NEWARRAY;
 
 public class PersistenceManager {
 	ArrayList<Planet> planetArray;
