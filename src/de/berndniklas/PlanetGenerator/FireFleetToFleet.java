@@ -35,6 +35,7 @@ public class FireFleetToFleet extends Command implements ExecuteCommand{
 					toFleet.hitedShots += fromFleet.ships;
 					fromFleet.fired = true;
 					fromFleet.firesTo = toFleet.name();
+					fromFleet.firesToCommand = "AF" + Integer.valueOf(toFleet.number).toString();
 				}
 			} else {
 				//TODO: Fehler Flotte ist nicht vom Spieler

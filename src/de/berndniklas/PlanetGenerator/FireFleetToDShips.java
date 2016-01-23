@@ -23,6 +23,7 @@ public class FireFleetToDShips extends Command implements ExecuteCommand {
 				fromHomePlanet.hitedShotsDShips += fromFleet.ships;
 				fromFleet.fired = true;
 				fromFleet.firesTo = "D-Schiffe";
+				fromFleet.firesToCommand = "AD";
 			}
 		} else {
 			//TODO: Fehler Flotte ist nicht vom Spieler

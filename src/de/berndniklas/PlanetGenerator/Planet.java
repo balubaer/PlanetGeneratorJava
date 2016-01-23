@@ -288,6 +288,7 @@ public class Planet implements Comparable<Planet> {
 		childElementPlanet.setAttributeNode(attr);
 
 		this.addXMLConnectOnParent(doc, childElementPlanet);
+		this.addXMLPassingOnParent(doc, childElementPlanet);
 		this.addXMLFleetOnParent(doc, childElementPlanet);
 
 		Element childElementHomeFleet = doc.createElement("homeFleet");
@@ -304,6 +305,14 @@ public class Planet implements Comparable<Planet> {
 		return childElementPlanet;
 	}
 
+	private void  addXMLPassingOnParent(Document doc, Element parent) {
+		if (fleetMovements.size() > 0) {
+			for (FleetMovement fleetMovement : fleetMovements) {
+				fleetMovement.addXMLPassingOnParent(doc, parent);
+			}
+		}
+	}
+	
 	private void addXMLFleetOnParent(Document doc, Element parent) {
 		for (Fleet fleet : fleets) {
 			fleet.addXMLFleetOnParent(doc, parent);

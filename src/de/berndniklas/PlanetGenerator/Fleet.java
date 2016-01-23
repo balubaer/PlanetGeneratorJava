@@ -15,6 +15,7 @@ public class Fleet {
 	public ArrayList<FleetMovement> fleetMovements;
 	public boolean fired;
 	public String firesTo;
+	public String firesToCommand;
 	public boolean moved;
 		
 
@@ -120,7 +121,13 @@ public class Fleet {
          attr.setValue("True");
          childElementFleet.setAttributeNode(attr);
          
-		 attr = doc.createAttribute("index");
+         if (firesToCommand.equals("") == false)  {
+    		 attr = doc.createAttribute("fired");
+             attr.setValue(firesToCommand);
+             childElementFleet.setAttributeNode(attr);
+         }
+
+         attr = doc.createAttribute("index");
          attr.setValue(Integer.toString(number));
          childElementFleet.setAttributeNode(attr);
          
