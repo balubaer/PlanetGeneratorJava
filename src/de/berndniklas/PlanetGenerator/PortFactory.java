@@ -7,18 +7,22 @@ public class PortFactory {
 	ArrayList<Planet> workingPlanets;
 	int planetsCount;
 	Dice dice;
-
+	public int maxCount;
+	public int moreConnectionPlanet;
+	
 	public PortFactory() {
 		this.planetsCount = 0;
 		dice = new Dice();
 		workingPlanets = new ArrayList<Planet>();
+		maxCount = 3;
+	    moreConnectionPlanet = 0;
 	}
 	
 	private boolean hasPlanetMaxConnetion(Planet aPlanet) {
 		boolean result = false;
 		if (aPlanet.port != null) {
 			int  connectionCount = aPlanet.port.planets.size();
-			if (connectionCount == 5) {
+			if (connectionCount == maxCount) {
 				result = true;
 			}
 		}
@@ -29,7 +33,7 @@ public class PortFactory {
 		boolean result = false;
 		if (aPlanet.port != null) {
 			int  connectionCount = aPlanet.port.planets.size();
-            if (connectionCount >= 2 && connectionCount <= 5) {
+            if (connectionCount >= 2 && connectionCount <= maxCount) {
 				result = true;
 			}
 		}
@@ -139,24 +143,28 @@ public class PortFactory {
 		return result;
 	}
 	
-	private void generatePlanetConnection() {
+	private void generateOneConnection() {
 		Planet startPlanet = null;
 		Planet endPlanet = null;
 
-		while (!isAllConnectionCreated()) {
-			startPlanet = this.getStartPlanetWithDiceAndPlanetArray();
-			if (startPlanet != null) {
-				endPlanet = this.getEndPlanetWithDiceAndStartPlanet(startPlanet);
-				if (endPlanet != null) {
-					startPlanet.port.planets.add(endPlanet);
-					endPlanet.port.planets.add(startPlanet);
-					addPlanetWithEnoughConnectionTest(startPlanet);
-					this.addPlanetWithEnoughConnectionTest(endPlanet);
-					this.removePlanetFromWorkArrayWithMaxConnectionTest(startPlanet);
-					this.removePlanetFromWorkArrayWithMaxConnectionTest(endPlanet);
+		startPlanet = this.getStartPlanetWithDiceAndPlanetArray();
+		if (startPlanet != null) {
+			endPlanet = this.getEndPlanetWithDiceAndStartPlanet(startPlanet);
+			if (endPlanet != null) {
+				startPlanet.port.planets.add(endPlanet);
+				endPlanet.port.planets.add(startPlanet);
+				addPlanetWithEnoughConnectionTest(startPlanet);
+				this.addPlanetWithEnoughConnectionTest(endPlanet);
+				this.removePlanetFromWorkArrayWithMaxConnectionTest(startPlanet);
+				this.removePlanetFromWorkArrayWithMaxConnectionTest(endPlanet);
 
-				}
 			}
+		}
+	}
+	
+	private void generatePlanetConnection() {
+		while (!isAllConnectionCreated()) {
+			this.generateOneConnection();
 		}
 	}
 	
@@ -171,6 +179,13 @@ public class PortFactory {
 			port.planet = planet;
 			port.planet.port = port;
 		}
-		this.generatePlanetConnection();		
+		this.generatePlanetConnection();
+		maxCount = 5;
+		for (Planet planet : planetArray) {
+			workingPlanets.add(planet);
+			for (int i = 0; i < moreConnectionPlanet; i++) {
+				this.generateOneConnection();
+			}
+		}
 	}
 }

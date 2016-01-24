@@ -3,24 +3,24 @@
 <plist version="1.0">
 <dict>
 	<key>distanceLevelHomes</key>
-	<integer>6</integer>
-	<key>playPath</key>
-	<string>/Users/balu</string>
-	<key>playName</key>
-	<string>GalaxyJava</string>
-	<key>startShipsCount</key>
-	<integer>6</integer>
-	<key>fleetsOnHomePlanet</key>
-	<integer>5</integer>
+	<integer>4</integer>
 	<key>fleetCount</key>
 	<integer>60</integer>
+	<key>fleetsOnHomePlanet</key>
+	<integer>5</integer>
 	<key>planetCount</key>
 	<integer>60</integer>
+	<key>playName</key>
+	<string>GalaxyJava</string>
+	<key>playPath</key>
+	<string>/Users/balu</string>
 	<key>player</key>
 	<array>
 		<string>ZAPHOD</string>
 		<string>MARVIN</string>
 		<string>ARTHUR</string>
 	</array>
+	<key>startShipsCount</key>
+	<integer>6</integer>
 </dict>
 </plist>
