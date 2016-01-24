@@ -103,6 +103,7 @@ public class PlanetGenerator {
 
 			PortFactory portFactory = new PortFactory();
 			portFactory.moreConnectionPlanet = planetCount/10;
+			portFactory.lessConectionPlanet = planetCount/10;
 
 
 			portFactory.createWithPlanetArray(planets);

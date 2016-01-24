@@ -3,7 +3,9 @@ package de.berndniklas.PlanetGenerator;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 
 
 public class PlayerFactory {
@@ -39,6 +41,41 @@ public class PlayerFactory {
 		return result;
 	}
 	
+	private Planet findPlanetWithMinPlanetArea(ArrayList<Planet> planetArray) {
+		Planet result;
+        HashMap<Integer, Integer> planetAndAreaCount = new HashMap<Integer, Integer>();
+        int foundPlanetNumber = 1;
+        int foundAreaCount = planetArray.size();
+        
+        for (Planet planet : planetArray) {
+        	DistanceLevel distLevel = new DistanceLevel(planet, distanceLevelHomes);
+                    int count = distLevel.passedPlanets.size();
+                    planetAndAreaCount.put(planet.number, Integer.valueOf(count));
+		} 
+
+		Set<Integer> keysFromAllPlayerDict = planetAndAreaCount.keySet();
+        Iterator<Integer> it = keysFromAllPlayerDict.iterator();
+		while (it.hasNext()) {
+			Integer planetNumber = (Integer) it.next();
+			Integer areaCount = planetAndAreaCount.get(planetNumber);
+			Planet planet = Planet.planetWithNumber(planetArray, planetNumber.intValue());
+			if (planet != null) {
+				if (foundAreaCount > areaCount.intValue() && planet.player == null) {
+					foundAreaCount = areaCount.intValue();
+					foundPlanetNumber = planetNumber.intValue();
+				}
+			}
+		} 
+        result = Planet.planetWithNumber(planetArray, foundPlanetNumber);
+        System.out.println("#### Gefundenen Planeten: " + foundPlanetNumber);
+
+        if (result == null) {
+            result = findPlanetWithDice(planetDice, planetArray);
+        }
+
+        return result;
+    }
+	
 	private Player findePlayerWithDice() {
 		Player result = new Player();
 		playerDice.setSites(playerNameArray.size());
@@ -60,13 +97,22 @@ public class PlayerFactory {
 			int fleetsOnHomePlanet = aFleetsOnHomePlanet;
 			Player player = findePlayerWithDice();
 			Planet planet;
+			
+			System.out.println("#### " + Integer.valueOf(i).toString() + " Player: " + player.name);
+
 			if (counter == 1) {
 				planet = findPlanetWithDice(planetDice, planetArray);
 			} else {
-				this.nextLevelPlanets = makeNextLevelPlanets();
-				planet = findPlanetWithDice(planetDice, this.nextLevelPlanets);
+				this.nextLevelPlanets = new ArrayList<Planet>(makeNextLevelPlanets());
+				//planet = findPlanetWithDice(planetDice, this.nextLevelPlanets);
+                planet = findPlanetWithMinPlanetArea(nextLevelPlanets);
+
 			}
-			planet.player = player;
+			
+		    System.out.println("#### " + Integer.valueOf(i).toString() + " vor setPlayer Planet: " + Integer.valueOf(planet.number).toString());
+		    //+ " Player: " + planet.player.toString());
+
+		    planet.player = player;
 			homePlanetsMap.put(player.name, planet);
 
 			fleetsOnHomePlanet -= planet.fleets.size();
@@ -89,11 +135,11 @@ public class PlayerFactory {
 		}
 	}
 
-	private ArrayList<Planet> makeNextLevelPlanets() {
+	private HashSet<Planet> makeNextLevelPlanets() {
 		Collection<Planet> values = homePlanetsMap.values();
-		ArrayList<Planet> result = new ArrayList<Planet>();
-		ArrayList<Planet> allPassedPlanets = new ArrayList<Planet>();
-		ArrayList<Planet> allNextLevelPlanets = new ArrayList<Planet>();
+		HashSet<Planet> result = new HashSet<Planet>();
+		HashSet<Planet> allPassedPlanets = new HashSet<Planet>();
+		HashSet<Planet> allNextLevelPlanets = new HashSet<Planet>();
 		boolean finishCreate = false;
 		int startDistanceLevelHomes = distanceLevelHomes;
 
@@ -103,21 +149,14 @@ public class PlayerFactory {
 				Planet planet = iterator.next();
 				DistanceLevel distLevel = new DistanceLevel(planet, startDistanceLevelHomes);
 				for (Planet planetFromPassedPlanets : distLevel.passedPlanets) {
-					if (Planet.containsPlanet(allPassedPlanets, planetFromPassedPlanets) == false) {
-						allPassedPlanets.add(planetFromPassedPlanets);
-					}
+					allPassedPlanets.add(planetFromPassedPlanets);
 				}
 
 				for (Planet planetFromNextLevel : distLevel.nextLevelPlanets) {
-					if (Planet.containsPlanet(allNextLevelPlanets, planetFromNextLevel) == false){
-						allNextLevelPlanets.add(planetFromNextLevel);
-					}
+					allNextLevelPlanets.add(planetFromNextLevel);
 				}
 				for (Planet planetFromNextLevel : allNextLevelPlanets) {
-
-					if (Planet.containsPlanet(allPassedPlanets, planetFromNextLevel) == false){
-						result.add(planetFromNextLevel);
-					}
+					result.add(planetFromNextLevel);
 				}
 			}
 			if (result.size() > 0) {

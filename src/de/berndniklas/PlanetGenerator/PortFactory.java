@@ -10,16 +10,16 @@ public class PortFactory {
 	public int maxCount;
 	public int moreConnectionPlanet;
 	public int lessConectionPlanet;
-	
+
 	public PortFactory() {
 		this.planetsCount = 0;
 		dice = new Dice();
 		workingPlanets = new ArrayList<Planet>();
 		maxCount = 3;
-	    moreConnectionPlanet = 0;
-	    lessConectionPlanet = 0;
+		moreConnectionPlanet = 0;
+		lessConectionPlanet = 0;
 	}
-	
+
 	private boolean hasPlanetMaxConnetion(Planet aPlanet) {
 		boolean result = false;
 		if (aPlanet.port != null) {
@@ -30,18 +30,18 @@ public class PortFactory {
 		}
 		return result;
 	}
-	
+
 	private boolean hasPlanetEnoughConnection(Planet aPlanet) {
 		boolean result = false;
 		if (aPlanet.port != null) {
 			int  connectionCount = aPlanet.port.planets.size();
-            if (connectionCount >= 2 && connectionCount <= maxCount) {
+			if (connectionCount >= 2 && connectionCount <= maxCount) {
 				result = true;
 			}
 		}
 		return result;
 	}
-	
+
 	private void addPlanetWithEnoughConnectionTest(Planet aPlanet) {
 		if (this.hasPlanetEnoughConnection(aPlanet)) {
 			if (planetsWithEnoughConnections.contains(aPlanet) == false) {
@@ -49,7 +49,7 @@ public class PortFactory {
 			}
 		}
 	}
-	
+
 	private void removePlanetFromWorkArrayWithMaxConnectionTest(Planet aPlanet) {
 		if (this.hasPlanetMaxConnetion(aPlanet)) {
 			workingPlanets.remove(aPlanet);
@@ -67,7 +67,7 @@ public class PortFactory {
 		}
 
 	}
-	
+
 	private boolean isAllConnectionCreated() {
 		boolean result = false;
 		if (planetsCount == planetsWithEnoughConnections.size()) {
@@ -75,7 +75,7 @@ public class PortFactory {
 		}
 		return result;
 	}
-	
+
 	private boolean isPlanetForNewConnectionOK(Planet aPlanet) {
 		boolean result = false;
 
@@ -84,7 +84,7 @@ public class PortFactory {
 		}
 		return result;
 	}
-	
+
 	private Planet getStartPlanetWithDiceAndPlanetArray() {
 		Planet result = null;
 
@@ -108,7 +108,7 @@ public class PortFactory {
 
 		return result;
 	}
-	
+
 	private boolean isEndPlanetForNewConnectionOK(Planet aEndPlanet, Planet aStartPlanet) {
 		boolean result = false;
 
@@ -121,7 +121,7 @@ public class PortFactory {
 		}
 		return result;
 	}
-	
+
 	private Planet getEndPlanetWithDiceAndStartPlanet(Planet aStartPlanet) {
 		Planet result = null;
 		dice.setSites(workingPlanets.size());
@@ -144,7 +144,7 @@ public class PortFactory {
 
 		return result;
 	}
-	
+
 	private void generateOneConnection() {
 		Planet startPlanet = null;
 		Planet endPlanet = null;
@@ -163,78 +163,77 @@ public class PortFactory {
 			}
 		}
 	}
-	
+
 	private void generatePlanetConnection() {
 		while (!isAllConnectionCreated()) {
 			this.generateOneConnection();
 		}
 	}
-/*	
-	 func isPlanetForClearConnectionOK(aPlanet: Planet) -> Bool {
-		 +        var result = false
-		 +        if let port = aPlanet.port {
-		 +            if port.planets.count > 2 {
-		 +                var portsOK = true
-		 +                for planet in port.planets {
-		 +                    if let aPort = planet.port {
-		 +                        if aPort.planets.count < 3 {
-		 +                            portsOK = false
-		 +                            break
-		 +                        }
-		 +                    } else {
-		 +                        portsOK = false
-		 +                        break
-		 +                    }
-		 +                }
-		 +                result = portsOK
-		 +            }
-		 +        }
-		 +        return result
-		 +    }
-		 +   */ 
-		  private Planet getPlanetforClearConnectionWithDiceAndPlanetArray() {
-			  //TODO: niklas
-			  return null;
-		  }
-			  /*
-		 +        var result:Planet? = nil
-		 +        dice.setSites(workingPlanets.count)
-		 +        
-		 +        var indexNumber = dice.roll()
-		 +        var realIndex = indexNumber - 1
-		 +        result = workingPlanets[realIndex];
-		 +        
-		 +        if result != nil {
-		 +            var found = self.isPlanetForClearConnectionOK(result!)
-		 +            
-		 +           while (!found) {
-		 +                indexNumber = dice.roll()
-		 +                realIndex = indexNumber - 1
-		 +                result = workingPlanets[realIndex];
-		 +                
-		 +                found = self.isPlanetForClearConnectionOK(result!)
-		 +            }
-		 +        }
-		 +        return result!
-		 +    }
-		 +*/
-		 
-		  private void clearOneConnection() {
-			  Planet planet = this.getPlanetforClearConnectionWithDiceAndPlanetArray();
 
-			  if (planet.port != null) {
-				  dice.setSites(planet.port.planets.size());
-				  int indexNumber = dice.roll();
+	private boolean isPlanetForClearConnectionOK(Planet aPlanet) {
+		boolean result = false;
+		Port port = aPlanet.port;
 
-				  int realIndex = indexNumber - 1;
-				  Planet planetFromPort = planet.port.planets.get(realIndex);
-				  planet.port.planets.remove(realIndex);
-				  if (planetFromPort.port != null) {
-					  planetFromPort.port.planets.remove(planet);
-				  }
-			  }
-		  }
-		 
+		if (port != null) {
+			if (port.planets.size() > 2) {
+				boolean portsOK = true;
+				for (Planet planet : port.planets) {
+					Port aPort = planet.port;
+					if (aPort != null) {
+						if (aPort.planets.size() < 3) {
+							portsOK = false;
+							break;
+						}
+					} else {
+						portsOK = false;
+						break;
+					}
+				}
+				result = portsOK;
+			}
+		}
+		return result;
+	}
+
+	private Planet getPlanetforClearConnectionWithDiceAndPlanetArray() {
+		Planet result;
+
+		dice.setSites(workingPlanets.size());
+
+		int indexNumber = dice.roll();
+		int realIndex = indexNumber - 1;
+
+		result = workingPlanets.get(realIndex);
+
+		if (result != null) {
+			boolean found = this.isPlanetForClearConnectionOK(result);
+
+			while (found == false) {
+				indexNumber = dice.roll();
+				realIndex = indexNumber - 1;
+				result = workingPlanets.get(realIndex);
+				found = this.isPlanetForClearConnectionOK(result);
+			}
+		}
+		return result;
+	}
+
+	private void clearOneConnection() {
+		Planet planet = this.getPlanetforClearConnectionWithDiceAndPlanetArray();
+
+		if (planet.port != null) {
+			dice.setSites(planet.port.planets.size());
+			int indexNumber = dice.roll();
+
+			int realIndex = indexNumber - 1;
+			Planet planetFromPort = planet.port.planets.get(realIndex);
+			planet.port.planets.remove(realIndex);
+			if (planetFromPort.port != null) {
+				planetFromPort.port.planets.remove(planet);
+			}
+		}
+	}
+
 	public void createWithPlanetArray(ArrayList<Planet> planetArray) {
 		planetsCount = planetArray.size();
 
@@ -255,7 +254,7 @@ public class PortFactory {
 		for (int i = 0; i < moreConnectionPlanet; i++) {
 			this.generateOneConnection();
 		}
-		
+
 		workingPlanets.clear();
 		for (Planet planet : planetArray) {
 			workingPlanets.add(planet);
