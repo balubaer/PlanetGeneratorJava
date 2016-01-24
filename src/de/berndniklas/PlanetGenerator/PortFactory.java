@@ -9,6 +9,7 @@ public class PortFactory {
 	Dice dice;
 	public int maxCount;
 	public int moreConnectionPlanet;
+	public int lessConectionPlanet;
 	
 	public PortFactory() {
 		this.planetsCount = 0;
@@ -16,6 +17,7 @@ public class PortFactory {
 		workingPlanets = new ArrayList<Planet>();
 		maxCount = 3;
 	    moreConnectionPlanet = 0;
+	    lessConectionPlanet = 0;
 	}
 	
 	private boolean hasPlanetMaxConnetion(Planet aPlanet) {
@@ -167,7 +169,72 @@ public class PortFactory {
 			this.generateOneConnection();
 		}
 	}
-	
+/*	
+	 func isPlanetForClearConnectionOK(aPlanet: Planet) -> Bool {
+		 +        var result = false
+		 +        if let port = aPlanet.port {
+		 +            if port.planets.count > 2 {
+		 +                var portsOK = true
+		 +                for planet in port.planets {
+		 +                    if let aPort = planet.port {
+		 +                        if aPort.planets.count < 3 {
+		 +                            portsOK = false
+		 +                            break
+		 +                        }
+		 +                    } else {
+		 +                        portsOK = false
+		 +                        break
+		 +                    }
+		 +                }
+		 +                result = portsOK
+		 +            }
+		 +        }
+		 +        return result
+		 +    }
+		 +   */ 
+		  private Planet getPlanetforClearConnectionWithDiceAndPlanetArray() {
+			  //TODO: niklas
+			  return null;
+		  }
+			  /*
+		 +        var result:Planet? = nil
+		 +        dice.setSites(workingPlanets.count)
+		 +        
+		 +        var indexNumber = dice.roll()
+		 +        var realIndex = indexNumber - 1
+		 +        result = workingPlanets[realIndex];
+		 +        
+		 +        if result != nil {
+		 +            var found = self.isPlanetForClearConnectionOK(result!)
+		 +            
+		 +           while (!found) {
+		 +                indexNumber = dice.roll()
+		 +                realIndex = indexNumber - 1
+		 +                result = workingPlanets[realIndex];
+		 +                
+		 +                found = self.isPlanetForClearConnectionOK(result!)
+		 +            }
+		 +        }
+		 +        return result!
+		 +    }
+		 +*/
+		 
+		  private void clearOneConnection() {
+			  Planet planet = this.getPlanetforClearConnectionWithDiceAndPlanetArray();
+
+			  if (planet.port != null) {
+				  dice.setSites(planet.port.planets.size());
+				  int indexNumber = dice.roll();
+
+				  int realIndex = indexNumber - 1;
+				  Planet planetFromPort = planet.port.planets.get(realIndex);
+				  planet.port.planets.remove(realIndex);
+				  if (planetFromPort.port != null) {
+					  planetFromPort.port.planets.remove(planet);
+				  }
+			  }
+		  }
+		 
 	public void createWithPlanetArray(ArrayList<Planet> planetArray) {
 		planetsCount = planetArray.size();
 
@@ -181,11 +248,20 @@ public class PortFactory {
 		}
 		this.generatePlanetConnection();
 		maxCount = 5;
+		workingPlanets.clear();
 		for (Planet planet : planetArray) {
 			workingPlanets.add(planet);
-			for (int i = 0; i < moreConnectionPlanet; i++) {
-				this.generateOneConnection();
-			}
+		}
+		for (int i = 0; i < moreConnectionPlanet; i++) {
+			this.generateOneConnection();
+		}
+		
+		workingPlanets.clear();
+		for (Planet planet : planetArray) {
+			workingPlanets.add(planet);
+		}
+		for (int i = 0; i < lessConectionPlanet; i++) {
+			this.clearOneConnection();
 		}
 	}
 }
