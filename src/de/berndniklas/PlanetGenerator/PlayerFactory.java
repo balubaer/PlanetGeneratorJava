@@ -88,50 +88,54 @@ public class PlayerFactory {
 	public void createWithPlanetArray(ArrayList<Planet> planetArray,
 			int fleetCount, int aFleetsOnHomePlanet, int startShipsCount,
 			int aDistanceLevelHomes) {
-		int counter = 1;
 		planetDice.setSites(planetArray.size());
 		fleetDice.setSites(fleetCount);
 		int playerNameCount = playerNameArray.size();
 		distanceLevelHomes = aDistanceLevelHomes;
-		for (int i = 0; i < playerNameCount; i++) {
-			int fleetsOnHomePlanet = aFleetsOnHomePlanet;
+		for (int counter = 1; counter <= playerNameCount; counter++) {
 			Player player = findePlayerWithDice();
 			Planet planet;
-			
-			System.out.println("#### " + Integer.valueOf(i).toString() + " Player: " + player.name);
+			System.out.println("#### " + Integer.valueOf(counter).toString() + " Player: " + player.name);
 
 			if (counter == 1) {
 				planet = findPlanetWithDice(planetDice, planetArray);
 			} else {
 				this.nextLevelPlanets = new ArrayList<Planet>(makeNextLevelPlanets());
 				//planet = findPlanetWithDice(planetDice, this.nextLevelPlanets);
-                planet = findPlanetWithMinPlanetArea(nextLevelPlanets);
+				planet = findPlanetWithMinPlanetArea(nextLevelPlanets);
 
 			}
-			
-		    System.out.println("#### " + Integer.valueOf(i).toString() + " vor setPlayer Planet: " + Integer.valueOf(planet.number).toString());
-		    //+ " Player: " + planet.player.toString());
 
-		    planet.player = player;
+			System.out.println("#### " + Integer.valueOf(counter).toString() + " vor setPlayer Planet: " + Integer.valueOf(planet.number).toString());
+			//+ " Player: " + planet.player.toString());
+
+			planet.player = player;
 			homePlanetsMap.put(player.name, planet);
+		}
 
+		Set<String> keysPlayerNames = homePlanetsMap.keySet();
+		Iterator<String> it = keysPlayerNames.iterator();
+		int fleetsOnHomePlanet = aFleetsOnHomePlanet;
+
+		while (it.hasNext()) {
+			String PlayerName = (String) it.next();
+			Planet planet = homePlanetsMap.get(PlayerName);
 			fleetsOnHomePlanet -= planet.fleets.size();
 			for (Fleet fleet : planet.fleets) {
-				fleet.player = player;
+				fleet.player = planet.player;
 				fleet.ships = startShipsCount;
 			}
 
 			for (int index = 1; index <= fleetsOnHomePlanet; index++) {
 				FleetAndPlanetDTO fleetAndPlanet = findFleetAndPlanetWithDice(fleetDice,  planetArray);
 				Fleet fleet = fleetAndPlanet.fleet;
-				fleet.player = player;
+				fleet.player = planet.player;
 				fleet.ships = startShipsCount;
 
 				Planet aPlanet = fleetAndPlanet.planet;
 				aPlanet.fleets.remove(fleet);
 				planet.fleets.add(fleet);
 			}
-			counter++;
 		}
 	}
 

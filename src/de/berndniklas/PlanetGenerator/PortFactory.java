@@ -10,7 +10,8 @@ public class PortFactory {
 	public int maxCount;
 	public int moreConnectionPlanet;
 	public int lessConectionPlanet;
-
+	boolean abort;
+	
 	public PortFactory() {
 		this.planetsCount = 0;
 		dice = new Dice();
@@ -18,6 +19,7 @@ public class PortFactory {
 		maxCount = 3;
 		moreConnectionPlanet = 0;
 		lessConectionPlanet = 0;
+		abort = false;
 	}
 
 	private boolean hasPlanetMaxConnetion(Planet aPlanet) {
@@ -165,8 +167,11 @@ public class PortFactory {
 	}
 
 	private void generatePlanetConnection() {
-		while (!isAllConnectionCreated()) {
+		while (!isAllConnectionCreated() && !abort) {
 			this.generateOneConnection();
+			if (workingPlanets.size() < 2) {
+				abort = true;
+			}
 		}
 	}
 
