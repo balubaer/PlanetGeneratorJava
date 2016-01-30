@@ -33,6 +33,8 @@ public class OutPutLists {
 			String playPath = rootDict.objectForKey("playPath").toString();
 			String playName = rootDict.objectForKey("playName").toString();
 			NSNumber turnNumber = (NSNumber) rootDict.objectForKey("turn");
+			NSNumber showAllPlanets = (NSNumber) rootDict.objectForKey("showAllPlanets");
+			boolean showAllPlanetsBool = showAllPlanets.boolValue();
 
 			File turnPath = new File(playPath, playName);
 			turnPath = new File(turnPath.toString(), "Turn" + turnNumber.toString());
@@ -126,7 +128,7 @@ public class OutPutLists {
 					outPutString.append(" \n\n");
 
 					for (Planet planet : planets) {
-						if (Player.isPlanetOutPutForPlayer(player, planet)) {
+						if (showAllPlanetsBool || Player.isPlanetOutPutForPlayer(player, planet)) {
 							
 							Element childElementPlanet = planet.getXMLElementForPlayer(doc, player);
 							rootElement.appendChild(childElementPlanet);

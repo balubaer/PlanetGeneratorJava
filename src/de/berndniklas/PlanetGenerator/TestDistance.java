@@ -51,25 +51,30 @@ public class TestDistance {
 					}
 				}
 				if (aHomePlanet != null) {
-					DistanceLevel disLevel = new DistanceLevel(aHomePlanet, 1);
-					boolean foundDistanceLevel = false;
-						        
-					while (foundDistanceLevel != true) {
-						if (TestDistance.testPlayerInNextLevelPlanets(disLevel.nextLevelPlanets, player) == false) {
-							foundDistanceLevel = true;
-						} else {
-							disLevel.goNextLevel();
-						}
-					}
+					int distanceLevel = TestDistance.distanceToNextPlayer(aHomePlanet, player);
 					if (aHomePlanet.player != null) {
-						System.out.println("Spieler " + aHomePlanet.player.name + " distanceLevel: " + disLevel.distanceLevel);
-						System.out.println("nextLevelPlanets " + disLevel.nextLevelPlanets.size());
+						System.out.println("Spieler " + aHomePlanet.player.name + " distanceLevel: " + distanceLevel);
 					}
 				}
 			}
 		} catch(Exception ex) {
 			ex.printStackTrace();
 		}
+	}
+	
+	public static int distanceToNextPlayer(Planet planet, Player player) {
+		DistanceLevel disLevel = new DistanceLevel(planet, 1);
+		boolean foundDistanceLevel = false;
+			        
+		while (foundDistanceLevel != true) {
+			if (TestDistance.testPlayerInNextLevelPlanets(disLevel.nextLevelPlanets, player) == false) {
+				foundDistanceLevel = true;
+			} else {
+				disLevel.goNextLevel();
+			}
+		}
+		
+		return disLevel.distanceLevel;
 	}
 
 	private static boolean testPlayerInNextLevelPlanets(ArrayList<Planet> nextLevelPlanets, Player aPlayer) {

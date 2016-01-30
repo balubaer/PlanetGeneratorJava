@@ -3,22 +3,28 @@
 <plist version="1.0">
 <dict>
 	<key>distanceLevelHomes</key>
-	<integer>4</integer>
+	<integer>6</integer>
 	<key>fleetCount</key>
-	<integer>60</integer>
+	<integer>200</integer>
 	<key>fleetsOnHomePlanet</key>
 	<integer>5</integer>
 	<key>planetCount</key>
-	<integer>60</integer>
+	<integer>200</integer>
 	<key>playName</key>
-	<string>GalaxyJava</string>
+	<string>GalaxySolutio</string>
 	<key>playPath</key>
 	<string>/Users/balu</string>
 	<key>player</key>
 	<array>
 		<string>ZAPHOD</string>
-		<string>MARVIN</string>
-		<string>ARTHUR</string>
+		<string>Lul4n</string>
+		<string>Oxyd</string>
+		<string>coldsmith</string>
+		<string>Beerbowl</string>
+		<string>nimosalina</string>
+		<string>ValaOSiris</string>
+		<string>mirkomcfly</string>
+		<string>joniitaan</string>
 	</array>
 	<key>startShipsCount</key>
 	<integer>6</integer>

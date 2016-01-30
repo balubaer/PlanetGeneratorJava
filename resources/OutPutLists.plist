@@ -2,11 +2,13 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>turn</key>
-	<integer>0</integer>
 	<key>playName</key>
-	<string>GalaxyJava</string>
+	<string>GalaxySolutio</string>
 	<key>playPath</key>
 	<string>/Users/balu</string>
+	<key>showAllPlanets</key>
+	<true/>
+	<key>turn</key>
+	<integer>0</integer>
 </dict>
 </plist>

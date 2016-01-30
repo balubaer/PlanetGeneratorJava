@@ -121,7 +121,7 @@ public class Fleet {
          attr.setValue("True");
          childElementFleet.setAttributeNode(attr);
          
-         if (firesToCommand.equals("") == false)  {
+         if (firesToCommand != null && firesToCommand.equals("") == false)  {
     		 attr = doc.createAttribute("fired");
              attr.setValue(firesToCommand);
              childElementFleet.setAttributeNode(attr);
