@@ -96,11 +96,12 @@ public class PlayerFactory {
 
 		Set<String> keysPlayerNames = homePlanetsMap.keySet();
 		Iterator<String> it = keysPlayerNames.iterator();
-		int fleetsOnHomePlanet = aFleetsOnHomePlanet;
 
 		while (it.hasNext()) {
 			String PlayerName = (String) it.next();
 			Planet planet = homePlanetsMap.get(PlayerName);
+			int fleetsOnHomePlanet = aFleetsOnHomePlanet;
+
 			fleetsOnHomePlanet -= planet.fleets.size();
 			for (Fleet fleet : planet.fleets) {
 				fleet.player = planet.player;

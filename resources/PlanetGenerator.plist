@@ -5,15 +5,15 @@
 	<key>distanceLevelHomes</key>
 	<integer>6</integer>
 	<key>fleetCount</key>
-	<integer>200</integer>
+	<integer>220</integer>
 	<key>fleetsOnHomePlanet</key>
 	<integer>5</integer>
 	<key>planetCount</key>
-	<integer>200</integer>
+	<integer>220</integer>
 	<key>playName</key>
-	<string>GalaxySolutio</string>
+	<string>GalaxySolutio2</string>
 	<key>playPath</key>
-	<string>/Users/balu</string>
+	<string>/Users/balu/git</string>
 	<key>player</key>
 	<array>
 		<string>ZAPHOD</string>
@@ -25,6 +25,8 @@
 		<string>ValaOSiris</string>
 		<string>mirkomcfly</string>
 		<string>joniitaan</string>
+		<string>Cubesphere</string>
+		<string>RexKramer</string>
 	</array>
 	<key>startShipsCount</key>
 	<integer>6</integer>
