@@ -42,6 +42,7 @@ public class FleetMovement {
 	         attr = doc.createAttribute("toWorld");
 	         attr.setValue(Integer.valueOf(toPlanet.number).toString());
 	         childElementConnect.setAttributeNode(attr);
+	         parent.appendChild(childElementConnect);
 		}
 	}
 }

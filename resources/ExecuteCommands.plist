@@ -4,11 +4,11 @@
 <dict>
 	<key>coreGame</key>
 	<true/>
+	<key>playName</key>
+	<string>GalaxySolutio2</string>
+	<key>playPath</key>
+	<string>/Users/balu/git</string>
 	<key>turn</key>
 	<integer>1</integer>
-	<key>playPath</key>
-	<string>/Users/niklas</string>
-	<key>playName</key>
-	<string>GalaxyJava</string>
 </dict>
 </plist>
