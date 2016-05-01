@@ -17,7 +17,9 @@ public class Fleet {
 	public String firesTo;
 	public String firesToCommand;
 	public boolean moved;
-		
+	public ArrayList<Fleet> hitAmbuschFleets;
+		    
+	
 
 	//TODO: niklas Kunstwerke ... V70:Plastik Mondstein
 	//TODO: niklas schenken
@@ -26,6 +28,7 @@ public class Fleet {
 
 	public Fleet() {
 		fleetMovements = new ArrayList<FleetMovement>();
+		hitAmbuschFleets = new ArrayList<Fleet>();
 		moved = false;
 		fired = false;
 	}
@@ -44,6 +47,18 @@ public class Fleet {
 		return sb.toString();
 	}
 
+	public String fireAmbuschFleets() {
+		StringBuilder sb = new StringBuilder(50);
+		sb.append("Ambush:");
+        for (Fleet hitAmbushfleet : hitAmbuschFleets) {
+    		sb.append("F");
+    		sb.append(hitAmbushfleet.number);
+    		sb.append(",");
+        }
+        sb.setLength(sb.length() - 1);
+        return sb.toString();
+    }
+	
 	public boolean moved() {
 		boolean moved = (fleetMovements.size() > 0);
 		return moved;
@@ -75,7 +90,20 @@ public class Fleet {
 			infoArray.add("bewegt");
 		}
 		if (ambush == true) {
-			infoArray.add("Ambush");
+			sb.append("Ambush: {");
+			if (hitAmbuschFleets.size() > 0) {
+				int counter = 0;
+				for (Fleet fleet : hitAmbuschFleets) {
+					sb.append(fleet.name());
+					counter++;
+					if (counter < hitAmbuschFleets.size()) {
+						sb.append(", ");
+					}
+				}
+				sb.append("}");
+			}
+			infoArray.add(sb.toString());
+			sb.setLength(0);
 		}
 		if (fired == true) {
 			sb.append("feuert auf ");
@@ -98,6 +126,12 @@ public class Fleet {
 		return result;
 	}
 
+	public void addHitAmbushFleets(Fleet aFleet) {
+		   if (hitAmbuschFleets.contains(aFleet) != true) {
+	            hitAmbuschFleets.add(aFleet);
+	        }
+	}
+	
 	public static FleetAndPlanetDTO fleetAndHomePlanetWithNumber(ArrayList<Planet> planetArray, int number){
 		FleetAndPlanetDTO result = new FleetAndPlanetDTO();
 		for (Planet planet : planetArray) {
@@ -124,6 +158,11 @@ public class Fleet {
          if (firesToCommand != null && firesToCommand.equals("") == false)  {
     		 attr = doc.createAttribute("fired");
              attr.setValue(firesToCommand);
+             childElementFleet.setAttributeNode(attr);
+         }
+         if (ambush) {
+    		 attr = doc.createAttribute("fired");
+             attr.setValue(fireAmbuschFleets());
              childElementFleet.setAttributeNode(attr);
          }
 
@@ -156,4 +195,5 @@ public class Fleet {
          
          parent.appendChild(childElementFleet);
 	}
+
 }

@@ -36,6 +36,9 @@ public class Planet implements Comparable<Planet> {
 	boolean dShipsFired;
 	boolean dShipsAmbush;
 
+	ArrayList<Fleet> hitAmbuschFleets = new ArrayList<Fleet>();
+	
+
 	ArrayList<Player> hitAmbuschPlayers = new ArrayList<Player>();
 
 	int hitedShotsDShips;
@@ -48,6 +51,20 @@ public class Planet implements Comparable<Planet> {
 		return sb.toString();
 	}
 
+	public String fireAmbuschFleets() {
+		StringBuilder sb = new StringBuilder(50);
+		sb.append("Ambush:");
+
+        for (Fleet hitAmbushfleet : hitAmbuschFleets) {
+    		sb.append("F");
+    		sb.append(hitAmbushfleet.number);
+    		sb.append(",");
+        }
+        sb.setLength(sb.length() - 1);
+
+        return sb.toString();
+    }
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder(1000);
 
@@ -135,7 +152,20 @@ public class Planet implements Comparable<Planet> {
 			if (dShipsAmbush) {
 				sb.append("D-Schiffe=");
 				sb.append(dShips);
-				sb.append(" (Ambusch)");
+				sb.append(" (Ambusch: {");
+                if (hitAmbuschFleets.size() > 0) {
+                    int counter = 0;
+                    
+                    for (Fleet fleet : hitAmbuschFleets) {
+        				sb.append(fleet.name());
+                        counter++;
+                        if (counter < hitAmbuschFleets.size()) {
+            				sb.append(", ");
+                        }
+                    }
+    				sb.append("}");
+                }
+				sb.append(")");
 				resourceArray.add(sb.toString());
 				sb.setLength(0);
 			} else {
@@ -256,11 +286,11 @@ public class Planet implements Comparable<Planet> {
 		return result;
 	}
 
-	public void addHitAmbushPlayer(Player aPlayer) {
-		if (Player.containsPlayer(hitAmbuschPlayers, aPlayer) != true) {
-			hitAmbuschPlayers.add(aPlayer);
+	public void addHitAmbushFleets(Fleet aFleet) {
+		if (hitAmbuschFleets.contains(aFleet)  != true) {
+			hitAmbuschFleets.add(aFleet);
 		}
-	}
+	}		
 
 	public Element getXMLElementForPlayer(Document doc, Player aPlayer) {
 		Element childElementPlanet = doc.createElement("world");
@@ -301,6 +331,12 @@ public class Planet implements Comparable<Planet> {
 		attr.setValue(Integer.toString(dShips));
 		childElementHomeFleet.setAttributeNode(attr);
 
+		 if (dShipsAmbush) {
+				attr = doc.createAttribute("fired");
+				attr.setValue(fireAmbuschFleets());
+				childElementHomeFleet.setAttributeNode(attr);
+		 }
+		
 		childElementPlanet.appendChild(childElementHomeFleet);
 		return childElementPlanet;
 	}
@@ -325,4 +361,5 @@ public class Planet implements Comparable<Planet> {
 
 		}
 	}
+
 }

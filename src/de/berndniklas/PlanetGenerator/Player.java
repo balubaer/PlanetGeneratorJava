@@ -126,17 +126,17 @@ public class Player implements Comparable<Player>{
         
         //Test planet.hitAmbuschPlayers
         if (result == false) {
-            result = isPlayerInPlanetHitAmbuschPlayersWithPlayer(player, planet.hitAmbuschPlayers);
+            result = isPlayerInPlanetHitAmbushFleetWithPlayer(player, planet.hitAmbuschFleets);
         }
         return result;
 	}
 
-	private static boolean isPlayerInPlanetHitAmbuschPlayersWithPlayer(
-			Player aPlayer, ArrayList<Player> hitAmbuschPlayers) {
+	private static boolean isPlayerInPlanetHitAmbushFleetWithPlayer(
+			Player aPlayer, ArrayList<Fleet> hitAmbuschFleets) {
 		boolean result = false;
 
-		for (Player player : hitAmbuschPlayers) {
-			if (player.equals(aPlayer)) {
+		for (Fleet fleet : hitAmbuschFleets) {
+			if (fleet.player.equals(aPlayer)) {
 				result = true;
 				break;
 			}

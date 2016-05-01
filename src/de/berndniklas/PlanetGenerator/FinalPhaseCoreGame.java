@@ -103,9 +103,26 @@ public class FinalPhaseCoreGame {
 
 		return result;
 	}
-	
-	
-	private int getFirePowerForAmbushPlanet(Planet planet) {
+
+	private boolean isAmbushFleet(Fleet ambushFleet, Fleet passingFleet, int movementCount) {
+        boolean result = false;
+        if (isAmbushFromMovementCount(movementCount, passingFleet.fleetMovements.size())) {
+            if (!ambushFleet.equals(passingFleet)) {
+            	if (ambushFleet.fired == false) {
+            		if (ambushFleet.moved == false) {
+            			if (!ambushFleet.player.equals(passingFleet.player)) {
+            				if (!ambushFleet.player.teammates.contains(passingFleet.player)){
+            					result = true;
+            				}
+            			}
+            		}
+            	}
+            }
+        }
+		return result;
+	}
+
+   	private int getFirePowerForAmbushPlanet(Planet planet) {
 		int firePower = 0;
 
 		if (planet != null) {
@@ -154,10 +171,20 @@ public class FinalPhaseCoreGame {
 								if (fleet.ships < 0) {
 									fleet.ships = 0;
 								}
-								if (toPlanet != null && fleet.player != null) {
-									toPlanet.addHitAmbushPlayer(fleet.player);
-								}
+                                toPlanet.addHitAmbushFleets(fleet);
 							}
+						    for (Fleet fleetFromPlant : toPlanet.fleets) {
+                                 if (isAmbushFleet(fleetFromPlant, fleet, movementCount)) {
+                                     fleet.ships -= fleetFromPlant.ships;
+                                     fleetFromPlant.addHitAmbushFleets(fleet);
+                                     fleetFromPlant.ambush = true;
+                                 }
+                             }
+                             
+                             if (fleet.ships == 0) {
+                                 break;
+                             }
+
 							movementCount++;
 						}
 					}
