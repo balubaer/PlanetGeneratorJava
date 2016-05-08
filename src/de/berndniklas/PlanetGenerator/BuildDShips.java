@@ -57,17 +57,40 @@ public class BuildDShips extends Command implements ExecuteCommand {
 		if (result < 1) {
 			result = 1;
 		}
+		
+		if (result > maxBuild) {
+			result = maxBuild;
+		}
+
 		return result;
 	}
+
+	private boolean noEnemyFleetOnPlanet(Planet planet) {
+        boolean result = true;
+        for (Fleet fleet : planet.fleets) {
+            if (planet.player  != null) {
+                if (fleet.player != null) {
+                    if (planet.player.equals(fleet.player) == false) {
+                        if (planet.player.teammates.contains(fleet.player) == false) {
+                            result = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
 
 	@Override
 	public void executeCommand() {
 		for (Planet planet : planets) {
 			if (planet.player != null) {
 				if (planet.player.equals(this.player)) {
-					int shipsToBuild = calculateNumberOfShipsToBuild(planet);
-
-					planet.dShips += shipsToBuild;
+					if (noEnemyFleetOnPlanet(planet)) {
+						int shipsToBuild = calculateNumberOfShipsToBuild(planet);
+						planet.dShips += shipsToBuild;
+					}
 				}
 			}
 		}

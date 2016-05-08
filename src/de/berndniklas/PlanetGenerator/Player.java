@@ -136,9 +136,11 @@ public class Player implements Comparable<Player>{
 		boolean result = false;
 
 		for (Fleet fleet : hitAmbuschFleets) {
-			if (fleet.player.equals(aPlayer)) {
-				result = true;
-				break;
+			if (fleet.player != null && aPlayer != null) {
+				if (fleet.player.equals(aPlayer)) {
+					result = true;
+					break;
+				}
 			}
 		}
 		return result;

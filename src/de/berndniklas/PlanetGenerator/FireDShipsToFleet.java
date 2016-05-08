@@ -33,6 +33,7 @@ public class FireDShipsToFleet extends Command implements ExecuteCommand {
 				if (isError == false) {
 					toFleet.hitedShots += fromHomePlanet.dShips;
 					fromHomePlanet.dShipsFired = true;
+	                fromHomePlanet.dShipsFiredFleet = toFleet;
 				}
 			} else {
 				//TODO: Fehler Welt ist nicht vom Spieler

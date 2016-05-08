@@ -42,6 +42,7 @@ public class Planet implements Comparable<Planet> {
 	ArrayList<Player> hitAmbuschPlayers = new ArrayList<Player>();
 
 	int hitedShotsDShips;
+	public Fleet dShipsFiredFleet;
 
 	//TODO: niklas Kunstwerke ... V70:Plastik Mondstein
 	public String name() {
@@ -148,6 +149,9 @@ public class Planet implements Comparable<Planet> {
 		if (pShips != 0) {
 			//resourceArray.append("P-Schiffe=\(pShips)")
 		}
+		if (number == 191) {
+			System.out.println("Hallo");
+		}
 		if (dShips != 0) {
 			if (dShipsAmbush) {
 				sb.append("D-Schiffe=");
@@ -168,6 +172,16 @@ public class Planet implements Comparable<Planet> {
 				sb.append(")");
 				resourceArray.add(sb.toString());
 				sb.setLength(0);
+			} else if (dShipsFired) {
+				if (dShipsFiredFleet != null) {
+					sb.append("D-Schiffe=");
+					sb.append(dShips);
+					sb.append(" (feuert auf ");
+					sb.append(dShipsFiredFleet.name());
+					sb.append(")");
+					resourceArray.add(sb.toString());
+					sb.setLength(0);
+				}
 			} else {
 				sb.append("D-Schiffe=");
 				sb.append(dShips);
@@ -288,7 +302,11 @@ public class Planet implements Comparable<Planet> {
 
 	public void addHitAmbushFleets(Fleet aFleet) {
 		if (hitAmbuschFleets.contains(aFleet)  != true) {
-			hitAmbuschFleets.add(aFleet);
+			Fleet fleetClone = new Fleet();
+            fleetClone.player = aFleet.player;
+            fleetClone.ships = aFleet.ships;
+            fleetClone.number = aFleet.number;
+			hitAmbuschFleets.add(fleetClone);
 		}
 	}		
 
@@ -335,8 +353,13 @@ public class Planet implements Comparable<Planet> {
 				attr = doc.createAttribute("fired");
 				attr.setValue(fireAmbuschFleets());
 				childElementHomeFleet.setAttributeNode(attr);
+		 } else if (dShipsFired) {
+			 if (dShipsFiredFleet != null) {
+				 attr = doc.createAttribute("fired");
+				 attr.setValue("AF" + Integer.toString(dShipsFiredFleet.number));
+				 childElementHomeFleet.setAttributeNode(attr);
+			 }
 		 }
-		
 		childElementPlanet.appendChild(childElementHomeFleet);
 		return childElementPlanet;
 	}

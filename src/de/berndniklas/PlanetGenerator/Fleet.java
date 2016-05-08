@@ -16,7 +16,7 @@ public class Fleet {
 	public boolean fired;
 	public String firesTo;
 	public String firesToCommand;
-	public boolean moved;
+	private boolean moved;
 	public ArrayList<Fleet> hitAmbuschFleets;
 		    
 	
@@ -127,9 +127,13 @@ public class Fleet {
 	}
 
 	public void addHitAmbushFleets(Fleet aFleet) {
-		   if (hitAmbuschFleets.contains(aFleet) != true) {
-	            hitAmbuschFleets.add(aFleet);
-	        }
+		if (hitAmbuschFleets.contains(aFleet) != true) {
+			Fleet fleetClone = new Fleet();
+			fleetClone.player = aFleet.player;
+			fleetClone.ships = aFleet.ships;
+			fleetClone.number = aFleet.number;
+			hitAmbuschFleets.add(fleetClone);
+		}
 	}
 	
 	public static FleetAndPlanetDTO fleetAndHomePlanetWithNumber(ArrayList<Planet> planetArray, int number){
@@ -196,4 +200,7 @@ public class Fleet {
          parent.appendChild(childElementFleet);
 	}
 
+	public boolean isMoved() {
+		return fleetMovements.size() > 0;
+	}
 }

@@ -56,7 +56,7 @@ public class OutputPlyerStatisticCoreGame {
 	            }
 	            counter++;
 		}
-		sb.append(")\n");
+		sb.append(")");
 
 		return sb.toString();
 	}
